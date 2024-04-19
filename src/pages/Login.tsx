@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export function Login() {
     return (
         <>
@@ -15,7 +17,7 @@ export function Login() {
                     <button className="w-full bg-yellow-500 hover:bg-yellow-400 py-2 px-4 mt-4 rounded-md text-neutral-50">Log In</button>
                 </div>
 
-                <p className="pt-2">Ainda não tem uma conta? <a href="#" className="text-neutral-50">Registre-se</a></p>
+                <p className="pt-2">Ainda não tem uma conta? <NavLink to={"/register"} className="text-neutral-50">Registre-se</NavLink></p>
             </div>
         </>
     )
