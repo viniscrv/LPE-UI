@@ -4,7 +4,7 @@ export function Register() {
     return (
         <>
             <div className="w-full min-h-screen flex flex-col justify-center items-center">
-                <div className="bg-neutral-900 min-w-96 border-yellow-400 border rounded-md flex flex-col items-center py-8 px-6">
+                <div className="bg-neutral-900 min-w-96 border-blue-400 border rounded-md flex flex-col items-center py-8 px-6">
                     <div className="flex flex-col w-full">
                         <label htmlFor="username" className="text-sm">Nome de úsuario</label>
                         <input id="username" type="text" className="border-neutral-500 border rounded-md bg-transparent p-1 mt-1" />
@@ -22,7 +22,7 @@ export function Register() {
                         <input id="password2" type="password" className="border-neutral-500 border rounded-md bg-transparent p-1 mt-1" />
                     </div>
 
-                    <button className="w-full bg-yellow-500 hover:bg-yellow-400 py-2 px-4 mt-4 rounded-md text-neutral-50">Log In</button>
+                    <button className="w-full bg-blue-500 hover:bg-blue-400 py-2 px-4 mt-4 rounded-md text-neutral-50">Registrar-se</button>
                 </div>
 
                 <p className="pt-2"><NavLink to={"/"} className="text-neutral-50">Voltar para o Log In</NavLink></p>
