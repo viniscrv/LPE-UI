@@ -7,8 +7,8 @@ import { api } from "../lib/axios";
 import { AxiosError } from "axios";
 
 const loginFormSchema = z.object({
-    username: z.string(),
-    password: z.string()
+    username: z.string().min(1),
+    password: z.string().min(1)
 });
 
 type LoginFormData = z.infer<typeof loginFormSchema>;
