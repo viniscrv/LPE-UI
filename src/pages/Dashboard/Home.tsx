@@ -34,7 +34,12 @@ export function Home() {
                     })}
                 </ul>
             </nav>
-            <header>header</header>
+            <header className="flex h-20 w-full items-center justify-end border-l border-neutral-950 bg-neutral-900 px-8">
+                <div className="flex items-center gap-3">
+                    <span className="w-full py-8 text-center text-xl font-bold">Viniscrv</span>
+                    <img className="h-14 w-14 rounded-full border-2 border-blue-400" src="https://github.com/viniscrv.png" />
+                </div>
+            </header>
         </div>
     );
 }
