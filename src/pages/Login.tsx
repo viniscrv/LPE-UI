@@ -41,14 +41,13 @@ export function Login() {
 
             localStorage.setItem("token", JSON.stringify(data.token));
             api.defaults.headers.Authorization = `Bearer ${data.token}`;
-            
+
             navigate("/home");
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 setInvalidCredentials(true);
                 return console.log(err.response.data.message);
             }
-
         } finally {
             setLoading(false);
         }
@@ -56,16 +55,18 @@ export function Login() {
 
     return (
         <>
-            <div className="w-full min-h-screen flex flex-col justify-center items-center">
+            <div className="flex min-h-screen w-full flex-col items-center justify-center">
                 <form
-                    className="bg-neutral-900 min-w-96 border-blue-400 border rounded-md flex flex-col items-center py-8 px-6"
+                    className="flex min-w-96 flex-col items-center rounded-md border border-blue-400 bg-neutral-900 px-6 py-8"
                     onSubmit={handleSubmit(submitLogin)}
-                >   
+                >
                     {invalidCredentials && (
-                        <p className="w-full text-sm text-red-500 mb-2">Nome de usuário ou senha inválidos</p>
+                        <p className="mb-2 w-full text-sm text-red-500">
+                            Nome de usuário ou senha inválidos
+                        </p>
                     )}
 
-                    <div className="flex flex-col w-full">
+                    <div className="flex w-full flex-col">
                         <label htmlFor="username" className="text-sm">
                             Nome de úsuario
                         </label>
@@ -73,10 +74,10 @@ export function Login() {
                             id="username"
                             type="text"
                             {...register("username")}
-                            className="border-neutral-500 border rounded-md bg-transparent p-1 mt-1"
+                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                         />
                     </div>
-                    <div className="flex flex-col mt-2 w-full">
+                    <div className="mt-2 flex w-full flex-col">
                         <label htmlFor="password" className="text-sm">
                             Senha
                         </label>
@@ -84,14 +85,14 @@ export function Login() {
                             id="password"
                             type="password"
                             {...register("password")}
-                            className="border-neutral-500 border rounded-md bg-transparent p-1 mt-1"
+                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={isSubmitting || loading}
-                        className="w-full bg-blue-500 hover:bg-blue-400 py-2 px-4 mt-4 rounded-md text-neutral-50"
+                        className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400"
                     >
                         Log In
                     </button>
