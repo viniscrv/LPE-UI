@@ -9,3 +9,13 @@ body {
 body {
     @apply bg-neutral-950 text-neutral-200;
 }
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    @apply bg-neutral-950/50 rounded-md;
+}
+::-webkit-scrollbar-thumb {
+    @apply bg-blue-500 rounded-md
+}
