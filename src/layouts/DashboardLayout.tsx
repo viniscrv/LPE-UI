@@ -7,7 +7,7 @@ export function DashboardLayout() {
     return (
         <>
             <div className="relative min-h-screen w-full">
-                <header className="flex h-20 w-full items-center justify-end  bg-neutral-900 px-8">
+                <header className="flex h-20 w-full items-center justify-end bg-neutral-900 px-8">
                     <div className="flex items-center gap-3">
                         <span className="w-full py-8 text-center text-xl font-bold">
                             Viniscrv
@@ -46,7 +46,7 @@ export function DashboardLayout() {
                         })}
                     </ul>
                 </nav>
-                <div className="ml-48 mt-4">
+                <div className="ml-48 mr-4 mt-4">
                     <Outlet></Outlet>
                 </div>
             </div>
