@@ -1,4 +1,5 @@
 import { ArrowUDownLeft } from "@phosphor-icons/react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export function Home() {
     const mock_table = {
@@ -62,9 +63,49 @@ export function Home() {
                                     </p>
                                 </div>
 
-                                <button className="mt-2 h-8 w-full self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
-                                    Completar
-                                </button>
+                                {/* modal */}
+                                <Dialog.Root>
+                                    <Dialog.Trigger asChild>
+                                        <button className="mt-2 h-8 w-full self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
+                                            Completar
+                                        </button>
+                                    </Dialog.Trigger>
+                                    <Dialog.Portal>
+                                        <Dialog.Overlay className="fixed inset-0 h-screen w-screen bg-neutral-950/40" />
+                                        <Dialog.Content className="shadow-md fixed left-1/2 top-1/2 flex h-full max-h-52 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col rounded-md bg-neutral-900 p-5">
+                                            <Dialog.Title>
+                                                Completar "activity name"
+                                            </Dialog.Title>
+                                            <Dialog.Description asChild>
+                                                <p className="mt-2 text-sm text-neutral-400">
+                                                    Lorem ipsum dolor sit amet
+                                                    consectetur adipisicing
+                                                    elit.
+                                                </p>
+                                            </Dialog.Description>
+                                            <div className="mt-4 flex w-full justify-around">
+                                                {[
+                                                    1, 2, 3, 4, 5, 6, 7, 8, 9,
+                                                    10
+                                                ].map((num) => {
+                                                    return (
+                                                        <button
+                                                            key={num}
+                                                            className="flex w-10 items-center justify-center rounded-md bg-neutral-800 p-2 hover:bg-blue-500"
+                                                        >
+                                                            {num}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                            <Dialog.Close asChild>
+                                                <button className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
+                                                    Concluír
+                                                </button>
+                                            </Dialog.Close>
+                                        </Dialog.Content>
+                                    </Dialog.Portal>
+                                </Dialog.Root>
                             </div>
                         );
                     })}
@@ -95,7 +136,7 @@ export function Home() {
                                     return (
                                         <th
                                             key={item}
-                                            className="pl-4 py-2 text-start"
+                                            className="py-2 pl-4 text-start"
                                         >
                                             {item}
                                         </th>
@@ -109,20 +150,20 @@ export function Home() {
                                             key={idx}
                                             className="overflow-y-auto border-t border-neutral-700"
                                         >
-                                            <td className="pl-4 py-2 text-start text-neutral-400">
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
                                                 {item.activity_name}
                                             </td>
-                                            <td className="pl-4 py-2 text-start text-neutral-400">
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
                                                 {item.activity_group}
                                             </td>
-                                            <td className="pl-4 py-2 text-start text-neutral-400">
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
                                                 {item.effort_perception}
                                             </td>
-                                            <td className="pl-4 py-2 text-start text-neutral-400">
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
                                                 {item.until}
                                             </td>
 
-                                            <td className="pl-4 py-2 text-start">
+                                            <td className="py-2 pl-4 text-start">
                                                 <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
                                                     <ArrowUDownLeft size={18} />
                                                 </button>
