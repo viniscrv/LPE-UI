@@ -1,8 +1,8 @@
-import { ChartBar } from "@phosphor-icons/react";
+import { CalendarCheck, ChartBar } from "@phosphor-icons/react";
 import { NavLink, Outlet } from "react-router-dom";
 
 export function DashboardLayout() {
-    const pages = ["dashboard-01", "dashboard-02", "dashboard-03"];
+    const pages = ["Today", "dashboard-02", "dashboard-03"];
 
     return (
         <>
@@ -23,20 +23,20 @@ export function DashboardLayout() {
                         Nome bom
                     </h2>
 
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-2 items-start">
                         {pages.map((page) => {
                             return (
                                 <li key={page}>
                                     <NavLink
-                                        to={"/home"}
+                                        to={"/dashboard/today"}
                                         className={
-                                            "flex items-center justify-center gap-2"
+                                            "flex items-center justify-center gap-2 pl-6"
                                         }
                                     >
-                                        <ChartBar
+                                        <CalendarCheck
                                             size={18}
                                             color="#8B8B8B"
-                                        ></ChartBar>
+                                        ></CalendarCheck>
                                         <span className="text-neutral-400">
                                             {page}
                                         </span>

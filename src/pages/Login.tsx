@@ -42,7 +42,7 @@ export function Login() {
             localStorage.setItem("token", JSON.stringify(data.token));
             api.defaults.headers.Authorization = `Bearer ${data.token}`;
 
-            navigate("/dashboard");
+            navigate("/dashboard/today");
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 setInvalidCredentials(true);

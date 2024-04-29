@@ -1,7 +1,7 @@
 import { ArrowUDownLeft } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-export function Home() {
+export function Today() {
     const mock_table = {
         activity_01: {
             activity_name: "activity_name_01",
@@ -110,7 +110,7 @@ export function Home() {
                         );
                     })}
                 </div>
-                <div className="flex h-56 w-60 gap-3 rounded-md bg-neutral-900 p-3">
+                <div className="flex h-56 w-64 gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-neutral-800 p-2">
                         <div className="w-min rounded-full border-4 border-blue-500 p-8">
                             <h3 className="text-lg font-bold">75%</h3>
@@ -125,7 +125,7 @@ export function Home() {
                 <div className="flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">Histórico de hoje</h2>
-                        <button className="flex rounded-md bg-neutral-950/60 px-4 py-2  hover:bg-neutral-950/40">
+                        <button className="flex rounded-md bg-neutral-950/60 px-4 py-2 hover:bg-neutral-950/40">
                             Ver histórico completo
                         </button>
                     </div>
