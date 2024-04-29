@@ -1,8 +1,17 @@
-import { CalendarCheck, ChartBar } from "@phosphor-icons/react";
+import { CalendarCheck, ListBullets } from "@phosphor-icons/react";
 import { NavLink, Outlet } from "react-router-dom";
 
 export function DashboardLayout() {
-    const pages = ["Today", "dashboard-02", "dashboard-03"];
+    const pages = [
+        {
+            name: "Hoje",
+            icon: <CalendarCheck size={18} color="#8B8B8B" />
+        },
+        {
+            name: "Atividades",
+            icon: <ListBullets size={18} color="#8B8B8B" />
+        }
+    ];
 
     return (
         <>
@@ -23,22 +32,19 @@ export function DashboardLayout() {
                         Nome bom
                     </h2>
 
-                    <ul className="flex flex-col gap-2 items-start">
-                        {pages.map((page) => {
+                    <ul className="flex flex-col items-start gap-2">
+                        {pages.map((page, index) => {
                             return (
-                                <li key={page}>
+                                <li key={index}>
                                     <NavLink
                                         to={"/dashboard/today"}
                                         className={
                                             "flex items-center justify-center gap-2 pl-6"
                                         }
                                     >
-                                        <CalendarCheck
-                                            size={18}
-                                            color="#8B8B8B"
-                                        ></CalendarCheck>
+                                        {page.icon}
                                         <span className="text-neutral-400">
-                                            {page}
+                                            {page.name}
                                         </span>
                                     </NavLink>
                                 </li>
