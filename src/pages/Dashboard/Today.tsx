@@ -45,8 +45,8 @@ export function Today() {
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="flex justify-between gap-6">
-                <div className="flex h-64 w-full gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="grid grid-cols-4 gap-6">
+                <div className="col-span-3 flex h-64 w-full gap-3 rounded-md bg-neutral-900 p-3">
                     {[1, 2, 3, 4].map((item) => {
                         return (
                             <div
@@ -110,7 +110,7 @@ export function Today() {
                         );
                     })}
                 </div>
-                <div className="flex h-56 w-64 gap-3 rounded-md bg-neutral-900 p-3">
+                <div className="flex gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-neutral-800 p-2">
                         <div className="w-min rounded-full border-4 border-blue-500 p-8">
                             <h3 className="text-lg font-bold">75%</h3>
@@ -121,8 +121,8 @@ export function Today() {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between gap-6">
-                <div className="flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="grid grid-cols-4 gap-6">
+                <div className="col-span-3 flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">Histórico de hoje</h2>
                         <button className="flex rounded-md bg-neutral-950/60 px-4 py-2 hover:bg-neutral-950/40">

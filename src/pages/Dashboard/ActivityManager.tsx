@@ -75,8 +75,8 @@ export function ActivityManager() {
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="flex justify-between gap-6">
-                <div className="flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="grid grid-cols-4">
+                <div className="col-span-3 flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">
                             Atividades cadastradas
@@ -142,11 +142,11 @@ export function ActivityManager() {
                         </table>
                     </div>
                 </div>
-                <div className="flex h-56 w-60 bg-neutral-950 p-3"></div>
+                <div className="flex bg-neutral-950 p-3"></div>
             </div>
 
-            <div className="flex justify-between gap-6">
-                <div className="flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="grid grid-cols-4">
+                <div className="col-span-2 flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">
                             Grupos cadastrados
