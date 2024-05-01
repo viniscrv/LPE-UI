@@ -5,11 +5,13 @@ export function DashboardLayout() {
     const pages = [
         {
             name: "Hoje",
-            icon: <CalendarCheck size={18} color="#8B8B8B" />
+            icon: <CalendarCheck size={18} color="#8B8B8B" />,
+            path: "/dashboard/today"
         },
         {
             name: "Atividades",
-            icon: <ListBullets size={18} color="#8B8B8B" />
+            icon: <ListBullets size={18} color="#8B8B8B" />,
+            path: "/dashboard/activity-manager"
         }
     ];
 
@@ -37,7 +39,7 @@ export function DashboardLayout() {
                             return (
                                 <li key={index}>
                                     <NavLink
-                                        to={"/dashboard/today"}
+                                        to={page.path}
                                         className={
                                             "flex items-center justify-center gap-2 pl-6"
                                         }
