@@ -1,4 +1,8 @@
 import { PencilSimple, Plus, Trash } from "@phosphor-icons/react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { GenericModal } from "../../components/GenericModal";
+import { ActivityForm } from "./components/ActivityForm";
+import { ActivityGroupForm } from "./components/ActivityGroupForm";
 
 export function ActivityManager() {
     const mock_table_activities = {
@@ -81,10 +85,22 @@ export function ActivityManager() {
                         <h2 className="text-lg font-bold">
                             Atividades cadastradas
                         </h2>
-                        <button className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400">
-                            Nova atividade
-                            <Plus size={20} />
-                        </button>
+
+                        <Dialog.Root>
+                            <Dialog.Trigger asChild>
+                                <button className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400">
+                                    Nova atividade
+                                    <Plus size={20} />
+                                </button>
+                            </Dialog.Trigger>
+                            <GenericModal
+                                titleModal="Criar nova atividade"
+                                descriptionModal="Preencha as informação para criar uma nova atividade"
+                                buttonConfirmationText="Criar"
+                            >
+                                <ActivityForm />
+                            </GenericModal>
+                        </Dialog.Root>
                     </div>
                     <div className="overflow-y-scroll">
                         <table className="w-full rounded-md bg-neutral-800 p-4">
@@ -125,11 +141,23 @@ export function ActivityManager() {
                                                 </td>
 
                                                 <td className="flex gap-2 py-2 pl-4">
-                                                    <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
-                                                        <PencilSimple
-                                                            size={18}
-                                                        />
-                                                    </button>
+                                                    <Dialog.Root>
+                                                        <Dialog.Trigger asChild>
+                                                            <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
+                                                                <PencilSimple
+                                                                    size={18}
+                                                                />
+                                                            </button>
+                                                        </Dialog.Trigger>
+
+                                                        <GenericModal
+                                                            titleModal="Editar atividade"
+                                                            descriptionModal="Altere os campos abaixo para editar a atividade"
+                                                            buttonConfirmationText="Confirmar alterações"
+                                                        >
+                                                            <ActivityForm />
+                                                        </GenericModal>
+                                                    </Dialog.Root>
                                                     <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
                                                         <Trash size={18} />
                                                     </button>
@@ -151,10 +179,21 @@ export function ActivityManager() {
                         <h2 className="text-lg font-bold">
                             Grupos cadastrados
                         </h2>
-                        <button className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400">
-                            Novo grupo
-                            <Plus size={20} />
-                        </button>
+                        <Dialog.Root>
+                            <Dialog.Trigger asChild>
+                                <button className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400">
+                                    Novo grupo
+                                    <Plus size={20} />
+                                </button>
+                            </Dialog.Trigger>
+                            <GenericModal
+                                titleModal="Criar novo grupo"
+                                descriptionModal="Preencha as informação para criar um novo grupo de atividades"
+                                buttonConfirmationText="Criar"
+                            >
+                                <ActivityGroupForm />
+                            </GenericModal>
+                        </Dialog.Root>
                     </div>
                     <div className="overflow-y-scroll">
                         <table className="w-full rounded-md bg-neutral-800 p-4">
@@ -185,11 +224,23 @@ export function ActivityManager() {
                                                     {item.created_at}
                                                 </td>
                                                 <td className="flex gap-2 py-2 pl-4">
-                                                    <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
-                                                        <PencilSimple
-                                                            size={18}
-                                                        />
-                                                    </button>
+                                                    <Dialog.Root>
+                                                        <Dialog.Trigger asChild>
+                                                            <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
+                                                                <PencilSimple
+                                                                    size={18}
+                                                                />
+                                                            </button>
+                                                        </Dialog.Trigger>
+
+                                                        <GenericModal
+                                                            titleModal="Editar grupo"
+                                                            descriptionModal="Altere os campos abaixo para editar o grupo de atividades"
+                                                            buttonConfirmationText="Confirmar alterações"
+                                                        >
+                                                            <ActivityGroupForm />
+                                                        </GenericModal>
+                                                    </Dialog.Root>
                                                     <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
                                                         <Trash size={18} />
                                                     </button>
