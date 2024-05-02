@@ -39,8 +39,8 @@ export function Login() {
                 password
             });
 
-            localStorage.setItem("token", JSON.stringify(data.token));
-            api.defaults.headers.Authorization = `Bearer ${data.token}`;
+            localStorage.setItem("token", JSON.stringify(data.access));
+            api.defaults.headers.Authorization = `Bearer ${data.access}`;
 
             navigate("/dashboard/today");
         } catch (err) {

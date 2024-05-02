@@ -1,6 +1,9 @@
 import { ArrowUDownLeft } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GenericModal } from "../../components/GenericModal";
+import { useEffect, useState } from "react";
+import { api } from "../../lib/axios";
+import { AxiosError } from "axios";
 
 export function Today() {
     const mock_table = {
@@ -44,19 +47,48 @@ export function Today() {
         "undo"
     ];
 
+    interface Activity {
+        activity_group: Number;
+        name: String;
+        id: Number;
+        profile: Number;
+        recurrence: String;
+        until: String;
+        created_at: String;
+        updated_at: String;
+    }
+
+    const [pendingActivities, setPendingActivities] = useState([]);
+
+    useEffect(() => {
+        getTodaysPendingActivities();
+    }, []);
+
+    async function getTodaysPendingActivities() {
+        try {
+            const { data } = await api.get("/activities/report/pending_today/");
+
+            setPendingActivities(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
     return (
         <div className="flex flex-col gap-6">
             <div className="grid grid-cols-4 gap-6">
                 <div className="col-span-3 flex h-64 w-full gap-3 rounded-md bg-neutral-900 p-3">
-                    {[1, 2, 3, 4].map((item) => {
+                    {pendingActivities.map((activity: Activity, index) => {
                         return (
                             <div
-                                key={item}
+                                key={index}
                                 className="flex h-full w-44 flex-col rounded-md bg-neutral-800 p-2"
                             >
                                 <div className="w-full flex-1">
                                     <h3 className="text-lg font-bold">
-                                        activity name
+                                        {activity.name}
                                     </h3>
                                     <p className="mt-2 text-sm text-neutral-400">
                                         Lorem, ipsum dolor sit amet consectetur
