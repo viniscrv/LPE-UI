@@ -25,11 +25,11 @@ export function GenericModal({
                     </p>
                 </Dialog.Description>
                 {children}
-                <Dialog.Close asChild>
+                {/* <Dialog.Close asChild>
                     <button className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
                         {buttonConfirmationText}
                     </button>
-                </Dialog.Close>
+                </Dialog.Close> */}
             </Dialog.Content>
         </Dialog.Portal>
     );

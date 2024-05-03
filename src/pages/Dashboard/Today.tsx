@@ -4,6 +4,16 @@ import { GenericModal } from "../../components/GenericModal";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
+import { Controller, useForm } from "react-hook-form";
+import * as RadioGroup from "@radix-ui/react-radio-group";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const completeActivityFormSchema = z.object({
+    effortPerception: z.string()
+});
+
+type completeActivityFormData = z.infer<typeof completeActivityFormSchema>;
 
 export function Today() {
     const mock_table = {
@@ -59,6 +69,15 @@ export function Today() {
     }
 
     const [pendingActivities, setPendingActivities] = useState([]);
+    const [selectedActivity, setSelectedActivity] = useState<null | Number>(
+        null
+    );
+
+    const [open, setOpen] = useState(false);
+
+    const { handleSubmit, control } = useForm<completeActivityFormData>({
+        resolver: zodResolver(completeActivityFormSchema)
+    });
 
     useEffect(() => {
         getTodaysPendingActivities();
@@ -69,6 +88,29 @@ export function Today() {
             const { data } = await api.get("/activities/report/pending_today/");
 
             setPendingActivities(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function completeActivity({
+        effortPerception
+    }: completeActivityFormData) {
+        try {
+            const { data } = await api.post("/activities/report/", {
+                activity: selectedActivity,
+                completed: true,
+                effort_perception: Number(effortPerception)
+            });
+
+            console.log("qq houve", data);
+
+            getTodaysPendingActivities();
+            setSelectedActivity(null);
+
+            setOpen(false);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -97,9 +139,14 @@ export function Today() {
                                 </div>
 
                                 {/* modal */}
-                                <Dialog.Root>
+                                <Dialog.Root open={open} onOpenChange={setOpen}>
                                     <Dialog.Trigger asChild>
-                                        <button className="mt-2 h-8 w-full self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
+                                        <button
+                                            onClick={() =>
+                                                setSelectedActivity(activity.id)
+                                            }
+                                            className="mt-2 h-8 w-full self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
+                                        >
                                             Completar
                                         </button>
                                     </Dialog.Trigger>
@@ -108,20 +155,68 @@ export function Today() {
                                         descriptionModal="Lorem ipsum dolor sit amet consectetur adipisicing elit."
                                         buttonConfirmationText="Concluír"
                                     >
-                                        <div className="mt-4 flex w-full justify-around">
-                                            {[
-                                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-                                            ].map((num) => {
-                                                return (
-                                                    <button
-                                                        key={num}
-                                                        className="flex w-10 items-center justify-center rounded-md bg-neutral-800 p-2 hover:bg-blue-500"
-                                                    >
-                                                        {num}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
+                                        <form
+                                            onSubmit={handleSubmit(
+                                                completeActivity
+                                            )}
+                                        >
+                                            <Controller
+                                                control={control}
+                                                name="effortPerception"
+                                                render={({ field }) => {
+                                                    return (
+                                                        <RadioGroup.Root
+                                                            asChild
+                                                            onValueChange={
+                                                                field.onChange
+                                                            }
+                                                            value={field.value}
+                                                        >
+                                                            <div className="mt-4 flex w-full justify-around">
+                                                                {[
+                                                                    "1",
+                                                                    "2",
+                                                                    "3",
+                                                                    "4",
+                                                                    "5",
+                                                                    "6",
+                                                                    "7",
+                                                                    "8",
+                                                                    "9",
+                                                                    "10"
+                                                                ].map((num) => {
+                                                                    return (
+                                                                        <RadioGroup.Item
+                                                                            key={
+                                                                                num
+                                                                            }
+                                                                            value={
+                                                                                num
+                                                                            }
+                                                                            className="
+                                                                                flex
+                                                                                w-10
+                                                                                items-center
+                                                                                justify-center rounded-md bg-neutral-800 p-2 
+                                                                                hover:bg-blue-500 data-[state=checked]:border-2 
+                                                                                data-[state=checked]:border-neutral-50 data-[state=checked]:bg-blue-500
+                                                                            "
+                                                                        >
+                                                                            {
+                                                                                num
+                                                                            }
+                                                                        </RadioGroup.Item>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </RadioGroup.Root>
+                                                    );
+                                                }}
+                                            />
+                                            <button className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
+                                                Concluír
+                                            </button>
+                                        </form>
                                     </GenericModal>
                                 </Dialog.Root>
                             </div>
