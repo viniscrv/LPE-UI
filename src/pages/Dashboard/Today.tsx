@@ -16,39 +16,6 @@ const completeActivityFormSchema = z.object({
 type completeActivityFormData = z.infer<typeof completeActivityFormSchema>;
 
 export function Today() {
-    const mock_table = {
-        activity_01: {
-            activity_name: "activity_name_01",
-            effort_perception: "effort_perception_01",
-            activity_group: "activity_group_01",
-            until: "until_01"
-        },
-        activity_02: {
-            activity_name: "activity_name_02",
-            effort_perception: "effort_perception_02",
-            activity_group: "activity_group_02",
-            until: "until_02"
-        },
-        activity_03: {
-            activity_name: "activity_name_03",
-            effort_perception: "effort_perception_03",
-            activity_group: "activity_group_03",
-            until: "until_03"
-        },
-        activity_04: {
-            activity_name: "activity_name_04",
-            effort_perception: "effort_perception_04",
-            activity_group: "activity_group_04",
-            until: "until_04"
-        },
-        activity_05: {
-            activity_name: "activity_name_05",
-            effort_perception: "effort_perception_05",
-            activity_group: "activity_group_05",
-            until: "until_05"
-        }
-    };
-
     const header_table = [
         "activity name",
         "effort perception",
@@ -58,17 +25,29 @@ export function Today() {
     ];
 
     interface Activity {
-        activity_group: Number;
-        name: String;
         id: Number;
         profile: Number;
+        name: String;
+        activity_group: Number;
         recurrence: String;
         until: String;
         created_at: String;
         updated_at: String;
     }
 
+    interface PerformedActivity {
+        id: Number;
+        activity: Number;
+        completed: Boolean;
+        profile: Number;
+        effort_perception: String;
+        created_at: String;
+    }
+
     const [pendingActivities, setPendingActivities] = useState([]);
+    const [historyToday, setHistoryToday] = useState<[] | PerformedActivity[]>(
+        []
+    );
     const [selectedActivity, setSelectedActivity] = useState<null | Number>(
         null
     );
@@ -81,7 +60,20 @@ export function Today() {
 
     useEffect(() => {
         getTodaysPendingActivities();
-    }, []);
+        getTodaysHistory();
+    }, [pendingActivities, historyToday]);
+
+    async function getTodaysHistory() {
+        try {
+            const { data } = await api.get("/activities/report/history_today/");
+
+            setHistoryToday(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
 
     async function getTodaysPendingActivities() {
         try {
@@ -99,13 +91,11 @@ export function Today() {
         effortPerception
     }: completeActivityFormData) {
         try {
-            const { data } = await api.post("/activities/report/", {
+            await api.post("/activities/report/", {
                 activity: selectedActivity,
                 completed: true,
                 effort_perception: Number(effortPerception)
             });
-
-            console.log("qq houve", data);
 
             getTodaysPendingActivities();
             setSelectedActivity(null);
@@ -257,33 +247,38 @@ export function Today() {
                                 })}
                             </thead>
                             <tbody>
-                                {Object.values(mock_table).map((item, idx) => {
-                                    return (
-                                        <tr
-                                            key={idx}
-                                            className="overflow-y-auto border-t border-neutral-700"
-                                        >
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.activity_name}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.activity_group}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.effort_perception}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.until}
-                                            </td>
+                                {historyToday.map(
+                                    (item: PerformedActivity, idx) => {
+                                        return (
+                                            <tr
+                                                key={idx}
+                                                className="overflow-y-auto border-t border-neutral-700"
+                                            >
+                                                <td className="py-2 pl-4 text-start text-neutral-400">
+                                                    {item.activity.toString() +
+                                                        " TODO: ajustar no back"}
+                                                </td>
+                                                <td className="py-2 pl-4 text-start text-neutral-400">
+                                                    {item.effort_perception}
+                                                </td>
+                                                <td className="py-2 pl-4 text-start text-neutral-400">
+                                                    TODO: ajustar no back
+                                                </td>
+                                                <td className="py-2 pl-4 text-start text-neutral-400">
+                                                    TODO: ajustar no back
+                                                </td>
 
-                                            <td className="py-2 pl-4 text-start">
-                                                <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
-                                                    <ArrowUDownLeft size={18} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                                <td className="py-2 pl-4 text-start">
+                                                    <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
+                                                        <ArrowUDownLeft
+                                                            size={18}
+                                                        />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                )}
                             </tbody>
                         </table>
                     </div>
