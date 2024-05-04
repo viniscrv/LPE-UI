@@ -105,16 +105,18 @@ export function ActivityManager() {
                     <div className="overflow-y-scroll">
                         <table className="w-full rounded-md bg-neutral-800 p-4">
                             <thead>
-                                {header_table_activities.map((item) => {
-                                    return (
-                                        <th
-                                            key={item}
-                                            className="py-2 pl-4 text-start"
-                                        >
-                                            {item}
-                                        </th>
-                                    );
-                                })}
+                                <tr>
+                                    {header_table_activities.map((item) => {
+                                        return (
+                                            <th
+                                                key={item}
+                                                className="py-2 pl-4 text-start"
+                                            >
+                                                {item}
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
                             </thead>
                             <tbody>
                                 {Object.values(mock_table_activities).map(
@@ -198,16 +200,18 @@ export function ActivityManager() {
                     <div className="overflow-y-scroll">
                         <table className="w-full rounded-md bg-neutral-800 p-4">
                             <thead>
-                                {header_table_groupers.map((item) => {
-                                    return (
-                                        <th
-                                            key={item}
-                                            className="py-2 pl-4 text-start"
-                                        >
-                                            {item}
-                                        </th>
-                                    );
-                                })}
+                                <tr>
+                                    {header_table_groupers.map((item) => {
+                                        return (
+                                            <th
+                                                key={item}
+                                                className="py-2 pl-4 text-start"
+                                            >
+                                                {item}
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
                             </thead>
                             <tbody>
                                 {Object.values(mock_table_groupers).map(

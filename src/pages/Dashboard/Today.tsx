@@ -99,7 +99,7 @@ export function Today() {
 
             getTodaysPendingActivities();
             getTodaysHistory();
-            
+
             setSelectedActivity(null);
             setOpen(false);
         } catch (err) {
@@ -115,7 +115,6 @@ export function Today() {
 
             getTodaysPendingActivities();
             getTodaysHistory();
-
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -250,16 +249,18 @@ export function Today() {
                     <div className="overflow-y-scroll">
                         <table className="w-full rounded-md bg-neutral-800 p-4">
                             <thead>
-                                {header_table.map((item) => {
-                                    return (
-                                        <th
-                                            key={item}
-                                            className="py-2 pl-4 text-start"
-                                        >
-                                            {item}
-                                        </th>
-                                    );
-                                })}
+                                <tr>
+                                    {header_table.map((item) => {
+                                        return (
+                                            <th
+                                                key={item}
+                                                className="py-2 pl-4 text-start"
+                                            >
+                                                {item}
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
                             </thead>
                             <tbody>
                                 {historyToday.map(
