@@ -61,7 +61,7 @@ export function Today() {
     useEffect(() => {
         getTodaysPendingActivities();
         getTodaysHistory();
-    }, [pendingActivities, historyToday]);
+    }, []);
 
     async function getTodaysHistory() {
         try {
@@ -98,9 +98,24 @@ export function Today() {
             });
 
             getTodaysPendingActivities();
+            getTodaysHistory();
+            
             setSelectedActivity(null);
-
             setOpen(false);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function undoActivity(activityId: Number) {
+        try {
+            await api.delete(`/activities/report/${activityId}/`);
+
+            getTodaysPendingActivities();
+            getTodaysHistory();
+
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -269,7 +284,14 @@ export function Today() {
                                                 </td>
 
                                                 <td className="py-2 pl-4 text-start">
-                                                    <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
+                                                    <button
+                                                        onClick={() =>
+                                                            undoActivity(
+                                                                item.id
+                                                            )
+                                                        }
+                                                        className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
+                                                    >
                                                         <ArrowUDownLeft
                                                             size={18}
                                                         />
