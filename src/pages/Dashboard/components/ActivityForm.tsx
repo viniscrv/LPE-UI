@@ -1,3 +1,5 @@
+import { Select, SelectItem } from "./Form/Select";
+
 export function ActivityForm() {
     return (
         <form className="mt-4 flex w-full flex-col items-start">
@@ -13,27 +15,20 @@ export function ActivityForm() {
                 />
             </div>
             <div className="mt-2 flex w-full flex-col">
-                <label className="text-sm" htmlFor="activityRecurrence">
-                    Recorrência
-                </label>
-                <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
-                    type="text"
-                    name="activityRecurrence"
-                    id="activityRecurrence"
-                />
+                <label className="text-sm" htmlFor="">Recorrência</label>
+                <Select placeholder="Selecione">
+                    <SelectItem value="everyday" text="Diário" />
+                    <SelectItem value="week" text="Semanal" />
+                    <SelectItem value="weekend" text="Finais de semanas" />
+                </Select>
             </div>
             <div className="mt-2 flex w-full flex-col">
                 <label className="text-sm" htmlFor="activityGroup">
                     Grupo de atividade
                 </label>
-                <select
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
-                    name="activityGroup"
-                    id="activityGroup"
-                >
-                    <option value="group_01">group_01</option>
-                </select>
+                <Select placeholder="Selecione">
+                    <SelectItem value="group_01" text="group_01" />
+                </Select>
             </div>
             <div className="mt-2 flex w-full flex-col">
                 <label className="text-sm" htmlFor="activityUntil">
