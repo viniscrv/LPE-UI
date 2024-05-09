@@ -98,7 +98,7 @@ export function ActivityManager() {
                                 descriptionModal="Preencha as informação para criar uma nova atividade"
                                 buttonConfirmationText="Criar"
                             >
-                                <ActivityForm />
+                                <ActivityForm newActivity={true}/>
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -157,7 +157,7 @@ export function ActivityManager() {
                                                             descriptionModal="Altere os campos abaixo para editar a atividade"
                                                             buttonConfirmationText="Confirmar alterações"
                                                         >
-                                                            <ActivityForm />
+                                                            <ActivityForm newActivity={false}/>
                                                         </GenericModal>
                                                     </Dialog.Root>
                                                     <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
