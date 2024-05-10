@@ -98,7 +98,7 @@ export function ActivityManager() {
                                 descriptionModal="Preencha as informação para criar uma nova atividade"
                                 buttonConfirmationText="Criar"
                             >
-                                <ActivityForm newActivity={true}/>
+                                <ActivityForm newActivity={true} />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -157,7 +157,11 @@ export function ActivityManager() {
                                                             descriptionModal="Altere os campos abaixo para editar a atividade"
                                                             buttonConfirmationText="Confirmar alterações"
                                                         >
-                                                            <ActivityForm newActivity={false}/>
+                                                            <ActivityForm
+                                                                newActivity={
+                                                                    false
+                                                                }
+                                                            />
                                                         </GenericModal>
                                                     </Dialog.Root>
                                                     <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
@@ -193,7 +197,7 @@ export function ActivityManager() {
                                 descriptionModal="Preencha as informação para criar um novo grupo de atividades"
                                 buttonConfirmationText="Criar"
                             >
-                                <ActivityGroupForm />
+                                <ActivityGroupForm newActivityGroup={true} />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -242,7 +246,11 @@ export function ActivityManager() {
                                                             descriptionModal="Altere os campos abaixo para editar o grupo de atividades"
                                                             buttonConfirmationText="Confirmar alterações"
                                                         >
-                                                            <ActivityGroupForm />
+                                                            <ActivityGroupForm
+                                                                newActivityGroup={
+                                                                    false
+                                                                }
+                                                            />
                                                         </GenericModal>
                                                     </Dialog.Root>
                                                     <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
