@@ -81,6 +81,18 @@ export function ActivityManager() {
         }
     }
 
+    async function deleteActivityGroup(activityGroupId: number) {
+        try {
+            await api.delete(`/activities/groups/delete/${activityGroupId}/`);
+
+            getActivityGroups();
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
     return (
         <div className="flex flex-col gap-6">
             <div className="grid grid-cols-4">
@@ -207,7 +219,7 @@ export function ActivityManager() {
                                 descriptionModal="Preencha as informação para criar um novo grupo de atividades"
                                 buttonConfirmationText="Criar"
                             >
-                                <ActivityGroupForm newActivityGroup={true} />
+                                <ActivityGroupForm />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -259,13 +271,20 @@ export function ActivityManager() {
                                                             buttonConfirmationText="Confirmar alterações"
                                                         >
                                                             <ActivityGroupForm
-                                                                newActivityGroup={
-                                                                    false
+                                                                activityGroupId={
+                                                                    item.id
                                                                 }
                                                             />
                                                         </GenericModal>
                                                     </Dialog.Root>
-                                                    <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
+                                                    <button
+                                                        onClick={() =>
+                                                            deleteActivityGroup(
+                                                                item.id
+                                                            )
+                                                        }
+                                                        className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
+                                                    >
                                                         <Trash size={18} />
                                                     </button>
                                                 </td>

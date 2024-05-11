@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../lib/axios";
+import { useEffect, useState } from "react";
 
 const createActivityGroupFormSchema = z.object({
     activityGroupName: z.string()
@@ -13,21 +14,57 @@ type createActivityGroupFormData = z.infer<
 >;
 
 interface ActivityGroupFormProps {
-    newActivityGroup: Boolean; // TODO: aqui eh melhor eu receber o ID, se ID == null é new acitivity, se não faz a request buscando dados para o edit
+    activityGroupId?: number | null;
+}
+
+interface ActivityGroup {
+    id: number;
+    name: string;
+    profile: string;
+    description: string;
 }
 
 export function ActivityGroupForm({
-    newActivityGroup
+    activityGroupId = null
 }: ActivityGroupFormProps) {
     const { register, handleSubmit } = useForm<createActivityGroupFormData>({
         resolver: zodResolver(createActivityGroupFormSchema)
     });
 
+    const [activityGroup, setActivityGroup] = useState<ActivityGroup | null>();
+
+    useEffect(() => {
+        if (activityGroupId) {
+            getActivityGroup();
+        }
+    }, []);
+
+    async function getActivityGroup() {
+        try {
+            const { data } = await api.get(
+                `/activities/groups/${activityGroupId}/`
+            );
+
+            setActivityGroup(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data) {
+                return console.log(err.response.data);
+            }
+        }
+    }
+
     async function submitActivityGroup(data: createActivityGroupFormData) {
         try {
-            await api.post("/activities/groups/", {
-                name: data.activityGroupName
-            });
+            if (activityGroupId) {
+                await api.patch(`/activities/groups/${activityGroupId}/`, {
+                    name: data.activityGroupName,
+                    description: ""
+                });
+            } else {
+                await api.post("/activities/groups/", {
+                    name: data.activityGroupName,
+                });
+            }
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data) {
                 return console.log(err.response.data);
@@ -48,12 +85,13 @@ export function ActivityGroupForm({
                     className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                     type="text"
                     id="activityGroupName"
+                    defaultValue={activityGroup?.name}
                     {...register("activityGroupName")}
                 />
             </div>
 
             <button className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
-                {newActivityGroup ? "Criar" : "Salvar alterações"}
+                {!activityGroupId ? "Criar" : "Salvar alterações"}
             </button>
         </form>
     );

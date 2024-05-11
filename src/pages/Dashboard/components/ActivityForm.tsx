@@ -32,7 +32,7 @@ interface ActivityGroup {
 }
 
 interface ActivityFormProps {
-    activityId?: number | null; // TODO: aqui eh melhor eu receber o ID, se ID == null é new acitivity, se não faz a request buscando dados para o edit
+    activityId?: number | null;
     activityGroups: ActivityGroup[] | [];
 }
 
@@ -116,7 +116,7 @@ export function ActivityForm({
                 </label>
                 <Select
                     placeholder="Selecione"
-                    defaultValue={activity?.recurrence}
+                    onValueChange={(value) => setRecurrence(value)}
                 >
                     <SelectItem value="everyday" text="Diário" />
                     <SelectItem value="week" text="Semanal" />
@@ -129,7 +129,6 @@ export function ActivityForm({
                 </label>
                 <Select
                     placeholder="Selecione"
-                    defaultValue={activity?.activity_group}
                     onValueChange={(value) => setActivityGroup(value)}
                 >
                     {/* {activityGroups.length > 0 ??
@@ -157,7 +156,7 @@ export function ActivityForm({
             </div>
 
             <button className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
-                {activityId ? "Criar" : "Salvar alterações"}
+                {!activityId ? "Criar" : "Salvar alterações"}
             </button>
         </form>
     );
