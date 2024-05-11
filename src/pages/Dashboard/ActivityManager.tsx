@@ -3,45 +3,11 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { GenericModal } from "../../components/GenericModal";
 import { ActivityForm } from "./components/ActivityForm";
 import { ActivityGroupForm } from "./components/ActivityGroupForm";
+import { api } from "../../lib/axios";
+import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 
 export function ActivityManager() {
-    const mock_table_activities = {
-        activity_01: {
-            activity_name: "activity_name_01",
-            activity_group: "activity_group_01",
-            recurrence: "recurrence_01",
-            until: "until_01",
-            created_at: "created_at_01"
-        },
-        activity_02: {
-            activity_name: "activity_name_02",
-            activity_group: "activity_group_02",
-            recurrence: "recurrence_02",
-            until: "until_02",
-            created_at: "created_at_02"
-        },
-        activity_03: {
-            activity_name: "activity_name_03",
-            activity_group: "activity_group_03",
-            recurrence: "recurrence_03",
-            until: "until_03",
-            created_at: "created_at_03"
-        },
-        activity_04: {
-            activity_name: "activity_name_04",
-            activity_group: "activity_group_04",
-            recurrence: "recurrence_04",
-            until: "until_04",
-            created_at: "created_at_04"
-        },
-        activity_05: {
-            activity_name: "activity_name_05",
-            activity_group: "activity_group_05",
-            recurrence: "recurrence_05",
-            until: "until_05",
-            created_at: "created_at_05"
-        }
-    };
 
     const header_table_activities = [
         "activity name",
@@ -52,30 +18,57 @@ export function ActivityManager() {
         "actions"
     ];
 
-    const header_table_groupers = ["group name", "created_at", "actions"];
+    const header_table_groupers = ["group name", "description", "actions"];
 
-    const mock_table_groupers = {
-        activity_01: {
-            group_name: "group_name_01",
-            created_at: "created_at_01"
-        },
-        activity_02: {
-            group_name: "group_name_02",
-            created_at: "created_at_02"
-        },
-        activity_03: {
-            group_name: "group_name_03",
-            created_at: "created_at_03"
-        },
-        activity_04: {
-            group_name: "group_name_04",
-            created_at: "created_at_04"
-        },
-        activity_05: {
-            group_name: "group_name_05",
-            created_at: "created_at_05"
+    const [activities, setActivities] = useState<Activity[]>([]);
+    const [activityGroups, setActivityGroups] = useState<ActivityGroup[]>([]);
+
+    interface Activity {
+        id: number;
+        name: string;
+        profile: string;
+        activity_group: string;
+        recurrence: string;
+        until: string;
+        created_at: Date;
+        updated_at: string;
+    }
+
+    interface ActivityGroup {
+        id: number;
+        name: string;
+        profile: string;
+        description: string;
+    }
+
+    useEffect(() => {
+        getActivities();
+        getActivityGroups();
+    }, []);
+
+    async function getActivities() {
+        try {
+            const { data } = await api.get("/activities/");
+
+            setActivities(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
         }
-    };
+    }
+
+    async function getActivityGroups() {
+        try {
+            const { data } = await api.get("/activities/groups/");
+
+            setActivityGroups(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
 
     return (
         <div className="flex flex-col gap-6">
@@ -98,7 +91,7 @@ export function ActivityManager() {
                                 descriptionModal="Preencha as informação para criar uma nova atividade"
                                 buttonConfirmationText="Criar"
                             >
-                                <ActivityForm newActivity={true} />
+                                <ActivityForm activityId={true} />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -119,7 +112,7 @@ export function ActivityManager() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Object.values(mock_table_activities).map(
+                                {Object.values(activities).map(
                                     (item, idx) => {
                                         return (
                                             <tr
@@ -127,10 +120,10 @@ export function ActivityManager() {
                                                 className="overflow-y-auto border-t border-neutral-700"
                                             >
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.activity_name}
+                                                    {item.name}
                                                 </td>
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.activity_group}
+                                                    {item.activity_group ? item.activity_group : "Nenhum"}
                                                 </td>
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
                                                     {item.recurrence}
@@ -139,7 +132,7 @@ export function ActivityManager() {
                                                     {item.until}
                                                 </td>
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.created_at}
+                                                    {item.created_at.toString()}
                                                 </td>
 
                                                 <td className="flex gap-2 py-2 pl-4">
@@ -158,7 +151,7 @@ export function ActivityManager() {
                                                             buttonConfirmationText="Confirmar alterações"
                                                         >
                                                             <ActivityForm
-                                                                newActivity={
+                                                                activityId={
                                                                     false
                                                                 }
                                                             />
@@ -218,7 +211,7 @@ export function ActivityManager() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Object.values(mock_table_groupers).map(
+                                {Object.values(activityGroups).map(
                                     (item, idx) => {
                                         return (
                                             <tr
@@ -226,10 +219,10 @@ export function ActivityManager() {
                                                 className="overflow-y-auto border-t border-neutral-700"
                                             >
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.group_name}
+                                                    {item.name}
                                                 </td>
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.created_at}
+                                                    {item.description ? item.description : "Sem descrição"}
                                                 </td>
                                                 <td className="flex gap-2 py-2 pl-4">
                                                     <Dialog.Root>
