@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 
 export function ActivityManager() {
-
     const header_table_activities = [
         "activity name",
         "activity group",
@@ -70,6 +69,18 @@ export function ActivityManager() {
         }
     }
 
+    async function deleteActivity(activityId: number) {
+        try {
+            await api.delete(`/activities/${activityId}/`);
+
+            getActivities();
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
     return (
         <div className="flex flex-col gap-6">
             <div className="grid grid-cols-4">
@@ -91,7 +102,7 @@ export function ActivityManager() {
                                 descriptionModal="Preencha as informação para criar uma nova atividade"
                                 buttonConfirmationText="Criar"
                             >
-                                <ActivityForm activityId={true} />
+                                <ActivityForm activityGroups={activityGroups} />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -112,59 +123,65 @@ export function ActivityManager() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Object.values(activities).map(
-                                    (item, idx) => {
-                                        return (
-                                            <tr
-                                                key={idx}
-                                                className="overflow-y-auto border-t border-neutral-700"
-                                            >
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.name}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.activity_group ? item.activity_group : "Nenhum"}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.recurrence}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.until}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.created_at.toString()}
-                                                </td>
+                                {Object.values(activities).map((item, idx) => {
+                                    return (
+                                        <tr
+                                            key={idx}
+                                            className="overflow-y-auto border-t border-neutral-700"
+                                        >
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.name}
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.activity_group
+                                                    ? item.activity_group
+                                                    : "Nenhum"}
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.recurrence}
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.until}
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.created_at.toString()}
+                                            </td>
 
-                                                <td className="flex gap-2 py-2 pl-4">
-                                                    <Dialog.Root>
-                                                        <Dialog.Trigger asChild>
-                                                            <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
-                                                                <PencilSimple
-                                                                    size={18}
-                                                                />
-                                                            </button>
-                                                        </Dialog.Trigger>
-
-                                                        <GenericModal
-                                                            titleModal="Editar atividade"
-                                                            descriptionModal="Altere os campos abaixo para editar a atividade"
-                                                            buttonConfirmationText="Confirmar alterações"
-                                                        >
-                                                            <ActivityForm
-                                                                activityId={
-                                                                    false
-                                                                }
+                                            <td className="flex gap-2 py-2 pl-4">
+                                                <Dialog.Root>
+                                                    <Dialog.Trigger asChild>
+                                                        <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
+                                                            <PencilSimple
+                                                                size={18}
                                                             />
-                                                        </GenericModal>
-                                                    </Dialog.Root>
-                                                    <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
-                                                        <Trash size={18} />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                )}
+                                                        </button>
+                                                    </Dialog.Trigger>
+
+                                                    <GenericModal
+                                                        titleModal="Editar atividade"
+                                                        descriptionModal="Altere os campos abaixo para editar a atividade"
+                                                        buttonConfirmationText="Confirmar alterações"
+                                                    >
+                                                        <ActivityForm
+                                                            activityId={item.id}
+                                                            activityGroups={
+                                                                activityGroups
+                                                            }
+                                                        />
+                                                    </GenericModal>
+                                                </Dialog.Root>
+                                                <button
+                                                    onClick={() =>
+                                                        deleteActivity(item.id)
+                                                    }
+                                                    className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
+                                                >
+                                                    <Trash size={18} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -222,7 +239,9 @@ export function ActivityManager() {
                                                     {item.name}
                                                 </td>
                                                 <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.description ? item.description : "Sem descrição"}
+                                                    {item.description
+                                                        ? item.description
+                                                        : "Sem descrição"}
                                                 </td>
                                                 <td className="flex gap-2 py-2 pl-4">
                                                     <Dialog.Root>

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Select, SelectItem } from "./Form/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../../lib/axios";
@@ -13,13 +13,37 @@ const createActivityFormSchema = z.object({
 
 type createActivityFormData = z.infer<typeof createActivityFormSchema>;
 
-interface ActivityFormProps {
-    newActivity: Boolean; // TODO: aqui eh melhor eu receber o ID, se ID == null é new acitivity, se não faz a request buscando dados para o edit
+interface Activity {
+    id: number;
+    name: string;
+    profile: string;
+    activity_group: string;
+    recurrence: string;
+    until: string;
+    created_at: Date;
+    updated_at: string;
 }
 
-export function ActivityForm({ newActivity }: ActivityFormProps) {
-    const [recurrence, setRecurrence] = useState<null | string>();
-    const [activityGroup, setActivityGroup] = useState<null | string>();
+interface ActivityGroup {
+    id: number;
+    name: string;
+    profile: string;
+    description: string;
+}
+
+interface ActivityFormProps {
+    activityId?: number | null; // TODO: aqui eh melhor eu receber o ID, se ID == null é new acitivity, se não faz a request buscando dados para o edit
+    activityGroups: ActivityGroup[] | [];
+}
+
+export function ActivityForm({
+    activityId = null,
+    activityGroups = []
+}: ActivityFormProps) {
+    const [recurrence, setRecurrence] = useState<string | null>();
+    const [activityGroup, setActivityGroup] = useState<string | null>();
+
+    const [activity, setActivity] = useState<Activity | null>();
 
     // const [open, setOpen] = useState(false); # TODO: fazer o modal fechar depois do confirm
 
@@ -27,17 +51,41 @@ export function ActivityForm({ newActivity }: ActivityFormProps) {
         resolver: zodResolver(createActivityFormSchema)
     });
 
-    async function submitActivity(data: createActivityFormData) {
-        console.log("data", data);
-        console.log("recurrence", recurrence);
-        console.log("activityGroup", activityGroup);
+    useEffect(() => {
+        // getActivityGroups();
 
+        if (activityId) {
+            getActivity();
+        }
+    }, []);
+
+    async function submitActivity(data: createActivityFormData) {
         try {
-            await api.post("/activities/", {
-                name: data.activityName,
-                recurrence: recurrence,
-                until: data.activityUntil
-            });
+            if (activityId) {
+                await api.patch(`/activities/${activityId}/`, {
+                    name: data.activityName,
+                    recurrence: recurrence,
+                    until: data.activityUntil
+                });
+            } else {
+                await api.post("/activities/", {
+                    name: data.activityName,
+                    recurrence: recurrence,
+                    until: data.activityUntil
+                });
+            }
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data) {
+                return console.log(err.response.data);
+            }
+        }
+    }
+
+    async function getActivity() {
+        try {
+            const { data } = await api.get(`/activities/${activityId}/`);
+
+            setActivity(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data) {
                 return console.log(err.response.data);
@@ -58,6 +106,7 @@ export function ActivityForm({ newActivity }: ActivityFormProps) {
                     className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                     type="text"
                     id="activityName"
+                    defaultValue={activity?.name}
                     {...register("activityName")}
                 />
             </div>
@@ -67,7 +116,7 @@ export function ActivityForm({ newActivity }: ActivityFormProps) {
                 </label>
                 <Select
                     placeholder="Selecione"
-                    onValueChange={(value) => setRecurrence(value)}
+                    defaultValue={activity?.recurrence}
                 >
                     <SelectItem value="everyday" text="Diário" />
                     <SelectItem value="week" text="Semanal" />
@@ -80,8 +129,17 @@ export function ActivityForm({ newActivity }: ActivityFormProps) {
                 </label>
                 <Select
                     placeholder="Selecione"
+                    defaultValue={activity?.activity_group}
                     onValueChange={(value) => setActivityGroup(value)}
                 >
+                    {/* {activityGroups.length > 0 ??
+                        activityGroups.map((activityGroup) => {
+                            <SelectItem
+                                key={activityGroup.id}
+                                value={activityGroup.name}
+                                text={activityGroup.name}
+                            />;
+                        })} */}
                     <SelectItem value="group_01" text="group_01" />
                 </Select>
             </div>
@@ -93,12 +151,13 @@ export function ActivityForm({ newActivity }: ActivityFormProps) {
                     className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                     type="date"
                     id="activityUntil"
+                    defaultValue={activity?.until}
                     {...register("activityUntil")}
                 />
             </div>
 
             <button className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
-                {newActivity ? "Criar" : "Salvar alterações"}
+                {activityId ? "Criar" : "Salvar alterações"}
             </button>
         </form>
     );
