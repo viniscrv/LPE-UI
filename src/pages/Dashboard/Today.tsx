@@ -8,6 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ResponsivePie } from "@nivo/pie";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -122,6 +123,21 @@ export function Today() {
         }
     }
 
+    const pieChartData = [
+        {
+            id: "Pendente",
+            label: "Pendente",
+            value: 25,
+            color: "hsl(80, 70%, 50%)"
+        },
+        {
+            id: "Concluído",
+            label: "Concluído",
+            value: 75,
+            color: "#3b82f6"
+        }
+    ];
+
     return (
         <div className="flex flex-col gap-6">
             <div className="grid grid-cols-4 gap-6">
@@ -228,13 +244,24 @@ export function Today() {
                     })}
                 </div>
                 <div className="flex gap-3 rounded-md bg-neutral-900 p-3">
-                    <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-neutral-800 p-2">
-                        <div className="w-min rounded-full border-4 border-blue-500 p-8">
-                            <h3 className="text-lg font-bold">75%</h3>
-                        </div>
-                        <span className="mt-4 text-sm text-neutral-100">
-                            Lorem ipsum...
-                        </span>
+                    <div className="relative flex h-full w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2">
+                        <ResponsivePie
+                            data={pieChartData}
+                            margin={{
+                                top: 20,
+                                right: 20,
+                                bottom: 20,
+                                left: 20
+                            }}
+                            innerRadius={0.9}
+                            padAngle={2}
+                            colors={{ scheme: "paired" }}
+                            enableArcLabels={false}
+                            endAngle={-360}
+                            arcLinkLabelsColor={"#fff"}
+                            arcLinkLabelsTextColor={"#fff"}
+                        />
+                        <h3 className="absolute text-2xl font-bold">75%</h3>
                     </div>
                 </div>
             </div>
