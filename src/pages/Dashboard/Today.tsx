@@ -53,6 +53,7 @@ export function Today() {
         null
     );
 
+    const [pieChartData, setPieChartData] = useState<{}[]>([]);
     const [open, setOpen] = useState(false);
 
     const { handleSubmit, control } = useForm<completeActivityFormData>({
@@ -63,6 +64,10 @@ export function Today() {
         getTodaysPendingActivities();
         getTodaysHistory();
     }, []);
+
+    useEffect(() => {
+        updatePieChartData();
+    }, [pendingActivities]);
 
     async function getTodaysHistory() {
         try {
@@ -81,6 +86,8 @@ export function Today() {
             const { data } = await api.get("/activities/report/pending_today/");
 
             setPendingActivities(data);
+
+            console.log("pending", pendingActivities)
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -123,20 +130,24 @@ export function Today() {
         }
     }
 
-    const pieChartData = [
-        {
-            id: "Pendente",
-            label: "Pendente",
-            value: 25,
-            color: "hsl(80, 70%, 50%)"
-        },
-        {
-            id: "Concluído",
-            label: "Concluído",
-            value: 75,
-            color: "#3b82f6"
-        }
-    ];
+    function updatePieChartData() {
+        const totalActivities = pendingActivities.length + historyToday.length;
+
+        const data = [
+            {
+                id: "Concluído",
+                label: "Concluído",
+                value: (historyToday.length / totalActivities) * 100
+            },
+            {
+                id: "Pendente",
+                label: "Pendente",
+                value: (pendingActivities.length / totalActivities) * 100
+            }
+        ];
+
+        setPieChartData(data);
+    }
 
     return (
         <div className="flex flex-col gap-6">
@@ -261,7 +272,15 @@ export function Today() {
                             arcLinkLabelsColor={"#fff"}
                             arcLinkLabelsTextColor={"#fff"}
                         />
-                        <h3 className="absolute text-2xl font-bold">75%</h3>
+                        <h3 className="absolute text-2xl font-bold">
+                            {(
+                                (historyToday.length /
+                                    (historyToday.length +
+                                        pendingActivities.length)) *
+                                100
+                            ).toFixed(0)}
+                            %
+                        </h3>
                     </div>
                 </div>
             </div>
