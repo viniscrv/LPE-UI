@@ -182,14 +182,29 @@ export function ActivityManager() {
                                                         />
                                                     </GenericModal>
                                                 </Dialog.Root>
-                                                <button
-                                                    onClick={() =>
-                                                        deleteActivity(item.id)
-                                                    }
-                                                    className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
-                                                >
-                                                    <Trash size={18} />
-                                                </button>
+                                                <Dialog.Root>
+                                                    <Dialog.Trigger asChild>
+                                                        <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
+                                                            <Trash size={18} />
+                                                        </button>
+                                                    </Dialog.Trigger>
+                                                    <GenericModal
+                                                        titleModal="Remover atividade"
+                                                        descriptionModal="Tem certeza que deseja remover a atividade?"
+                                                        buttonConfirmationText="Criar"
+                                                    >
+                                                        <button
+                                                            onClick={() =>
+                                                                deleteActivity(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                            className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
+                                                        >
+                                                            Confirmar
+                                                        </button>
+                                                    </GenericModal>
+                                                </Dialog.Root>
                                             </td>
                                         </tr>
                                     );
@@ -277,16 +292,32 @@ export function ActivityManager() {
                                                             />
                                                         </GenericModal>
                                                     </Dialog.Root>
-                                                    <button
-                                                        onClick={() =>
-                                                            deleteActivityGroup(
-                                                                item.id
-                                                            )
-                                                        }
-                                                        className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
-                                                    >
-                                                        <Trash size={18} />
-                                                    </button>
+
+                                                    <Dialog.Root>
+                                                        <Dialog.Trigger asChild>
+                                                            <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
+                                                                <Trash
+                                                                    size={18}
+                                                                />
+                                                            </button>
+                                                        </Dialog.Trigger>
+                                                        <GenericModal
+                                                            titleModal="Remover grupo"
+                                                            descriptionModal="Tem certeza que deseja remover o grupo de atividade?"
+                                                            buttonConfirmationText="Criar"
+                                                        >
+                                                            <button
+                                                                onClick={() =>
+                                                                    deleteActivityGroup(
+                                                                        item.id
+                                                                    )
+                                                                }
+                                                                className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
+                                                            >
+                                                                Confirmar
+                                                            </button>
+                                                        </GenericModal>
+                                                    </Dialog.Root>
                                                 </td>
                                             </tr>
                                         );
