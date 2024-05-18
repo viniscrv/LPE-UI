@@ -4,6 +4,7 @@ import { Register } from "./pages/Register";
 import { Today } from "./pages/Dashboard/Today";
 import { DashboardLayout } from "./layouts/DashboardLayout";
 import { ActivityManager } from "./pages/Dashboard/ActivityManager";
+import { Statistics } from "./pages/Dashboard/Statistics";
 
 export function Router() {
     return (
@@ -14,6 +15,7 @@ export function Router() {
             <Route path="/dashboard" element={<DashboardLayout />}>
                 <Route path="/dashboard/today" element={<Today />}/>
                 <Route path="/dashboard/activity-manager" element={<ActivityManager />}/>
+                <Route path="/dashboard/statistics" element={<Statistics />}/>
             </Route>
         </Routes>
     )

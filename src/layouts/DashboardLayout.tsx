@@ -1,4 +1,4 @@
-import { CalendarCheck, ListBullets } from "@phosphor-icons/react";
+import { CalendarCheck, ChartLineUp, ListBullets } from "@phosphor-icons/react";
 import { NavLink, Outlet } from "react-router-dom";
 
 export function DashboardLayout() {
@@ -12,6 +12,11 @@ export function DashboardLayout() {
             name: "Atividades",
             icon: <ListBullets size={18} color="#8B8B8B" />,
             path: "/dashboard/activity-manager"
+        },
+        {
+            name: "Estatísticas",
+            icon: <ChartLineUp size={18} color="#8B8B8B" />,
+            path: "/dashboard/statistics"
         }
     ];
 
