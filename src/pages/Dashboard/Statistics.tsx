@@ -32,15 +32,48 @@ export function Statistics() {
         streak: number;
     }
 
+    interface EdgeDifficultyActivities {
+        highest: {
+            activity: {
+                activity_group: string;
+                created_at: string;
+                id: number;
+                name: string;
+                profile: number;
+                recurrence: string;
+                until: string;
+                updated_at: string;
+            };
+            average_effort: Number;
+        };
+        lowest: {
+            activity: {
+                activity_group: string;
+                created_at: string;
+                id: number;
+                name: string;
+                profile: number;
+                recurrence: string;
+                until: string;
+                updated_at: string;
+            };
+            average_effort: Number;
+        };
+    }
+
     const [morePerformedActivity, setMorePerformedActivity] =
         useState<MorePerformedActivity | null>();
 
     const [bestStreakActivity, setBestStreakActivity] =
         useState<BestStreakActivity | null>();
 
+    const [edgeDifficultyActivities, setEdgeDifficultyActivities] =
+        useState<EdgeDifficultyActivities | null>();
+
     useEffect(() => {
         getMorePerformedActivity();
         getBestStreakActivity();
+        getEdgeDifficultyActivities();
     }, []);
 
     async function getMorePerformedActivity() {
@@ -60,6 +93,20 @@ export function Statistics() {
             const { data } = await api.get("/reports/best_streak/");
 
             setBestStreakActivity(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function getEdgeDifficultyActivities() {
+        try {
+            const { data } = await api.get(
+                "/reports/edges_difficulty_activities_to_perform/"
+            );
+
+            setEdgeDifficultyActivities(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -110,6 +157,46 @@ export function Statistics() {
                             </span>{" "}
                             vezes em sequência desde "01/01/2000"
                         </p>
+                    </div>
+                </div>
+
+                {/* more easy x more difficult */}
+                <div className="flex flex-col gap-3 rounded-md bg-neutral-900 p-3 ">
+                    <h2 className="text-lg font-bold">Fácil | Difícil</h2>
+                    <div className="relative flex h-full w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2 text-center">
+                        <div className="borde flex h-full items-center py-6">
+                            <div className="pl-6 text-left">
+                                <h3>Mais fácil</h3>
+                                <p className="my-1 font-semibold">
+                                    {
+                                        edgeDifficultyActivities?.highest
+                                            .activity.name
+                                    }
+                                </p>
+                                <p className="text-sm">
+                                    Média de percepção de esforço:{" "}
+                                    <span className="text-base font-semibold text-blue-300">
+                                        {edgeDifficultyActivities?.highest.average_effort.toString()}
+                                    </span>
+                                </p>
+                            </div>
+                            <div className="h-full border border-neutral-700 border-y-transparent border-r-transparent"></div>
+                            <div className="pl-6 text-left">
+                                <h3>Mais difícil</h3>
+                                <p className="my-1 font-semibold">
+                                    {
+                                        edgeDifficultyActivities?.lowest
+                                            .activity.name
+                                    }
+                                </p>
+                                <p className="text-sm">
+                                    Média de percepção de esforço:{" "}
+                                    <span className="text-base font-semibold text-blue-300">
+                                        {edgeDifficultyActivities?.lowest.average_effort.toString()}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
