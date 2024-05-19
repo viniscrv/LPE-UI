@@ -61,6 +61,17 @@ export function Statistics() {
         };
     }
 
+    interface CurrentHabits {
+        activity_group: string;
+        created_at: string;
+        id: number;
+        name: string;
+        profile: number;
+        recurrence: string;
+        until: string;
+        updated_at: string;
+    }
+
     interface HabitFormationProgress {
         activity: {
             activity_group: string;
@@ -87,6 +98,10 @@ export function Statistics() {
     const [edgeDifficultyActivities, setEdgeDifficultyActivities] =
         useState<EdgeDifficultyActivities | null>();
 
+    const [currentHabits, setCurrentHabits] = useState<CurrentHabits[] | []>(
+        []
+    );
+
     const [habitFormationProgress, setHabitFormationProgress] = useState<
         HabitFormationProgress[] | []
     >([]);
@@ -95,6 +110,7 @@ export function Statistics() {
         getMorePerformedActivity();
         getBestStreakActivity();
         getEdgeDifficultyActivities();
+        getCurrentHabits();
         getHabitFormationProgress();
     }, []);
 
@@ -129,6 +145,18 @@ export function Statistics() {
             );
 
             setEdgeDifficultyActivities(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function getCurrentHabits() {
+        try {
+            const { data } = await api.get("/reports/current_habits/");
+
+            setCurrentHabits(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -241,7 +269,44 @@ export function Statistics() {
                 </div>
                 <div className="flex bg-neutral-950 p-3"></div>
             </div>
+
+            {/* current habits */}
             <div className="grid h-64 grid-cols-4 gap-6">
+                <div className="col-span-2 flex h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
+                    <h2 className="text-lg font-bold">Hábitos atuais</h2>
+                    {currentHabits.length > 0 ? (
+                        currentHabits.map((item) => {
+                            return (
+                                <div
+                                    key={item.id}
+                                    className="flex h-full w-44 flex-col rounded-md bg-neutral-800 p-2"
+                                >
+                                    <div className="flex h-full w-full flex-col justify-between">
+                                        <div>
+                                            <h3 className="text-lg font-bold">
+                                                {item.name}
+                                            </h3>
+                                            <p className="mt-2 text-neutral-400">
+                                                Lorem, ipsum dolor sit amet
+                                                consectetur adipisicing elit.
+                                            </p>
+                                        </div>
+
+                                        <p className="text-sm">
+                                            Hábito criado em "01/01/2000"
+                                        </p>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <h1>
+                            Quando você tiver hábitos formados, eles aparecerão
+                            aqui.
+                        </h1>
+                    )}
+                </div>
+
                 {/* habit formation progress */}
                 <div className="flex flex-col gap-3 rounded-md bg-neutral-900 p-3 ">
                     <h2 className="text-lg font-bold">
