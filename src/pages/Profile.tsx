@@ -1,6 +1,11 @@
 import { Lock, Pen, User } from "@phosphor-icons/react";
+import { ProfileForm } from "./Dashboard/components/ProfileForm";
+import { useState } from "react";
+import { SecurityForm } from "./Dashboard/components/SecurityForm";
 
 export function Profile() {
+    const [formPage, setFormPage] = useState<"profile" | "security">("profile");
+
     return (
         <div className="flex flex-col gap-6">
             <div className="grid grid-cols-4 gap-6">
@@ -22,58 +27,23 @@ export function Profile() {
                             </button>
                         </div>
 
-                        <form
-                            action=""
-                            className="mt-8 grid grid-cols-2 gap-x-4 gap-y-3"
-                        >
-                            <div className="flex flex-col">
-                                <label>Primeiro nome</label>
-                                <input
-                                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
-                                    type="text"
-                                />
-                            </div>
-                            <div className="flex flex-col">
-                                <label>Segundo nome</label>
-                                <input
-                                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
-                                    type="text"
-                                />
-                            </div>
-                            <div className="flex flex-col">
-                                <label>Nome de usuário</label>
-                                <input
-                                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
-                                    type="text"
-                                />
-                            </div>
-                            <div className="flex flex-col">
-                                <label>E-mail</label>
-                                <input
-                                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
-                                    type="text"
-                                />
-                            </div>
-                            <div className="col-span-2 flex flex-col">
-                                <label>E-mail</label>
-                                <textarea className=" mt-1 rounded-md border border-neutral-500 bg-transparent p-1" />
-                            </div>
+                        {formPage == "profile" && <ProfileForm />}
+                        {formPage == "security" && <SecurityForm />}
 
-                            <button
-                                disabled
-                                className="col-span-2 mt-4 h-10 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
-                            >
-                                Salvar
-                            </button>
-                        </form>
                     </div>
 
                     <nav className="flex flex-col  gap-2 border border-transparent border-l-neutral-700 p-2">
-                        <button className="delay-50 flex h-8 w-full items-center justify-center gap-2 rounded-md bg-neutral-800 py-2 transition hover:bg-neutral-700">
+                        <button
+                            onClick={() => setFormPage("profile")}
+                            className="delay-50 flex h-8 w-full items-center justify-center gap-2 rounded-md bg-neutral-800 py-2 transition hover:bg-neutral-700"
+                        >
                             <User />
                             Perfil
                         </button>
-                        <button className="delay-50 flex h-8 w-full items-center justify-center gap-2 rounded-md bg-neutral-800 py-2 transition hover:bg-neutral-700">
+                        <button
+                            onClick={() => setFormPage("security")}
+                            className="delay-50 flex h-8 w-full items-center justify-center gap-2 rounded-md bg-neutral-800 py-2 transition hover:bg-neutral-700"
+                        >
                             <Lock />
                             Segurança
                         </button>
