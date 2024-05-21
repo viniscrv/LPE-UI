@@ -6,6 +6,7 @@ export function SecurityForm() {
                 <input
                     className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                     type="text"
+                    placeholder="Sua nova senha"
                 />
             </div>
 
@@ -14,6 +15,7 @@ export function SecurityForm() {
                 <input
                     className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
                     type="text"
+                    placeholder="Confirmação da nova senha"
                 />
             </div>
 

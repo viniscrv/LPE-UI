@@ -1,10 +1,36 @@
 import { Lock, Pen, User } from "@phosphor-icons/react";
 import { ProfileForm } from "./Dashboard/components/ProfileForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SecurityForm } from "./Dashboard/components/SecurityForm";
+import { api } from "../lib/axios";
+import { AxiosError } from "axios";
 
 export function Profile() {
+    interface ProfileData {
+        id: Number;
+        user: Number;
+        username: string;
+        biography: string;
+    }
+
     const [formPage, setFormPage] = useState<"profile" | "security">("profile");
+    const [profileData, setProfileData] = useState<ProfileData | null>();
+
+    useEffect(() => {
+        getProfileInfo();
+    }, []);
+
+    async function getProfileInfo() {
+        try {
+            const { data } = await api.get("/me/");
+
+            setProfileData(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
 
     return (
         <div className="flex flex-col gap-6">
@@ -27,9 +53,10 @@ export function Profile() {
                             </button>
                         </div>
 
-                        {formPage == "profile" && <ProfileForm />}
+                        {formPage == "profile" && (
+                            <ProfileForm profileData={profileData} />
+                        )}
                         {formPage == "security" && <SecurityForm />}
-
                     </div>
 
                     <nav className="flex flex-col  gap-2 border border-transparent border-l-neutral-700 p-2">
