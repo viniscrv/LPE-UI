@@ -53,7 +53,7 @@ export function Profile() {
                             </button>
                         </div>
 
-                        {formPage == "profile" && (
+                        {formPage == "profile" && profileData && (
                             <ProfileForm profileData={profileData} />
                         )}
                         {formPage == "security" && <SecurityForm />}
