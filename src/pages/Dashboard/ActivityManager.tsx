@@ -112,7 +112,6 @@ export function ActivityManager() {
                             <GenericModal
                                 titleModal="Criar nova atividade"
                                 descriptionModal="Preencha as informação para criar uma nova atividade"
-                                buttonConfirmationText="Criar"
                             >
                                 <ActivityForm activityGroups={activityGroups} />
                             </GenericModal>
@@ -172,7 +171,6 @@ export function ActivityManager() {
                                                     <GenericModal
                                                         titleModal="Editar atividade"
                                                         descriptionModal="Altere os campos abaixo para editar a atividade"
-                                                        buttonConfirmationText="Confirmar alterações"
                                                     >
                                                         <ActivityForm
                                                             activityId={item.id}
@@ -191,7 +189,6 @@ export function ActivityManager() {
                                                     <GenericModal
                                                         titleModal="Remover atividade"
                                                         descriptionModal="Tem certeza que deseja remover a atividade?"
-                                                        buttonConfirmationText="Criar"
                                                     >
                                                         <button
                                                             onClick={() =>
@@ -232,7 +229,6 @@ export function ActivityManager() {
                             <GenericModal
                                 titleModal="Criar novo grupo"
                                 descriptionModal="Preencha as informação para criar um novo grupo de atividades"
-                                buttonConfirmationText="Criar"
                             >
                                 <ActivityGroupForm />
                             </GenericModal>
@@ -283,7 +279,6 @@ export function ActivityManager() {
                                                         <GenericModal
                                                             titleModal="Editar grupo"
                                                             descriptionModal="Altere os campos abaixo para editar o grupo de atividades"
-                                                            buttonConfirmationText="Confirmar alterações"
                                                         >
                                                             <ActivityGroupForm
                                                                 activityGroupId={
@@ -304,7 +299,6 @@ export function ActivityManager() {
                                                         <GenericModal
                                                             titleModal="Remover grupo"
                                                             descriptionModal="Tem certeza que deseja remover o grupo de atividade?"
-                                                            buttonConfirmationText="Criar"
                                                         >
                                                             <button
                                                                 onClick={() =>

@@ -184,7 +184,6 @@ export function Today() {
                                     <GenericModal
                                         titleModal="Completar 'activity name'"
                                         descriptionModal="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-                                        buttonConfirmationText="Concluír"
                                     >
                                         <form
                                             onSubmit={handleSubmit(

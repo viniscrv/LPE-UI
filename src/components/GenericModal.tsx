@@ -4,14 +4,12 @@ import * as Dialog from "@radix-ui/react-dialog";
 interface ModalProps {
     titleModal: string;
     descriptionModal: string;
-    buttonConfirmationText: string;
     children: ReactNode;
 }
 
 export function GenericModal({
     titleModal,
     descriptionModal,
-    buttonConfirmationText,
     children
 }: ModalProps) {
     return (

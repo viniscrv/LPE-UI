@@ -1,12 +1,64 @@
+import * as Dialog from "@radix-ui/react-dialog";
+import { useEffect, useState } from "react";
+import { api } from "../../lib/axios";
+import { AxiosError } from "axios";
+import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { GenericModal } from "../../components/GenericModal";
+
 export function History() {
     const header_table_activities = [
         "activity name",
         "activity group",
         "recurrence",
         "until",
-        "created_at",
+        "effort_perception",
+        "completed_at",
         "actions"
     ];
+
+    interface History {
+        count: number;
+        next: number | null;
+        previous: number | null;
+        results: {
+            id: number;
+            profile: number;
+            activity: number;
+            effort_perception: number;
+            completed: boolean;
+            completed_at: string;
+        }[];
+    }
+
+    const [history, setHistory] = useState<History>();
+
+    useEffect(() => {
+        getHistory();
+    }, []);
+
+    async function getHistory() {
+        try {
+            const { data } = await api.get("/activities/report/history/");
+
+            setHistory(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function deleteReport(reportId: number) {
+        try {
+            await api.delete(`activities/report/delete/${reportId}/`);
+
+            getHistory();
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
 
     return (
         <div className="flex flex-col gap-6">
@@ -34,9 +86,73 @@ export function History() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="overflow-y-auto border-t border-neutral-700">
-                                    <td className="py-2 pl-4 text-start text-neutral-400"></td>
-                                </tr>
+                                {history?.results.map((item, idx) => {
+                                    return (
+                                        <tr
+                                            key={idx}
+                                            className="overflow-y-auto border-t border-neutral-700"
+                                        >
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                TODO: ajustar no back
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                TODO: ajustar no back
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                TODO: ajustar no back
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                TODO: ajustar no back
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.effort_perception.toString()}
+                                            </td>
+                                            <td className="py-2 pl-4 text-start text-neutral-400">
+                                                {item.completed_at.toString()}
+                                            </td>
+                                            <td className="flex gap-2 py-2 pl-4">
+                                                <Dialog.Root>
+                                                    <Dialog.Trigger asChild>
+                                                        <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
+                                                            <PencilSimple
+                                                                size={18}
+                                                            />
+                                                        </button>
+                                                    </Dialog.Trigger>
+
+                                                    <GenericModal
+                                                        titleModal="Editar atividade"
+                                                        descriptionModal="Altere os campos abaixo para editar a atividade"
+                                                    >
+                                                        oi
+                                                    </GenericModal>
+                                                </Dialog.Root>
+                                                <Dialog.Root>
+                                                    <Dialog.Trigger asChild>
+                                                        <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
+                                                            <Trash size={18} />
+                                                        </button>
+                                                    </Dialog.Trigger>
+                                                    <GenericModal
+                                                        titleModal="Remover relatório"
+                                                        descriptionModal="Tem certeza que deseja remover este relatório do histórico?"
+                                                    >
+                                                        <button
+                                                            onClick={() =>
+                                                                deleteReport(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                            className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
+                                                        >
+                                                            Confirmar
+                                                        </button>
+                                                    </GenericModal>
+                                                </Dialog.Root>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
