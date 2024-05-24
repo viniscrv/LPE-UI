@@ -1,4 +1,4 @@
-import { CalendarCheck, ChartLineUp, ListBullets, User } from "@phosphor-icons/react";
+import { CalendarCheck, ChartLineUp, ClockCounterClockwise, ListBullets, User } from "@phosphor-icons/react";
 import { NavLink, Outlet } from "react-router-dom";
 
 export function DashboardLayout() {
@@ -12,6 +12,11 @@ export function DashboardLayout() {
             name: "Hoje",
             icon: <CalendarCheck size={18} color="#8B8B8B" />,
             path: "/dashboard/today"
+        },
+        {
+            name: "Histórico",
+            icon: <ClockCounterClockwise size={18} color="#8B8B8B" />,
+            path: "/dashboard/history"
         },
         {
             name: "Atividades",
