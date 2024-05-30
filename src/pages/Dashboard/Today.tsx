@@ -9,6 +9,7 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResponsivePie } from "@nivo/pie";
+import { NavLink } from "react-router-dom";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -287,9 +288,9 @@ export function Today() {
                 <div className="col-span-3 flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">Histórico de hoje</h2>
-                        <button className="flex rounded-md bg-neutral-950/60 px-4 py-2 hover:bg-neutral-950/40">
+                        <NavLink to={"/dashboard/history"} className="flex rounded-md bg-neutral-950/60 px-4 py-2 hover:bg-neutral-950/40"> 
                             Ver histórico completo
-                        </button>
+                        </NavLink>
                     </div>
                     <div className="overflow-y-scroll">
                         <table className="w-full rounded-md bg-neutral-800 p-4">
