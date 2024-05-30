@@ -1,14 +1,16 @@
-import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { ArrowUDownLeft, PencilSimple, Trash } from "@phosphor-icons/react";
 
 interface GenericTableProps {
     header: string[];
     fields: string[];
     data: Record<string, any>[]; // cara de gambi, objetivo de aceitar objetos de tipos desconhecidos
-    editAction: boolean;
-    deleteAction: boolean;
+    editAction?: boolean;
+    deleteAction?: boolean;
+    undoAction?: boolean;
 
-    editItem: (itemId: number) => void;
-    deleteItem: (itemId: number) => void;
+    editItem?: (itemId: number) => void;
+    deleteItem?: (itemId: number) => void;
+    undoItem?: (itemId: number) => void;
 }
 
 export function GenericTable({
@@ -17,13 +19,13 @@ export function GenericTable({
     data,
     editAction,
     deleteAction,
+    undoAction,
     editItem,
-    deleteItem
+    deleteItem,
+    undoItem
 }: GenericTableProps) {
     return (
         <table className="w-full rounded-md bg-neutral-800 p-4">
-            {editAction.toString()}
-            {deleteAction.toString()}
             <thead>
                 <tr>
                     {header.map((item) => {
@@ -53,9 +55,9 @@ export function GenericTable({
                                 </td>
                             ))}
 
-                            {(editAction || deleteAction) && (
+                            {(editAction || deleteAction || undoAction) && (
                                 <td className="flex gap-2 py-2 pl-4">
-                                    {editAction && (
+                                    {editAction && editItem && (
                                         <button
                                             onClick={() => editItem(item.id)}
                                             className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500"
@@ -63,12 +65,20 @@ export function GenericTable({
                                             <PencilSimple size={18} />
                                         </button>
                                     )}
-                                    {deleteAction && (
+                                    {deleteAction && deleteItem && (
                                         <button
                                             onClick={() => deleteItem(item.id)}
                                             className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
                                         >
                                             <Trash size={18} />
+                                        </button>
+                                    )}
+                                    {undoAction && undoItem && (
+                                        <button
+                                            onClick={() => undoItem(item.id)}
+                                            className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
+                                        >
+                                            <ArrowUDownLeft size={18} />
                                         </button>
                                     )}
                                 </td>

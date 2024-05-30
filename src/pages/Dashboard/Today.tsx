@@ -1,4 +1,3 @@
-import { ArrowUDownLeft } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GenericModal } from "../../components/GenericModal";
 import { useEffect, useState } from "react";
@@ -10,6 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResponsivePie } from "@nivo/pie";
 import { NavLink } from "react-router-dom";
+import { GenericTable } from "../../components/GenericTable";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -293,63 +293,20 @@ export function Today() {
                         </NavLink>
                     </div>
                     <div className="overflow-y-scroll">
-                        <table className="w-full rounded-md bg-neutral-800 p-4">
-                            <thead>
-                                <tr>
-                                    {header_table.map((item) => {
-                                        return (
-                                            <th
-                                                key={item}
-                                                className="py-2 pl-4 text-start"
-                                            >
-                                                {item}
-                                            </th>
-                                        );
-                                    })}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {historyToday.map(
-                                    (item: PerformedActivity, idx) => {
-                                        return (
-                                            <tr
-                                                key={idx}
-                                                className="overflow-y-auto border-t border-neutral-700"
-                                            >
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.activity.toString() +
-                                                        " TODO: ajustar no back"}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.effort_perception}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    TODO: ajustar no back
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    TODO: ajustar no back
-                                                </td>
-
-                                                <td className="py-2 pl-4 text-start">
-                                                    <button
-                                                        onClick={() =>
-                                                            undoActivity(
-                                                                item.id
-                                                            )
-                                                        }
-                                                        className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500"
-                                                    >
-                                                        <ArrowUDownLeft
-                                                            size={18}
-                                                        />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                )}
-                            </tbody>
-                        </table>
+                        <GenericTable
+                            header={header_table}
+                            fields={[
+                                "activity",
+                                "effort_perception",
+                                "activity_group",
+                                "until",
+                            ]}
+                            data={historyToday}
+                            editAction={true}
+                            deleteAction={true}
+                            undoAction={true}
+                            undoItem={undoActivity}
+                        />
                     </div>
                 </div>
                 <div className="flex h-56 w-60 bg-neutral-950 p-3"></div>

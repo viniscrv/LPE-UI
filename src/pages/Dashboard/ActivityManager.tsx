@@ -1,4 +1,4 @@
-import { PencilSimple, Plus, Trash } from "@phosphor-icons/react";
+import { Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GenericModal } from "../../components/GenericModal";
 import { ActivityForm } from "./components/ActivityForm";
@@ -6,6 +6,7 @@ import { ActivityGroupForm } from "./components/ActivityGroupForm";
 import { api } from "../../lib/axios";
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
+import { GenericTable } from "../../components/GenericTable";
 
 export function ActivityManager() {
     const header_table_activities = [
@@ -21,6 +22,20 @@ export function ActivityManager() {
 
     const [activities, setActivities] = useState<Activity[]>([]);
     const [activityGroups, setActivityGroups] = useState<ActivityGroup[]>([]);
+
+    const [selectedActivity, setSelectedActivity] = useState<number | null>(
+        null
+    );
+    const [selectedActivityGroup, setSelectedActivityGroup] = useState<
+        number | null
+    >(null);
+
+    const [openEditActivity, setOpenEditActivity] = useState(false);
+    const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
+
+    const [openEditActivityGroup, setOpenEditActivityGroup] = useState(false);
+    const [openDeleteActivityGroup, setOpenDeleteActivityGroup] =
+        useState(false);
 
     interface Activity {
         id: number;
@@ -44,6 +59,26 @@ export function ActivityManager() {
         getActivities();
         getActivityGroups();
     }, []);
+
+    function openEditActivityModal(itemId: number) {
+        setSelectedActivity(itemId);
+        setOpenEditActivity(true);
+    }
+
+    function openDeleteActivityModal(itemId: number) {
+        setSelectedActivity(itemId);
+        setOpenDeleteActivity(true);
+    }
+
+    function openEditActivityGroupModal(itemId: number) {
+        setSelectedActivityGroup(itemId);
+        setOpenEditActivityGroup(true);
+    }
+
+    function openDeleteActivityGroupModal(itemId: number) {
+        setSelectedActivityGroup(itemId);
+        setOpenDeleteActivityGroup(true);
+    }
 
     async function getActivities() {
         try {
@@ -69,9 +104,9 @@ export function ActivityManager() {
         }
     }
 
-    async function deleteActivity(activityId: number) {
+    async function deleteActivity() {
         try {
-            await api.delete(`/activities/${activityId}/`);
+            await api.delete(`/activities/${selectedActivity}/`);
 
             getActivities();
         } catch (err) {
@@ -81,9 +116,11 @@ export function ActivityManager() {
         }
     }
 
-    async function deleteActivityGroup(activityGroupId: number) {
+    async function deleteActivityGroup() {
         try {
-            await api.delete(`/activities/groups/delete/${activityGroupId}/`);
+            await api.delete(
+                `/activities/groups/delete/${selectedActivityGroup}/`
+            );
 
             getActivityGroups();
         } catch (err) {
@@ -118,96 +155,51 @@ export function ActivityManager() {
                         </Dialog.Root>
                     </div>
                     <div className="overflow-y-scroll">
-                        <table className="w-full rounded-md bg-neutral-800 p-4">
-                            <thead>
-                                <tr>
-                                    {header_table_activities.map((item) => {
-                                        return (
-                                            <th
-                                                key={item}
-                                                className="py-2 pl-4 text-start"
-                                            >
-                                                {item}
-                                            </th>
-                                        );
-                                    })}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Object.values(activities).map((item, idx) => {
-                                    return (
-                                        <tr
-                                            key={idx}
-                                            className="overflow-y-auto border-t border-neutral-700"
-                                        >
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.name}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.activity_group
-                                                    ? item.activity_group
-                                                    : "Nenhum"}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.recurrence}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.until}
-                                            </td>
-                                            <td className="py-2 pl-4 text-start text-neutral-400">
-                                                {item.created_at.toString()}
-                                            </td>
-
-                                            <td className="flex gap-2 py-2 pl-4">
-                                                <Dialog.Root>
-                                                    <Dialog.Trigger asChild>
-                                                        <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
-                                                            <PencilSimple
-                                                                size={18}
-                                                            />
-                                                        </button>
-                                                    </Dialog.Trigger>
-
-                                                    <GenericModal
-                                                        titleModal="Editar atividade"
-                                                        descriptionModal="Altere os campos abaixo para editar a atividade"
-                                                    >
-                                                        <ActivityForm
-                                                            activityId={item.id}
-                                                            activityGroups={
-                                                                activityGroups
-                                                            }
-                                                        />
-                                                    </GenericModal>
-                                                </Dialog.Root>
-                                                <Dialog.Root>
-                                                    <Dialog.Trigger asChild>
-                                                        <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
-                                                            <Trash size={18} />
-                                                        </button>
-                                                    </Dialog.Trigger>
-                                                    <GenericModal
-                                                        titleModal="Remover atividade"
-                                                        descriptionModal="Tem certeza que deseja remover a atividade?"
-                                                    >
-                                                        <button
-                                                            onClick={() =>
-                                                                deleteActivity(
-                                                                    item.id
-                                                                )
-                                                            }
-                                                            className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
-                                                        >
-                                                            Confirmar
-                                                        </button>
-                                                    </GenericModal>
-                                                </Dialog.Root>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                        <GenericTable
+                            header={header_table_activities}
+                            fields={[
+                                "name",
+                                "activity_group",
+                                "recurrence",
+                                "until",
+                                "created_at"
+                            ]}
+                            data={Object.values(activities)}
+                            editAction={true}
+                            deleteAction={true}
+                            editItem={openEditActivityModal}
+                            deleteItem={openDeleteActivityModal}
+                        />
+                        <Dialog.Root
+                            open={openEditActivity}
+                            onOpenChange={setOpenEditActivity}
+                        >
+                            <GenericModal
+                                titleModal="Editar atividade"
+                                descriptionModal="Altere os campos abaixo para editar a atividade"
+                            >
+                                <ActivityForm
+                                    activityId={selectedActivity}
+                                    activityGroups={activityGroups}
+                                />
+                            </GenericModal>
+                        </Dialog.Root>
+                        <Dialog.Root
+                            open={openDeleteActivity}
+                            onOpenChange={setOpenDeleteActivity}
+                        >
+                            <GenericModal
+                                titleModal="Remover atividade"
+                                descriptionModal="Tem certeza que deseja remover a atividade?"
+                            >
+                                <button
+                                    onClick={() => deleteActivity()}
+                                    className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
+                                >
+                                    Confirmar
+                                </button>
+                            </GenericModal>
+                        </Dialog.Root>
                     </div>
                 </div>
                 <div className="flex bg-neutral-950 p-3"></div>
@@ -235,90 +227,45 @@ export function ActivityManager() {
                         </Dialog.Root>
                     </div>
                     <div className="overflow-y-scroll">
-                        <table className="w-full rounded-md bg-neutral-800 p-4">
-                            <thead>
-                                <tr>
-                                    {header_table_groupers.map((item) => {
-                                        return (
-                                            <th
-                                                key={item}
-                                                className="py-2 pl-4 text-start"
-                                            >
-                                                {item}
-                                            </th>
-                                        );
-                                    })}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Object.values(activityGroups).map(
-                                    (item, idx) => {
-                                        return (
-                                            <tr
-                                                key={idx}
-                                                className="overflow-y-auto border-t border-neutral-700"
-                                            >
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.name}
-                                                </td>
-                                                <td className="py-2 pl-4 text-start text-neutral-400">
-                                                    {item.description
-                                                        ? item.description
-                                                        : "Sem descrição"}
-                                                </td>
-                                                <td className="flex gap-2 py-2 pl-4">
-                                                    <Dialog.Root>
-                                                        <Dialog.Trigger asChild>
-                                                            <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-blue-500">
-                                                                <PencilSimple
-                                                                    size={18}
-                                                                />
-                                                            </button>
-                                                        </Dialog.Trigger>
+                        <GenericTable
+                            header={header_table_groupers}
+                            fields={["name", "description"]}
+                            data={Object.values(activityGroups)}
+                            editAction={true}
+                            deleteAction={true}
+                            editItem={openEditActivityGroupModal}
+                            deleteItem={openDeleteActivityGroupModal}
+                        />
+                        <Dialog.Root
+                            open={openEditActivityGroup}
+                            onOpenChange={setOpenEditActivityGroup}
+                        >
+                            <GenericModal
+                                titleModal="Editar grupo"
+                                descriptionModal="Altere os campos abaixo para editar o grupo de atividades"
+                            >
+                                <ActivityGroupForm
+                                    activityGroupId={selectedActivityGroup}
+                                />
+                            </GenericModal>
+                        </Dialog.Root>
 
-                                                        <GenericModal
-                                                            titleModal="Editar grupo"
-                                                            descriptionModal="Altere os campos abaixo para editar o grupo de atividades"
-                                                        >
-                                                            <ActivityGroupForm
-                                                                activityGroupId={
-                                                                    item.id
-                                                                }
-                                                            />
-                                                        </GenericModal>
-                                                    </Dialog.Root>
-
-                                                    <Dialog.Root>
-                                                        <Dialog.Trigger asChild>
-                                                            <button className="flex rounded-md bg-neutral-900/50 p-2  hover:text-red-500">
-                                                                <Trash
-                                                                    size={18}
-                                                                />
-                                                            </button>
-                                                        </Dialog.Trigger>
-                                                        <GenericModal
-                                                            titleModal="Remover grupo"
-                                                            descriptionModal="Tem certeza que deseja remover o grupo de atividade?"
-                                                        >
-                                                            <button
-                                                                onClick={() =>
-                                                                    deleteActivityGroup(
-                                                                        item.id
-                                                                    )
-                                                                }
-                                                                className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
-                                                            >
-                                                                Confirmar
-                                                            </button>
-                                                        </GenericModal>
-                                                    </Dialog.Root>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                )}
-                            </tbody>
-                        </table>
+                        <Dialog.Root
+                            open={openDeleteActivityGroup}
+                            onOpenChange={setOpenDeleteActivityGroup}
+                        >
+                            <GenericModal
+                                titleModal="Remover grupo"
+                                descriptionModal="Tem certeza que deseja remover o grupo de atividade?"
+                            >
+                                <button
+                                    onClick={() => deleteActivityGroup()}
+                                    className="mt-4 h-8 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
+                                >
+                                    Confirmar
+                                </button>
+                            </GenericModal>
+                        </Dialog.Root>
                     </div>
                 </div>
             </div>
