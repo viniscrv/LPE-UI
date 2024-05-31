@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../lib/axios";
 import { useEffect, useState } from "react";
+import { ActivityGroup } from "../../../@types/interfaces";
 
 const createActivityGroupFormSchema = z.object({
     activityGroupName: z.string()
@@ -12,13 +13,6 @@ const createActivityGroupFormSchema = z.object({
 type createActivityGroupFormData = z.infer<
     typeof createActivityGroupFormSchema
 >;
-
-interface ActivityGroup {
-    id: number;
-    name: string;
-    profile: string;
-    description: string;
-}
 
 interface ActivityGroupFormProps {
     activityGroupId?: number | null;

@@ -7,6 +7,7 @@ import { api } from "../../lib/axios";
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { GenericTable } from "../../components/GenericTable";
+import { Activity, ActivityGroup } from "../../@types/interfaces";
 
 export function ActivityManager() {
     const header_table_activities = [
@@ -38,24 +39,6 @@ export function ActivityManager() {
     const [openEditActivityGroup, setOpenEditActivityGroup] = useState(false);
     const [openDeleteActivityGroup, setOpenDeleteActivityGroup] =
         useState(false);
-
-    interface Activity {
-        id: number;
-        name: string;
-        profile: string;
-        activity_group: string;
-        recurrence: string;
-        until: string;
-        created_at: Date;
-        updated_at: string;
-    }
-
-    interface ActivityGroup {
-        id: number;
-        name: string;
-        profile: string;
-        description: string;
-    }
 
     useEffect(() => {
         getActivities();

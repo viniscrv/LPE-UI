@@ -2,48 +2,22 @@ import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { Fire, Medal } from "@phosphor-icons/react";
+import { Activity } from "../../@types/interfaces";
 
 export function Statistics() {
     interface MorePerformedActivity {
-        activity: {
-            activity_group: string;
-            created_at: string;
-            id: number;
-            name: string;
-            profile: number;
-            recurrence: string;
-            until: string;
-            updated_at: string;
-        };
+        activity: Activity;
         count: number;
     }
 
     interface BestStreakActivity {
-        activity: {
-            activity_group: string;
-            created_at: string;
-            id: number;
-            name: string;
-            profile: number;
-            recurrence: string;
-            until: string;
-            updated_at: string;
-        };
+        activity: Activity;
         streak: number;
     }
 
     interface EdgeDifficultyActivities {
         highest: {
-            activity: {
-                activity_group: string;
-                created_at: string;
-                id: number;
-                name: string;
-                profile: number;
-                recurrence: string;
-                until: string;
-                updated_at: string;
-            };
+            activity: Activity;
             average_effort: Number;
         };
         lowest: {
@@ -73,16 +47,7 @@ export function Statistics() {
     }
 
     interface HabitFormationProgress {
-        activity: {
-            activity_group: string;
-            created_at: string;
-            id: number;
-            name: string;
-            profile: number;
-            recurrence: string;
-            until: string;
-            updated_at: string;
-        };
+        activity: Activity;
         streak: number;
         previous_date: string;
         last_report: string;
@@ -316,7 +281,7 @@ export function Statistics() {
                         {habitFormationProgress.map((item) => {
                             return (
                                 <div
-                                    key={item.activity.id}
+                                    key={item.activity.id.toString()}
                                     className="w-full rounded-md border border-neutral-700 p-2 text-start"
                                 >
                                     <div className="flex justify-between">

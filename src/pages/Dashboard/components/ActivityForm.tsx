@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../../lib/axios";
 import { AxiosError } from "axios";
+import { Activity, ActivityGroup } from "../../../@types/interfaces";
 
 const createActivityFormSchema = z.object({
     activityName: z.string(),
@@ -12,24 +13,6 @@ const createActivityFormSchema = z.object({
 });
 
 type createActivityFormData = z.infer<typeof createActivityFormSchema>;
-
-interface Activity {
-    id: number;
-    name: string;
-    profile: string;
-    activity_group: string;
-    recurrence: string;
-    until: string;
-    created_at: Date;
-    updated_at: string;
-}
-
-interface ActivityGroup {
-    id: number;
-    name: string;
-    profile: string;
-    description: string;
-}
 
 interface ActivityFormProps {
     activityId?: number | null;
