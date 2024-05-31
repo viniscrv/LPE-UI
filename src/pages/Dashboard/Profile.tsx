@@ -1,8 +1,8 @@
 import { Lock, Pen, User } from "@phosphor-icons/react";
-import { ProfileForm } from "./Dashboard/components/ProfileForm";
+import { ProfileForm } from "./components/ProfileForm";
 import { useEffect, useState } from "react";
-import { SecurityForm } from "./Dashboard/components/SecurityForm";
-import { api } from "../lib/axios";
+import { SecurityForm } from "./components/SecurityForm";
+import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
 
 export function Profile() {

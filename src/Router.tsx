@@ -5,7 +5,7 @@ import { Today } from "./pages/Dashboard/Today";
 import { DashboardLayout } from "./layouts/DashboardLayout";
 import { ActivityManager } from "./pages/Dashboard/ActivityManager";
 import { Statistics } from "./pages/Dashboard/Statistics";
-import { Profile } from "./pages/Profile";
+import { Profile } from "./pages/Dashboard/Profile";
 import { History } from "./pages/Dashboard/History";
 
 export function Router() {
