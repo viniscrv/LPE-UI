@@ -11,6 +11,7 @@ interface ProfileFormProps {
         username: string;
         biography: string;
     };
+    editMode: boolean;
 }
 
 const profileFormSchema = z.object({
@@ -23,7 +24,7 @@ const profileFormSchema = z.object({
 
 type ProfileFormData = z.infer<typeof profileFormSchema>;
 
-export function ProfileForm({ profileData }: ProfileFormProps) {
+export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
     const { register, handleSubmit } = useForm<ProfileFormData>({
         resolver: zodResolver(profileFormSchema)
     });
@@ -49,7 +50,8 @@ export function ProfileForm({ profileData }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>Primeiro nome</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    disabled={!editMode}
                     type="text"
                     {...register("firstName")}
                     defaultValue={profileData.username}
@@ -58,7 +60,8 @@ export function ProfileForm({ profileData }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>Segundo nome</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    disabled={!editMode}
                     type="text"
                     {...register("lastName")}
                     defaultValue={profileData.username}
@@ -67,7 +70,8 @@ export function ProfileForm({ profileData }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>Nome de usuário</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    disabled={!editMode}
                     type="text"
                     {...register("username")}
                     defaultValue={profileData.username}
@@ -76,7 +80,8 @@ export function ProfileForm({ profileData }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>E-mail</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    disabled={!editMode}
                     type="text"
                     {...register("email")}
                     defaultValue={profileData.username}
@@ -85,15 +90,15 @@ export function ProfileForm({ profileData }: ProfileFormProps) {
             <div className="col-span-2 flex flex-col">
                 <label>Biografia</label>
                 <textarea
-                    className=" mt-1 h-24 rounded-md border border-neutral-500 bg-transparent p-1"
+                    className=" mt-1 h-24 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    disabled={!editMode}
                     {...register("biography")}
                     defaultValue={profileData.biography}
                 />
             </div>
 
-            <button
-                className="col-span-2 mt-4 h-10 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400"
-            >
+            <button disabled={!editMode} className="col-span-2 mt-4 h-10 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400 
+                disabled:cursor-not-allowed disabled:bg-neutral-700">
                 Salvar
             </button>
         </form>

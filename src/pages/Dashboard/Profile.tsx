@@ -15,6 +15,7 @@ export function Profile() {
 
     const [formPage, setFormPage] = useState<"profile" | "security">("profile");
     const [profileData, setProfileData] = useState<ProfileData | null>();
+    const [editMode, setEditMode] = useState<boolean>(false);
 
     useEffect(() => {
         getProfileInfo();
@@ -30,6 +31,10 @@ export function Profile() {
                 return console.log(err.response.data.message);
             }
         }
+    }
+
+    function toggleEditMode() {
+        setEditMode((state) => !state);
     }
 
     return (
@@ -48,15 +53,21 @@ export function Profile() {
                                 </h2>
                             </div>
 
-                            <button className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400">
+                            <button
+                                data-edit-mode={editMode}
+                                onClick={() => toggleEditMode()}
+                                className="
+                                    flex h-10 w-10 items-center justify-center rounded-md bg-blue-500
+                                    text-neutral-50 hover:bg-blue-400 data-[edit-mode='true']:bg-blue-400/50"
+                            >
                                 <Pen size={18} />
                             </button>
                         </div>
 
                         {formPage == "profile" && profileData && (
-                            <ProfileForm profileData={profileData} />
+                            <ProfileForm profileData={profileData} editMode={editMode}/>
                         )}
-                        {formPage == "security" && <SecurityForm />}
+                        {formPage == "security" && <SecurityForm editMode={editMode}/>}
                     </div>
 
                     <nav className="flex flex-col  gap-2 border border-transparent border-l-neutral-700 p-2">
