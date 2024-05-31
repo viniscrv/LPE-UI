@@ -34,11 +34,13 @@ interface ActivityGroup {
 interface ActivityFormProps {
     activityId?: number | null;
     activityGroups: ActivityGroup[] | [];
+    setModal: (state: boolean) => void;
 }
 
 export function ActivityForm({
     activityId = null,
-    activityGroups = []
+    activityGroups = [],
+    setModal
 }: ActivityFormProps) {
     const [recurrence, setRecurrence] = useState<string | null>();
     const [activityGroup, setActivityGroup] = useState<string | null>();
@@ -74,6 +76,8 @@ export function ActivityForm({
                     until: data.activityUntil
                 });
             }
+
+            setModal(false);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data) {
                 return console.log(err.response.data);

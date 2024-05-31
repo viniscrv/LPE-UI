@@ -13,10 +13,6 @@ type createActivityGroupFormData = z.infer<
     typeof createActivityGroupFormSchema
 >;
 
-interface ActivityGroupFormProps {
-    activityGroupId?: number | null;
-}
-
 interface ActivityGroup {
     id: number;
     name: string;
@@ -24,8 +20,14 @@ interface ActivityGroup {
     description: string;
 }
 
+interface ActivityGroupFormProps {
+    activityGroupId?: number | null;
+    setModal: (state: boolean) => void;
+}
+
 export function ActivityGroupForm({
-    activityGroupId = null
+    activityGroupId = null,
+    setModal
 }: ActivityGroupFormProps) {
     const { register, handleSubmit } = useForm<createActivityGroupFormData>({
         resolver: zodResolver(createActivityGroupFormSchema)
@@ -65,6 +67,8 @@ export function ActivityGroupForm({
                     name: data.activityGroupName,
                 });
             }
+
+            setModal(false);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data) {
                 return console.log(err.response.data);

@@ -30,9 +30,11 @@ export function ActivityManager() {
         number | null
     >(null);
 
+    const [openNewActivity, setOpenNewActivity] = useState(false);
     const [openEditActivity, setOpenEditActivity] = useState(false);
     const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
 
+    const [openNewActivityGroup, setOpenNewActivityGroup] = useState(false);
     const [openEditActivityGroup, setOpenEditActivityGroup] = useState(false);
     const [openDeleteActivityGroup, setOpenDeleteActivityGroup] =
         useState(false);
@@ -58,7 +60,14 @@ export function ActivityManager() {
     useEffect(() => {
         getActivities();
         getActivityGroups();
-    }, []);
+    }, [
+        openNewActivity,
+        openEditActivity,
+        openDeleteActivity,
+        openNewActivityGroup,
+        openEditActivityGroup,
+        openDeleteActivityGroup
+    ]);
 
     function openEditActivityModal(itemId: number) {
         setSelectedActivity(itemId);
@@ -109,6 +118,7 @@ export function ActivityManager() {
             await api.delete(`/activities/${selectedActivity}/`);
 
             getActivities();
+            setOpenDeleteActivity(false);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -123,6 +133,7 @@ export function ActivityManager() {
             );
 
             getActivityGroups();
+            setOpenDeleteActivityGroup(false);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -139,18 +150,25 @@ export function ActivityManager() {
                             Atividades cadastradas
                         </h2>
 
-                        <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                                <button className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400">
-                                    Nova atividade
-                                    <Plus size={20} />
-                                </button>
-                            </Dialog.Trigger>
+                        <Dialog.Root
+                            open={openNewActivity}
+                            onOpenChange={setOpenNewActivity}
+                        >
+                            <button
+                                onClick={() => setOpenNewActivity(true)}
+                                className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400"
+                            >
+                                Nova atividade
+                                <Plus size={20} />
+                            </button>
                             <GenericModal
                                 titleModal="Criar nova atividade"
                                 descriptionModal="Preencha as informação para criar uma nova atividade"
                             >
-                                <ActivityForm activityGroups={activityGroups} />
+                                <ActivityForm
+                                    activityGroups={activityGroups}
+                                    setModal={setOpenNewActivity}
+                                />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -181,6 +199,7 @@ export function ActivityManager() {
                                 <ActivityForm
                                     activityId={selectedActivity}
                                     activityGroups={activityGroups}
+                                    setModal={setOpenEditActivity}
                                 />
                             </GenericModal>
                         </Dialog.Root>
@@ -211,18 +230,24 @@ export function ActivityManager() {
                         <h2 className="text-lg font-bold">
                             Grupos cadastrados
                         </h2>
-                        <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                                <button className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400">
-                                    Novo grupo
-                                    <Plus size={20} />
-                                </button>
-                            </Dialog.Trigger>
+                        <Dialog.Root
+                            open={openNewActivityGroup}
+                            onOpenChange={setOpenNewActivityGroup}
+                        >
+                            <button
+                                onClick={() => setOpenNewActivityGroup(true)}
+                                className="flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-neutral-50 hover:bg-blue-400"
+                            >
+                                Novo grupo
+                                <Plus size={20} />
+                            </button>
                             <GenericModal
                                 titleModal="Criar novo grupo"
                                 descriptionModal="Preencha as informação para criar um novo grupo de atividades"
                             >
-                                <ActivityGroupForm />
+                                <ActivityGroupForm
+                                    setModal={setOpenNewActivityGroup}
+                                />
                             </GenericModal>
                         </Dialog.Root>
                     </div>
@@ -246,6 +271,7 @@ export function ActivityManager() {
                             >
                                 <ActivityGroupForm
                                     activityGroupId={selectedActivityGroup}
+                                    setModal={setOpenEditActivityGroup}
                                 />
                             </GenericModal>
                         </Dialog.Root>
