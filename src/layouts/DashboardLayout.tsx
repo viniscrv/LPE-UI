@@ -1,5 +1,12 @@
-import { CalendarCheck, ChartLineUp, ClockCounterClockwise, ListBullets, User } from "@phosphor-icons/react";
-import { NavLink, Outlet } from "react-router-dom";
+import {
+    CalendarCheck,
+    ChartLineUp,
+    ClockCounterClockwise,
+    ListBullets,
+    SignOut,
+    User
+} from "@phosphor-icons/react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 export function DashboardLayout() {
     const pages = [
@@ -27,8 +34,15 @@ export function DashboardLayout() {
             name: "Estatísticas",
             icon: <ChartLineUp size={18} color="#8B8B8B" />,
             path: "/dashboard/statistics"
-        },
+        }
     ];
+
+    const navigate = useNavigate();
+
+    function handleLogout() {
+        localStorage.removeItem("token");
+        navigate("/");
+    }
 
     return (
         <>
@@ -68,6 +82,13 @@ export function DashboardLayout() {
                             );
                         })}
                     </ul>
+
+                    <div className="absolute bottom-12 w-full text-red-500">
+                        <span onClick={handleLogout} className="m-auto flex w-min cursor-pointer select-none items-center gap-1 text-lg">
+                            Sair
+                            <SignOut size={18} />
+                        </span>
+                    </div>
                 </nav>
                 <div className="ml-48 mr-4 mt-4">
                     <Outlet></Outlet>
