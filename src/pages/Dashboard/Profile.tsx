@@ -33,6 +33,10 @@ export function Profile() {
         }
     }
 
+    function handlePasswordChanged() {
+        toggleEditMode();
+    }
+
     function toggleEditMode() {
         setEditMode((state) => !state);
     }
@@ -67,7 +71,7 @@ export function Profile() {
                         {formPage == "profile" && profileData && (
                             <ProfileForm profileData={profileData} editMode={editMode}/>
                         )}
-                        {formPage == "security" && <SecurityForm editMode={editMode}/>}
+                        {formPage == "security" && <SecurityForm editMode={editMode} onSubmitForm={handlePasswordChanged} />}
                     </div>
 
                     <nav className="flex flex-col  gap-2 border border-transparent border-l-neutral-700 p-2">

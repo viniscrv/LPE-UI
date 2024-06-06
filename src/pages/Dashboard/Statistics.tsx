@@ -314,7 +314,9 @@ export function Statistics() {
                                 },
                             }}
                             colors={["#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8"]}
+                            dayBorderWidth={2}
                             monthBorderWidth={1}
+                            daySpacing={2}
                             monthBorderColor="#171717"
                             dayBorderColor="#171717"
                             emptyColor="#171717"
