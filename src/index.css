@@ -21,6 +21,10 @@ input:focus {
     @apply outline outline-2  outline-blue-400;
 }
 
+::selection {
+    @apply bg-blue-300/50 text-white;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }
