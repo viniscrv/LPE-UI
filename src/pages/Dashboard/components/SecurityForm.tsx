@@ -68,7 +68,7 @@ export function SecurityForm({ editMode, onSubmitForm }: SecurityFormProps) {
             <div className="flex flex-col">
                 <label>Senha</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     type="password"
                     placeholder="Sua nova senha"
@@ -85,7 +85,7 @@ export function SecurityForm({ editMode, onSubmitForm }: SecurityFormProps) {
             <div className="flex flex-col">
                 <label>Confirmação de senha</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     type="password"
                     placeholder="Confirmação da nova senha"

@@ -90,7 +90,7 @@ export function Register() {
                             id="username"
                             type="text"
                             {...register("username")}
-                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                            className="mt-1 rounded-md bg-transparent p-1"
                         />
 
                         {errors.username && (
@@ -106,7 +106,7 @@ export function Register() {
                         <textarea
                             id="password"
                             {...register("biography")}
-                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                            className="mt-1 rounded-md bg-transparent p-1"
                         />
 
                         {errors.biography && (
@@ -123,7 +123,7 @@ export function Register() {
                             id="password"
                             type="password"
                             {...register("password")}
-                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                            className="mt-1 rounded-md bg-transparent p-1"
                         />
 
                         {errors.password && (
@@ -143,7 +143,7 @@ export function Register() {
                             id="passwordConfirmation"
                             type="password"
                             {...register("passwordConfirmation")}
-                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                            className="mt-1 rounded-md bg-transparent p-1"
                         />
                         {passwordsDoNotMatch && (
                             <span className="mt-1 w-full text-sm text-red-500">

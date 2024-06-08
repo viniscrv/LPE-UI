@@ -80,7 +80,7 @@ export function ActivityGroupForm({
                     Nome do grupo
                 </label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                    className="mt-1 rounded-md bg-transparent p-1"
                     type="text"
                     id="activityGroupName"
                     defaultValue={activityGroup?.name}

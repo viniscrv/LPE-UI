@@ -50,7 +50,7 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>Primeiro nome</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     type="text"
                     {...register("firstName")}
@@ -60,7 +60,7 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>Segundo nome</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     type="text"
                     {...register("lastName")}
@@ -70,7 +70,7 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>Nome de usuário</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     type="text"
                     {...register("username")}
@@ -80,7 +80,7 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
             <div className="flex flex-col">
                 <label>E-mail</label>
                 <input
-                    className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     type="text"
                     {...register("email")}
@@ -90,7 +90,7 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
             <div className="col-span-2 flex flex-col">
                 <label>Biografia</label>
                 <textarea
-                    className=" mt-1 h-24 rounded-md border border-neutral-500 bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
+                    className=" mt-1 h-24 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     {...register("biography")}
                     defaultValue={profileData.biography}

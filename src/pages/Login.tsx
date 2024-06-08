@@ -74,7 +74,7 @@ export function Login() {
                             id="username"
                             type="text"
                             {...register("username")}
-                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                            className="mt-1 rounded-md bg-transparent p-1"
                         />
                     </div>
                     <div className="mt-2 flex w-full flex-col">
@@ -85,7 +85,7 @@ export function Login() {
                             id="password"
                             type="password"
                             {...register("password")}
-                            className="mt-1 rounded-md border border-neutral-500 bg-transparent p-1"
+                            className="mt-1 rounded-md bg-transparent p-1"
                         />
                     </div>
 

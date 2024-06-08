@@ -10,12 +10,23 @@ body {
     @apply bg-neutral-950 text-neutral-200;
 }
 
+textarea,
+input {
+    @apply border border-neutral-500;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+    @apply outline outline-2  outline-blue-400;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }
 ::-webkit-scrollbar-track {
-    @apply bg-neutral-950/50 rounded-md;
+    @apply rounded-md bg-neutral-950/50;
 }
 ::-webkit-scrollbar-thumb {
-    @apply bg-blue-500 rounded-md
+    @apply rounded-md bg-blue-500;
 }
