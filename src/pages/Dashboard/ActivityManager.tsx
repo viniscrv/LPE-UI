@@ -160,7 +160,7 @@ export function ActivityManager() {
                             header={header_table_activities}
                             fields={[
                                 "name",
-                                "activity_group",
+                                "activity_group.name",
                                 "recurrence",
                                 "until",
                                 "created_at"

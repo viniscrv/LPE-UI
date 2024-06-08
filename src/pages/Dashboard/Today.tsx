@@ -298,7 +298,7 @@ export function Today() {
                             fields={[
                                 "activity.name",
                                 "effort_perception",
-                                "activity.activity_group",
+                                "activity.activity_group.name",
                                 "activity.until",
                             ]}
                             data={historyToday}

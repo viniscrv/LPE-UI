@@ -3,7 +3,7 @@ import { ArrowUDownLeft, PencilSimple, Trash } from "@phosphor-icons/react";
 interface GenericTableProps {
     header: string[];
     fields: string[];
-    data: Record<string, any>[]; // cara de gambi, objetivo de aceitar objetos de tipos desconhecidos
+    data: Record<string, any>[];
     editAction?: boolean;
     deleteAction?: boolean;
     undoAction?: boolean;
@@ -57,7 +57,7 @@ export function GenericTable({
                                 >
                                     {getNestedValue(item, field)
                                         ? getNestedValue(item, field).toString()
-                                        : "TODO: Ajustar no back"}
+                                        : "Nenhum"}
                                 </td>
                             ))}
 

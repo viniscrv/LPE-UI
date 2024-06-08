@@ -127,7 +127,7 @@ export function History() {
                                 header={header_table_reports}
                                 fields={[
                                     "activity.name",
-                                    "activity.activity_group",
+                                    "activity.activity_group.name",
                                     "activity.recurrence",
                                     "activity.until",
                                     "effort_perception",
