@@ -126,10 +126,10 @@ export function History() {
                             <GenericTable
                                 header={header_table_reports}
                                 fields={[
-                                    "activity name",
-                                    "activity group",
-                                    "recurrence",
-                                    "until",
+                                    "activity.name",
+                                    "activity.activity_group",
+                                    "activity.recurrence",
+                                    "activity.until",
                                     "effort_perception",
                                     "completed_at"
                                 ]}

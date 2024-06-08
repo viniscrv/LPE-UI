@@ -39,7 +39,7 @@ export function Today() {
 
     interface PerformedActivity {
         id: Number;
-        activity: Number;
+        activity: Activity;
         completed: Boolean;
         profile: Number;
         effort_perception: String;
@@ -101,7 +101,7 @@ export function Today() {
     }: completeActivityFormData) {
         try {
             await api.post("/activities/report/", {
-                activity: selectedActivity,
+                activity_id: selectedActivity,
                 completed: true,
                 effort_perception: Number(effortPerception)
             });
@@ -296,10 +296,10 @@ export function Today() {
                         <GenericTable
                             header={header_table}
                             fields={[
-                                "activity",
+                                "activity.name",
                                 "effort_perception",
-                                "activity_group",
-                                "until",
+                                "activity.activity_group",
+                                "activity.until",
                             ]}
                             data={historyToday}
                             editAction={true}

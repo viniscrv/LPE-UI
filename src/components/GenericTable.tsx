@@ -24,6 +24,12 @@ export function GenericTable({
     deleteItem,
     undoItem
 }: GenericTableProps) {
+    function getNestedValue(obj: Record<string, any>, path: string): any {
+        return path
+            .split(".")
+            .reduce((acc: any, part: string) => acc && acc[part], obj);
+    }
+
     return (
         <table className="w-full rounded-md bg-neutral-800 p-4">
             <thead>
@@ -49,8 +55,8 @@ export function GenericTable({
                                     key={fieldIdx}
                                     className="py-2 pl-4 text-start text-neutral-400"
                                 >
-                                    {item[field]
-                                        ? item[field].toString()
+                                    {getNestedValue(item, field)
+                                        ? getNestedValue(item, field).toString()
                                         : "TODO: Ajustar no back"}
                                 </td>
                             ))}
