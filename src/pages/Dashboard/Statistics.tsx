@@ -300,7 +300,7 @@ export function Statistics() {
                 <div className="col-span-3 flex h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <h2 className="text-lg font-bold">Hábitos atuais</h2>
                     <div className="bg-neutral-800 h-full rounded-md flex items-center">
-                        <div className="h-40">
+                        <div className="h-40 w-full">
                             <ResponsiveCalendar
                                 data={calendarData}
                                 from="2024-01-02"
