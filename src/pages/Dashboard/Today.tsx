@@ -160,7 +160,7 @@ export function Today() {
                                             Recorrência: {activity.recurrence}
                                         </p>
                                         <p className="mt-2 text-sm text-neutral-400">
-                                            Grupo de atividade: {activity.activity_group ? activity.activity_group : "Nenhum"}
+                                            Grupo de atividade: {activity.activity_group ? activity.activity_group.toString() : "Nenhum"}
                                         </p>
                                     </div>
 
