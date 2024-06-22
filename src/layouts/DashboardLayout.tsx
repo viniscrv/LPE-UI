@@ -90,7 +90,7 @@ export function DashboardLayout() {
                         </span>
                     </div>
                 </nav>
-                <div className="ml-48 mr-4 mt-4">
+                <div className="ml-48 mr-4 mt-4 h-[calc(100vh-5rem-1rem)]">
                     <Outlet></Outlet>
                 </div>
             </div>

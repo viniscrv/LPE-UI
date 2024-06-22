@@ -113,14 +113,12 @@ export function History() {
     const effortRate = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-4">
+        <div className="flex h-full flex-col gap-6">
+            <div className="grid h-full grid-cols-4 gap-3">
                 <div className="col-span-3 flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold">
-                            Histórico completo
-                        </h2>
-                    </div>
+                    <h2 className="text-lg font-bold">
+                        Histórico completo
+                    </h2>
                     <div className="overflow-y-scroll">
                         {history?.results && (
                             <GenericTable
@@ -217,7 +215,42 @@ export function History() {
                         </Dialog.Root>
                     </div>
                 </div>
-                <div className="flex bg-neutral-950 p-3"></div>
+                <div className="flex flex-col h-full rounded-md bg-neutral-900 p-3">
+                    <h2 className="text-lg font-bold">
+                        Atividade recente
+                    </h2>
+
+                    <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você completou <span className="font-bold">"Activity name"</span>
+                        </div>
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você excluiu um registro de <span className="font-bold">"Activity name"</span>
+                        </div>
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você editou <span className="font-bold">"Activity name"</span>
+                        </div>
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você editou <span className="font-bold">"Activity name"</span>
+                        </div>
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você editou <span className="font-bold">"Activity name"</span>
+                        </div>
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você editou <span className="font-bold">"Activity name"</span>
+                        </div>
+                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
+                            Você editou <span className="font-bold">"Activity name"</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
