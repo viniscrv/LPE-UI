@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { Activity } from "../../@types/interfaces";
 import { ResponsiveCalendar } from "@nivo/calendar";
+import calendarDataMock from "../mock/calendar_data.json";
 import { Link } from "react-router-dom";
 
 export function Statistics() {
@@ -140,6 +141,8 @@ export function Statistics() {
             }
         }
     }
+
+    const calendarData = calendarDataMock
 
     return (
         <div className="grid grid-cols-4 gap-4">
@@ -372,7 +375,7 @@ export function Statistics() {
                         <h2 className="text-lg font-bold">Hábitos atuais</h2>
                         <div className="flex h-full items-center rounded-md bg-neutral-800">
                             <div className="h-40 w-full">
-                                {/* <ResponsiveCalendar
+                                <ResponsiveCalendar
                                     data={calendarData}
                                     from="2024-01-02"
                                     to="2024-12-31"
@@ -398,7 +401,7 @@ export function Statistics() {
                                     dayBorderColor="#171717"
                                     emptyColor="#262626"
                                     monthLegendOffset={5}
-                                /> */}
+                                />
                             </div>
                         </div>
                     </div>
