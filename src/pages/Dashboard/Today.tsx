@@ -8,9 +8,10 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResponsivePie } from "@nivo/pie";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { GenericTable } from "../../components/GenericTable";
 import { Activity } from "../../@types/interfaces";
+import { PlusCircle } from "@phosphor-icons/react";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -258,6 +259,15 @@ export function Today() {
                                 </div>
                             );
                         })}
+                        <Link
+                            to={"/dashboard/activity-manager"}
+                            className="h-full w-44 flex flex-col justify-center items-center rounded-md p-2 border-2 border-dotted border-neutral-800 group cursor-pointer"
+                        >
+                            <div className="flex flex-col gap-2 justify-center items-center text-lg font-bold text-center text-neutral-200">
+                                Adicionar mais atividades
+                                <PlusCircle size={32} className="group-hover:fill-blue-400 group-hover:animate-pulse"/>
+                            </div>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex gap-3 rounded-md bg-neutral-900 p-3">
