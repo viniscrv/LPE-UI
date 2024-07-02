@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../lib/axios";
 import { AxiosError } from "axios";
+import { useContext } from "react";
+import { ToastContext } from "../../../contexts/ToastContext";
 
 interface ProfileFormProps {
     profileData: {
@@ -32,6 +34,8 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
         resolver: zodResolver(profileFormSchema)
     });
 
+    const { shootToast } = useContext(ToastContext);
+
     async function submitProfile(data: ProfileFormData) {
         try {
             await api.patch("/profile/edit/", {
@@ -41,10 +45,22 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                 username: data.username,
                 biography: data.biography
             });
+
+            shootToast({
+                color: "blue",
+                title: `Você editou seu perfil`,
+                description: "",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao atualizar as informações",
+            });
         }
     }
 

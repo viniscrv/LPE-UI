@@ -3,8 +3,9 @@ import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../lib/axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ActivityGroup } from "../../../@types/interfaces";
+import { ToastContext } from "../../../contexts/ToastContext";
 
 const createActivityGroupFormSchema = z.object({
     activityGroupName: z.string()
@@ -28,6 +29,8 @@ export function ActivityGroupForm({
     });
 
     const [activityGroup, setActivityGroup] = useState<ActivityGroup | null>();
+
+    const { shootToast } = useContext(ToastContext);
 
     useEffect(() => {
         if (activityGroupId) {
@@ -56,9 +59,22 @@ export function ActivityGroupForm({
                     name: data.activityGroupName,
                     description: ""
                 });
+
+                shootToast({
+                    color: "blue",
+                    title: `Você editou um grupo de atividade`,
+                    description: "",
+                });
+                
             } else {
                 await api.post("/activities/groups/", {
                     name: data.activityGroupName,
+                });
+                    
+                shootToast({
+                    color: "blue",
+                    title: `Você adicionou um novo grupo de atividade`,
+                    description: "",
                 });
             }
 
@@ -67,6 +83,12 @@ export function ActivityGroupForm({
             if (err instanceof AxiosError && err?.response?.data) {
                 return console.log(err.response.data);
             }
+
+            shootToast({
+                color: "red",
+                title: "Tente novamente",
+                description: "Falha ao salvar grupo de atividade",
+            });
         }
     }
 

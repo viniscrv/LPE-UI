@@ -22,7 +22,7 @@ export function GenericToast() {
     }, [stateToast]);
 
     return (
-        <ToastRadix.Provider swipeDirection="right" duration={30000}>
+        <ToastRadix.Provider swipeDirection="right" duration={3000}>
             <ToastRadix.Root
                 className="flex items-center justify-between border border-neutral-500 rounded-md"
                 open={open}

@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../lib/axios";
 import { AxiosError } from "axios";
+import { ToastContext } from "../../../contexts/ToastContext";
 
 interface SecurityFormProps {
     editMode: boolean;
@@ -31,6 +32,8 @@ export function SecurityForm({ editMode, onSubmitForm }: SecurityFormProps) {
         resolver: zodResolver(updatePasswordFormSchema)
     });
 
+    const { shootToast } = useContext(ToastContext);
+
     function submitUpdatePassword({
         password,
         passwordConfirmation
@@ -52,11 +55,22 @@ export function SecurityForm({ editMode, onSubmitForm }: SecurityFormProps) {
 
             reset();
             onSubmitForm();
-            alert("senha atualizada: TODO: toast");
+
+            shootToast({
+                color: "blue",
+                title: `Você atualizou sua senha`,
+                description: "",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao atualizar senha",
+            });
         }
     }
 

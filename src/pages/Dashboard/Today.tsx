@@ -108,12 +108,18 @@ export function Today() {
                 color: "blue",
                 title: `Você completou uma atividade`,
                 description: "Atividade completa",
-            })
+            });
 
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao completar atividade",
+            });
         }
     }
 
@@ -123,10 +129,22 @@ export function Today() {
 
             getTodaysPendingActivities();
             getTodaysHistory();
+
+            shootToast({
+                color: "blue",
+                title: `Você desfez uma atividade`,
+                description: "Atividade está pendente novamente",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao desfazer atividade",
+            });
         }
     }
 

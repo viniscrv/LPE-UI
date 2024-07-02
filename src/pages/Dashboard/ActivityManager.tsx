@@ -4,10 +4,11 @@ import { GenericModal } from "../../components/GenericModal";
 import { ActivityForm } from "./components/ActivityForm";
 import { ActivityGroupForm } from "./components/ActivityGroupForm";
 import { api } from "../../lib/axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { GenericTable } from "../../components/GenericTable";
 import { Activity, ActivityGroup } from "../../@types/interfaces";
+import { ToastContext } from "../../contexts/ToastContext";
 
 export function ActivityManager() {
     const header_table_activities = [
@@ -51,6 +52,8 @@ export function ActivityManager() {
         openEditActivityGroup,
         openDeleteActivityGroup
     ]);
+
+    const { shootToast } = useContext(ToastContext);
 
     function openEditActivityModal(itemId: number) {
         setSelectedActivity(itemId);
@@ -102,10 +105,22 @@ export function ActivityManager() {
 
             getActivities();
             setOpenDeleteActivity(false);
+
+            shootToast({
+                color: "blue",
+                title: `Você deletou uma atividade`,
+                description: "",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao deletar atividade",
+            });
         }
     }
 
@@ -117,10 +132,22 @@ export function ActivityManager() {
 
             getActivityGroups();
             setOpenDeleteActivityGroup(false);
+
+            shootToast({
+                color: "blue",
+                title: `Você deletou um grupo de atividade`,
+                description: "",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao deletar grupo de atividade",
+            });
         }
     }
 

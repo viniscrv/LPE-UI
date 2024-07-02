@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
 import { GenericModal } from "../../components/GenericModal";
@@ -9,6 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GenericTable } from "../../components/GenericTable";
 import { Activity } from "../../@types/interfaces";
+import { ToastContext } from "../../contexts/ToastContext";
 
 const editReportEffortPerceptionFormSchema = z.object({
     effortPerception: z.string()
@@ -69,6 +70,8 @@ export function History() {
         getRecentActivities();
     }, []);
 
+    const { shootToast } = useContext(ToastContext);
+
     async function getHistory() {
         try {
             const { data } = await api.get("/activities/report/history/");
@@ -114,10 +117,22 @@ export function History() {
             getHistory();
             setSelectedReport(null);
             setOpenEdit(false);
+
+            shootToast({
+                color: "blue",
+                title: `Você editou um registro`,
+                description: "",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao editar registro",
+            });
         }
     }
 
@@ -127,10 +142,22 @@ export function History() {
 
             getHistory();
             setOpenDelete(false);
+
+            shootToast({
+                color: "blue",
+                title: `Você removeu um registro`,
+                description: "",
+            });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
             }
+
+            shootToast({
+                color: "red",
+                title: `Tente novamente`,
+                description: "Falha ao remover um registro",
+            });
         }
     }
 

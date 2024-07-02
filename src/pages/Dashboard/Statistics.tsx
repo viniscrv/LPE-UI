@@ -405,7 +405,7 @@ export function Statistics() {
                                                     {item.percentage_progress.toFixed(0)}%
                                                 </span>
                                             </div>
-                                            <div className="mt-1 h-2 w-full rounded-md border border-neutral-700">
+                                            <div className="mt-1 h-2 rounded-md border border-neutral-700">
                                                 <div className={`h-full w-[calc(${item.percentage_progress.toFixed(0)}%)] rounded-md bg-blue-400`}></div>
                                             </div>
                                         </div>

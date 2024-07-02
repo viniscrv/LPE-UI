@@ -1,11 +1,12 @@
 import { z } from "zod";
 import { Select, SelectItem } from "./Form/Select";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../../lib/axios";
 import { AxiosError } from "axios";
 import { Activity, ActivityGroup } from "../../../@types/interfaces";
+import { ToastContext } from "../../../contexts/ToastContext";
 
 const createActivityFormSchema = z.object({
     activityName: z.string(),
@@ -36,6 +37,8 @@ export function ActivityForm({
         resolver: zodResolver(createActivityFormSchema)
     });
 
+    const { shootToast } = useContext(ToastContext);
+
     useEffect(() => {
         // getActivityGroups();
 
@@ -52,11 +55,24 @@ export function ActivityForm({
                     recurrence: recurrence,
                     until: data.activityUntil
                 });
+
+                shootToast({
+                    color: "blue",
+                    title: `Você editou uma atividade`,
+                    description: "",
+                });
+
             } else {
                 await api.post("/activities/", {
                     name: data.activityName,
                     recurrence: recurrence,
                     until: data.activityUntil
+                });
+
+                shootToast({
+                    color: "blue",
+                    title: `Você adicionou uma nova atividade`,
+                    description: "",
                 });
             }
 
@@ -65,6 +81,12 @@ export function ActivityForm({
             if (err instanceof AxiosError && err?.response?.data) {
                 return console.log(err.response.data);
             }
+
+            shootToast({
+                color: "red",
+                title: "Tente novamente",
+                description: "Falha ao salvar atividade",
+            });
         }
     }
 
