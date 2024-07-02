@@ -16,11 +16,13 @@ export function Statistics() {
     interface MorePerformedActivity {
         activity: Activity;
         count: number;
+        percentage: number;
     }
 
     interface BestStreakActivity {
         activity: Activity;
         streak: number;
+        since: Date;
     }
 
     interface EdgeDifficultyActivities {
@@ -51,6 +53,7 @@ export function Statistics() {
         previous_date: string;
         last_report: string;
         days_until_habit: string;
+        percentage_progress: number;
     }
 
     const [morePerformedActivity, setMorePerformedActivity] =
@@ -133,7 +136,6 @@ export function Statistics() {
             const { data } = await api.get(
                 "/reports/habit_formation_progress/"
             );
-
             setHabitFormationProgress(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -160,16 +162,19 @@ export function Statistics() {
                                     <Medal size={24} />
                                 </h3>
                                 <p className="mt-4">
-                                    Atividade "
-                                    {morePerformedActivity?.activity.name}" foi
+                                    Atividade{" "}
+                                    <span className="font-semibold text-blue-300">
+                                        {morePerformedActivity?.activity.name} 
+                                    </span>{" "}
+                                    foi
                                     completada{" "}
-                                    <span className="text-lg font-semibold text-blue-300">
+                                    <span className="font-semibold text-blue-300">
                                         {morePerformedActivity?.count}
                                     </span>{" "}
                                     vezes no total
                                 </p>
-                                <p className="mt-2 text-sm">
-                                    "x%" a mais que outras
+                                <p className="mt-2 text-sm text-neutral-400">
+                                    <span className="font-semibold text-blue-300">{morePerformedActivity.percentage.toFixed(0)}%</span> a mais que outras
                                 </p>
                             </div>
                         ) : (
@@ -205,13 +210,15 @@ export function Statistics() {
                                     <Fire size={24} />
                                 </h3>
                                 <p className="mt-4">
-                                    Atividade "
-                                    {morePerformedActivity?.activity.name}" foi
-                                    completada{" "}
-                                    <span className="text-lg font-semibold text-blue-300">
+                                    Atividade{" "}
+                                    <span className="font-semibold text-blue-300">
+                                        {morePerformedActivity?.activity.name}
+                                    </span>{" "}
+                                    foi completada{" "}
+                                    <span className="font-semibold text-blue-300">
                                         {bestStreakActivity?.streak}
                                     </span>{" "}
-                                    vezes em sequência desde "01/01/2000"
+                                    vezes em sequência desde <span className="font-semibold text-blue-300">{bestStreakActivity.since.toString()}</span>
                                 </p>
                             </div>
                         ) : (
@@ -345,11 +352,11 @@ export function Statistics() {
                                                     {item.activity.name}
                                                 </p>
                                                 <span className="font-semibold">
-                                                    75%
+                                                    {item.percentage_progress.toFixed(0)}%
                                                 </span>
                                             </div>
-                                            <div className="mt-1 h-2 rounded-md border border-neutral-700">
-                                                <div className="h-full w-2/3 rounded-md bg-blue-400"></div>
+                                            <div className="mt-1 h-2 w-full rounded-md border border-neutral-700">
+                                                <div className={`h-full w-[calc(${item.percentage_progress.toFixed(0)}%)] rounded-md bg-blue-400`}></div>
                                             </div>
                                         </div>
                                     );

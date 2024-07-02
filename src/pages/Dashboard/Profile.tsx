@@ -7,8 +7,11 @@ import { AxiosError } from "axios";
 
 export function Profile() {
     interface ProfileData {
-        id: Number;
-        user: Number;
+        id: number;
+        user: number;
+        first_name: string;
+        last_name: string;
+        email: string;
         username: string;
         biography: string;
     }

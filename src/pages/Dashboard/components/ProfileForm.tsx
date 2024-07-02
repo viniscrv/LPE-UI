@@ -6,8 +6,11 @@ import { AxiosError } from "axios";
 
 interface ProfileFormProps {
     profileData: {
-        id: Number;
-        user: Number;
+        id: number;
+        user: number;
+        first_name: string;
+        last_name: string;
+        email: string;
         username: string;
         biography: string;
     };
@@ -15,23 +18,26 @@ interface ProfileFormProps {
 }
 
 const profileFormSchema = z.object({
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-    username: z.string().min(1),
-    email: z.string().min(1),
-    biography: z.string().min(1)
+    firstName: z.string().min(1, { message: "Campo obrigatório" }),
+    lastName: z.string().min(1, { message: "Campo obrigatório" }),
+    username: z.string().min(1, { message: "Campo obrigatório" }),
+    email: z.string().min(1, { message: "Campo obrigatório" }),
+    biography: z.string().min(1, { message: "Campo obrigatório" })
 });
 
 type ProfileFormData = z.infer<typeof profileFormSchema>;
 
 export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
-    const { register, handleSubmit } = useForm<ProfileFormData>({
+    const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormData>({
         resolver: zodResolver(profileFormSchema)
     });
 
     async function submitProfile(data: ProfileFormData) {
         try {
             await api.patch("/profile/edit/", {
+                // first_name: data.firstName,
+                // last_name: data.lastName,
+                // email: data.email,
                 username: data.username,
                 biography: data.biography
             });
@@ -54,8 +60,14 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     disabled={!editMode}
                     type="text"
                     {...register("firstName")}
-                    defaultValue={profileData.username}
+                    defaultValue={profileData.first_name}
                 />
+
+                {errors.firstName && (
+                    <span className="mt-1 w-full text-sm text-red-500">
+                        {errors.firstName.message}
+                    </span>
+                )}
             </div>
             <div className="flex flex-col">
                 <label>Segundo nome</label>
@@ -64,8 +76,14 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     disabled={!editMode}
                     type="text"
                     {...register("lastName")}
-                    defaultValue={profileData.username}
+                    defaultValue={profileData.last_name}
                 />
+
+                {errors.lastName && (
+                    <span className="mt-1 w-full text-sm text-red-500">
+                        {errors.lastName.message}
+                    </span>
+                )}
             </div>
             <div className="flex flex-col">
                 <label>Nome de usuário</label>
@@ -76,6 +94,12 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     {...register("username")}
                     defaultValue={profileData.username}
                 />
+
+                {errors.username && (
+                    <span className="mt-1 w-full text-sm text-red-500">
+                        {errors.username.message}
+                    </span>
+                )}
             </div>
             <div className="flex flex-col">
                 <label>E-mail</label>
@@ -84,8 +108,14 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     disabled={!editMode}
                     type="text"
                     {...register("email")}
-                    defaultValue={profileData.username}
+                    defaultValue={profileData.email}
                 />
+
+                {errors.email && (
+                    <span className="mt-1 w-full text-sm text-red-500">
+                        {errors.email.message}
+                    </span>
+                )}
             </div>
             <div className="col-span-2 flex flex-col">
                 <label>Biografia</label>
@@ -95,6 +125,12 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     {...register("biography")}
                     defaultValue={profileData.biography}
                 />
+
+                {errors.biography && (
+                    <span className="mt-1 w-full text-sm text-red-500">
+                        {errors.biography.message}
+                    </span>
+                )}
             </div>
 
             <button disabled={!editMode} className="col-span-2 mt-4 h-10 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400 

@@ -202,8 +202,8 @@ export function History() {
                             onOpenChange={setOpenDelete}
                         >
                             <GenericModal
-                                titleModal="Remover relatório"
-                                descriptionModal="Tem certeza que deseja remover este relatório do histórico?"
+                                titleModal="Remover registro"
+                                descriptionModal="Tem certeza que deseja remover este registro do histórico?"
                             >
                                 <button
                                     onClick={() => deleteReport()}

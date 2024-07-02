@@ -78,8 +78,6 @@ export function Today() {
             const { data } = await api.get("/activities/report/pending_today/");
 
             setPendingActivities(data);
-
-            console.log("pending", pendingActivities);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -161,7 +159,7 @@ export function Today() {
                                             Recorrência: {activity.recurrence}
                                         </p>
                                         <p className="mt-2 text-sm text-neutral-400">
-                                            Grupo de atividade: {activity.activity_group ? activity.activity_group.toString() : "Nenhum"}
+                                            Grupo de atividade: {activity?.activity_group.name ? activity.activity_group.name : "Nenhum"}
                                         </p>
                                     </div>
 
