@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { Activity } from "../../@types/interfaces";
 import { ResponsiveCalendar } from "@nivo/calendar";
-import calendarDataMock from "../mock/calendar_data.json";
+// import calendarDataMock from "../mock/calendar_data.json";
 import { Link } from "react-router-dom";
 
 export function Statistics() {
@@ -56,6 +56,11 @@ export function Statistics() {
         percentage_progress: number;
     }
 
+    interface dayData {
+        day: string;
+        value: number;
+    }
+
     interface Achievements {
         id: number;
         activity: Activity;
@@ -80,6 +85,10 @@ export function Statistics() {
         HabitFormationProgress[] | []
     >([]);
 
+    const [heatMap, setHeatMap] = useState<
+        dayData[] | []
+    >([]);
+
     const [recentAchievements, setRecentAchievements] = useState<
         Achievements[] | []
     >([]);
@@ -91,6 +100,7 @@ export function Statistics() {
         getCurrentHabits();
         getHabitFormationProgress();
         getRecentAchievements();
+        getHeatMap();
     }, []);
 
     async function getMorePerformedActivity() {
@@ -156,6 +166,20 @@ export function Statistics() {
         }
     }
 
+    async function getHeatMap() {
+        try {
+            const { data } = await api.get(
+                "/reports/heat_map/"
+            );
+
+            setHeatMap(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
     async function getRecentAchievements() {
         try {
             const { data } = await api.get(
@@ -170,7 +194,7 @@ export function Statistics() {
         }
     }
 
-    const calendarData = calendarDataMock
+    // const calendarData = calendarDataMock;
 
     return (
         <div className="grid grid-cols-4 gap-4">
@@ -402,39 +426,42 @@ export function Statistics() {
                         )}
                     </div>
                 </div>
+                {/* heat map */}
                 <div className="grid h-64 grid-cols-3 gap-6">
-                    {/* current habits */}
                     <div className="col-span-3 flex h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
-                        <h2 className="text-lg font-bold">Hábitos atuais</h2>
+                        <h2 className="text-lg font-bold">Atividades realizadas este ano</h2>
                         <div className="flex h-full items-center rounded-md bg-neutral-800">
                             <div className="h-40 w-full">
-                                <ResponsiveCalendar
-                                    data={calendarData}
-                                    from="2024-01-02"
-                                    to="2024-12-31"
-                                    theme={{
-                                        tooltip: {
-                                            container: {
-                                                background: "#171717",
-                                                color: "#e5e5e5",
-                                                fontSize: 14
+                                {heatMap.length > 0 && (
+                                    <ResponsiveCalendar
+                                        data={heatMap}
+                                        from="2024-01-02"
+                                        to="2024-12-31"
+                                        theme={{
+                                            tooltip: {
+                                                container: {
+                                                    background: "#171717",
+                                                    color: "#e5e5e5",
+                                                    fontSize: 14
+                                                }
                                             }
-                                        }
-                                    }}
-                                    colors={[
-                                        "#1e40af",
-                                        "#1d4ed8",
-                                        "#2563eb",
-                                        "#3b82f6"
-                                    ]}
-                                    dayBorderWidth={2}
-                                    monthBorderWidth={1}
-                                    daySpacing={2}
-                                    monthBorderColor="#171717"
-                                    dayBorderColor="#171717"
-                                    emptyColor="#262626"
-                                    monthLegendOffset={5}
-                                />
+                                        }}
+                                        colors={[
+                                            // "#1e40af",
+                                            "#262626",
+                                            "#1d4ed8",
+                                            "#2563eb",
+                                            "#3b82f6"
+                                        ]}
+                                        dayBorderWidth={2}
+                                        monthBorderWidth={1}
+                                        daySpacing={2}
+                                        monthBorderColor="#171717"
+                                        dayBorderColor="#171717"
+                                        emptyColor="#262626"
+                                        monthLegendOffset={5}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
