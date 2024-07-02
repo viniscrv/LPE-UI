@@ -56,6 +56,13 @@ export function Statistics() {
         percentage_progress: number;
     }
 
+    interface Achievements {
+        id: number;
+        activity: Activity;
+        profile: number;
+        created_at: Date;
+    }
+
     const [morePerformedActivity, setMorePerformedActivity] =
         useState<MorePerformedActivity | null>();
 
@@ -73,12 +80,17 @@ export function Statistics() {
         HabitFormationProgress[] | []
     >([]);
 
+    const [recentAchievements, setRecentAchievements] = useState<
+        Achievements[] | []
+    >([]);
+
     useEffect(() => {
         getMorePerformedActivity();
         getBestStreakActivity();
         getEdgeDifficultyActivities();
         getCurrentHabits();
         getHabitFormationProgress();
+        getRecentAchievements();
     }, []);
 
     async function getMorePerformedActivity() {
@@ -137,6 +149,20 @@ export function Statistics() {
                 "/reports/habit_formation_progress/"
             );
             setHabitFormationProgress(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function getRecentAchievements() {
+        try {
+            const { data } = await api.get(
+                "/achievements/"
+            );
+
+            setRecentAchievements(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -420,7 +446,16 @@ export function Statistics() {
                     </h2>
 
                     <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                        {recentAchievements.map((achievement) => {
+                            return (
+                                <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                                    <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
+                                    A atividade <span className="font-bold">{achievement.activity.name}</span> agora é um hábito
+                                </div>
+                            )
+                        })}
+
+                        {/* <div className="border border-transparent border-b-neutral-700 py-4 px-2">
                             <p className="text-sm mb-1 text-neutral-400">Hoje</p>
                             A atividade <span className="font-bold">"Activity name"</span> agora é um hábito
                         </div>
@@ -439,7 +474,7 @@ export function Statistics() {
                         <div className="border border-transparent border-b-neutral-700 py-4 px-2">
                             <p className="text-sm mb-1 text-neutral-400">Hoje</p>
                             A nova atividade mais performada é <span className="font-bold">"Activity name"</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
         </div>

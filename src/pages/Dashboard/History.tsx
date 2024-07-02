@@ -8,6 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GenericTable } from "../../components/GenericTable";
+import { Activity } from "../../@types/interfaces";
 
 const editReportEffortPerceptionFormSchema = z.object({
     effortPerception: z.string()
@@ -42,7 +43,17 @@ export function History() {
         }[];
     }
 
+    interface RecentActivity {
+        id: number;
+        activity: Activity;
+        profile: number;
+        created_at: Date;
+    }
+
     const [history, setHistory] = useState<History>();
+    const [recentActivities, setRecentActivities] = useState<
+        RecentActivity[] | []
+    >([]);
     const [selectedReport, setSelectedReport] = useState<null | Number>(null);
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -55,6 +66,7 @@ export function History() {
 
     useEffect(() => {
         getHistory();
+        getRecentActivities();
     }, []);
 
     async function getHistory() {
@@ -62,6 +74,18 @@ export function History() {
             const { data } = await api.get("/activities/report/history/");
 
             setHistory(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function getRecentActivities() {
+        try {
+            const { data } = await api.get("/recent_activity/");
+
+            setRecentActivities(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -221,7 +245,17 @@ export function History() {
                     </h2>
 
                     <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+
+                        {recentActivities.map((recentActivity) => {
+                            return (
+                                <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                                    <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
+                                    Você completou <span className="font-bold">{recentActivity.activity.name}</span>
+                                </div>
+                            )
+                        })}
+                        
+                        {/* <div className="border border-transparent border-b-neutral-700 py-4 px-2">
                             <p className="text-sm mb-1 text-neutral-400">Hoje</p>
                             Você completou <span className="font-bold">"Activity name"</span>
                         </div>
@@ -248,7 +282,7 @@ export function History() {
                         <div className="border border-transparent border-b-neutral-700 py-4 px-2">
                             <p className="text-sm mb-1 text-neutral-400">Hoje</p>
                             Você editou <span className="font-bold">"Activity name"</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
