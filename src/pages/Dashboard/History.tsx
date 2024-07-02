@@ -275,7 +275,7 @@ export function History() {
 
                         {recentActivities.map((recentActivity) => {
                             return (
-                                <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                                <div key={recentActivity.id} className="border border-transparent border-b-neutral-700 py-4 px-2">
                                     <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
                                     Você completou <span className="font-bold">{recentActivity.activity.name}</span>
                                 </div>

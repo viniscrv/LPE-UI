@@ -475,7 +475,7 @@ export function Statistics() {
                     <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
                         {recentAchievements.map((achievement) => {
                             return (
-                                <div className="border border-transparent border-b-neutral-700 py-4 px-2">
+                                <div key={achievement.id} className="border border-transparent border-b-neutral-700 py-4 px-2">
                                     <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
                                     A atividade <span className="font-bold">{achievement.activity.name}</span> agora é um hábito
                                 </div>

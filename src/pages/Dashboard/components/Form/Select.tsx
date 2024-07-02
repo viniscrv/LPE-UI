@@ -41,7 +41,7 @@ type SelectItemProps = SelectPrimitive.SelectItemProps & {
 export function SelectItem({ text, ...props }: SelectItemProps) {
     return (
         <SelectPrimitive.Item
-            className="flex items-center justify-between gap-2 px-3 py-2.5 outline-none data-[highlighted]:bg-neutral-700"
+            className="flex items-center justify-between gap-2 px-3 py-1 outline-none data-[highlighted]:bg-neutral-700 data-[highlighted]:rounded-sm"
             {...props}
         >
             <SelectPrimitive.ItemText asChild>

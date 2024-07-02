@@ -28,10 +28,8 @@ export function ActivityForm({
 }: ActivityFormProps) {
     const [recurrence, setRecurrence] = useState<string | null>();
     const [activityGroup, setActivityGroup] = useState<string | null>();
-
     const [activity, setActivity] = useState<Activity | null>();
 
-    // const [open, setOpen] = useState(false); # TODO: fazer o modal fechar depois do confirm
 
     const { register, handleSubmit } = useForm<createActivityFormData>({
         resolver: zodResolver(createActivityFormSchema)
@@ -40,8 +38,6 @@ export function ActivityForm({
     const { shootToast } = useContext(ToastContext);
 
     useEffect(() => {
-        // getActivityGroups();
-
         if (activityId) {
             getActivity();
         }
@@ -53,6 +49,7 @@ export function ActivityForm({
                 await api.patch(`/activities/${activityId}/`, {
                     name: data.activityName,
                     recurrence: recurrence,
+                    activity_group_id: Number(activityGroup),
                     until: data.activityUntil
                 });
 
@@ -66,6 +63,7 @@ export function ActivityForm({
                 await api.post("/activities/", {
                     name: data.activityName,
                     recurrence: recurrence,
+                    activity_group_id: Number(activityGroup),
                     until: data.activityUntil
                 });
 
@@ -126,8 +124,8 @@ export function ActivityForm({
                 <Select
                     placeholder="Selecione"
                     onValueChange={(value) => setRecurrence(value)}
-                >
-                    <SelectItem value="everyday" text="Diário" />
+                >   
+                    <SelectItem value="everyday" text="Diária" />
                     <SelectItem value="week" text="Semanal" />
                     <SelectItem value="weekend" text="Finais de semanas" />
                 </Select>
@@ -140,15 +138,11 @@ export function ActivityForm({
                     placeholder="Selecione"
                     onValueChange={(value) => setActivityGroup(value)}
                 >
-                    {/* {activityGroups.length > 0 ??
-                        activityGroups.map((activityGroup) => {
-                            <SelectItem
-                                key={activityGroup.id}
-                                value={activityGroup.name}
-                                text={activityGroup.name}
-                            />;
-                        })} */}
-                    <SelectItem value="group_01" text="group_01" />
+                    {activityGroups.map((activityGroupItem) => {
+                        return (
+                            <SelectItem key={activityGroupItem.id} value={activityGroupItem.id.toString()} text={activityGroupItem.name} />
+                        )
+                    })}
                 </Select>
             </div>
             <div className="mt-2 flex w-full flex-col">
