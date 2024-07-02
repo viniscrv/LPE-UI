@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { GenericModal } from "../../components/GenericModal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
 import { Controller, useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import { Link, NavLink } from "react-router-dom";
 import { GenericTable } from "../../components/GenericTable";
 import { Activity } from "../../@types/interfaces";
 import { PlusCircle } from "@phosphor-icons/react";
+import { ToastContext } from "../../contexts/ToastContext";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -51,6 +52,8 @@ export function Today() {
     const { handleSubmit, control } = useForm<completeActivityFormData>({
         resolver: zodResolver(completeActivityFormSchema)
     });
+
+    const { shootToast } = useContext(ToastContext);
 
     useEffect(() => {
         getTodaysPendingActivities();
@@ -100,6 +103,13 @@ export function Today() {
 
             setSelectedActivity(null);
             setOpen(false);
+
+            shootToast({
+                color: "blue",
+                title: `Você completou uma atividade`,
+                description: "Atividade completa",
+            })
+
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);

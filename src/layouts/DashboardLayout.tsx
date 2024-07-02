@@ -7,6 +7,7 @@ import {
     User
 } from "@phosphor-icons/react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { GenericToast } from "../components/GenericToast";
 
 export function DashboardLayout() {
     const pages = [
@@ -93,6 +94,7 @@ export function DashboardLayout() {
                 <div className="ml-48 mr-4 mt-4 h-[calc(100vh-5rem-1rem)]">
                     <Outlet></Outlet>
                 </div>
+                <GenericToast />
             </div>
         </>
     );
