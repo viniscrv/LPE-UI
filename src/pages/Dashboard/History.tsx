@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GenericTable } from "../../components/GenericTable";
 import { Activity } from "../../@types/interfaces";
 import { ToastContext } from "../../contexts/ToastContext";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 const editReportEffortPerceptionFormSchema = z.object({
     effortPerception: z.string()
@@ -32,8 +33,8 @@ export function History() {
 
     interface History {
         count: number;
-        next: number | null;
-        previous: number | null;
+        next: string | null;
+        previous: string | null;
         results: {
             id: number;
             profile: number;
@@ -75,6 +76,33 @@ export function History() {
     async function getHistory() {
         try {
             const { data } = await api.get("/activities/report/history/");
+
+            setHistory(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+    async function navigateInHistory(to: "previous" | "next") {
+        if (!history) return;
+
+        let url = null;
+
+        if (to == "previous" && history.previous) {
+            url = new URL(history.previous);
+        } else if (to == "next" && history.next) {
+            url = new URL(history.next);
+        }
+
+        if (!url) return;
+
+        const page = url.searchParams.get("page")
+        const requestPath = page ? `/activities/report/history/?page=${page}` : "/activities/report/history/"
+    
+        try {
+            const { data } = await api.get(requestPath);
 
             setHistory(data);
         } catch (err) {
@@ -165,11 +193,34 @@ export function History() {
 
     return (
         <div className="flex h-full flex-col gap-6">
-            <div className="grid h-full grid-cols-4 gap-3">
-                <div className="col-span-3 flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
-                    <h2 className="text-lg font-bold">
-                        Histórico completo
-                    </h2>
+            <div className="flex-1 grid grid-cols-4 gap-3 mb-4">
+                <div className="col-span-3 flex flex-col h-full gap-3 rounded-md bg-neutral-900 p-3">
+                    <div className="flex justify-between">
+                        <h2 className="text-lg font-bold">
+                            Histórico completo
+                        </h2>
+                        <div className="flex gap-2">
+                            <button
+                                className="
+                                    flex h-10 w-10 items-center justify-center rounded-md bg-blue-500
+                                    text-neutral-50 hover:bg-blue-400 disabled:bg-blue-400/10 disabled:cursor-not-allowed"
+                                disabled={history?.previous ? false : true}
+                                onClick={() => navigateInHistory("previous")}
+                                >
+                                    <CaretLeft size={18} />
+                            </button>
+                            <button
+                                className="
+                                    flex h-10 w-10 items-center justify-center rounded-md bg-blue-500
+                                    text-neutral-50 hover:bg-blue-400 disabled:bg-blue-400/10 disabled:cursor-not-allowed"
+                                disabled={history?.next ? false : true}
+                                onClick={() => navigateInHistory("next")}
+                                >
+                                    <CaretRight size={18} />
+                            </button>
+                        </div>
+                    </div>
+                        
                     <div className="overflow-y-scroll">
                         {history?.results && (
                             <GenericTable
