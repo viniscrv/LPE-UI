@@ -36,7 +36,7 @@ export function Profile() {
         }
     }
 
-    function handlePasswordChanged() {
+    function handleFormSumited() {
         toggleEditMode();
     }
 
@@ -53,10 +53,10 @@ export function Profile() {
                             <div className="flex items-center">
                                 <img
                                     className="h-32 w-32 rounded-full border-2 border-blue-400"
-                                    src="https://github.com/viniscrv.png"
+                                    src="https://github.com/vini9457128.png"
                                 />
                                 <h2 className="ml-6 text-3xl font-bold">
-                                    Viniscrv
+                                    {profileData?.username}
                                 </h2>
                             </div>
 
@@ -72,9 +72,9 @@ export function Profile() {
                         </div>
 
                         {formPage == "profile" && profileData && (
-                            <ProfileForm profileData={profileData} editMode={editMode}/>
+                            <ProfileForm profileData={profileData} editMode={editMode} onSubmitForm={handleFormSumited}/>
                         )}
-                        {formPage == "security" && <SecurityForm editMode={editMode} onSubmitForm={handlePasswordChanged} />}
+                        {formPage == "security" && <SecurityForm editMode={editMode} onSubmitForm={handleFormSumited} />}
                     </div>
 
                     <nav className="flex flex-col  gap-2 border border-transparent border-l-neutral-700 p-2">

@@ -390,7 +390,7 @@ export function Statistics() {
                             Formação de novos hábitos
                         </h2>
                         {habitFormationProgress.length > 0 ? (
-                            <div className="relative flex h-full w-full flex-col items-start gap-3 rounded-md bg-neutral-800 p-4 text-center">
+                            <div className="relative flex  h-full w-full flex-col justify-around gap-2 rounded-md bg-neutral-800 p-2">
                                 {habitFormationProgress.map((item) => {
                                     return (
                                         <div
@@ -405,7 +405,7 @@ export function Statistics() {
                                                     {item.percentage_progress.toFixed(0)}%
                                                 </span>
                                             </div>
-                                            <div className="mt-1 h-2 rounded-md border border-neutral-700">
+                                            <div className="h-2 rounded-md border w-full border-neutral-700">
                                                 <div className={`h-full w-[calc(${item.percentage_progress.toFixed(0)}%)] rounded-md bg-blue-400`}></div>
                                             </div>
                                         </div>

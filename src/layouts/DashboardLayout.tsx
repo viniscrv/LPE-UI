@@ -8,8 +8,23 @@ import {
 } from "@phosphor-icons/react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { GenericToast } from "../components/GenericToast";
+import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import { api } from "../lib/axios";
+
+interface ProfileData {
+    id: number;
+    user: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    username: string;
+    biography: string;
+}
 
 export function DashboardLayout() {
+    const [profileData, setProfileData] = useState<ProfileData | null>();
+
     const pages = [
         {
             name: "Meu Perfil",
@@ -40,6 +55,23 @@ export function DashboardLayout() {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        getProfileInfo();
+    }, []);
+
+    async function getProfileInfo() {
+        try {
+            const { data } = await api.get("/me/");
+
+            setProfileData(data);
+        } catch (err) {
+            if (err instanceof AxiosError && err?.response?.data?.detail) {
+                return console.log(err.response.data.message);
+            }
+        }
+    }
+
+
     function handleLogout() {
         localStorage.removeItem("token");
         navigate("/");
@@ -51,11 +83,11 @@ export function DashboardLayout() {
                 <header className="flex h-20 w-full items-center justify-end bg-neutral-900 px-8">
                     <div className="flex items-center gap-3">
                         <span className="w-full py-8 text-center text-xl font-bold">
-                            Viniscrv
+                            {profileData?.username}
                         </span>
                         <img
                             className="h-14 w-14 rounded-full border-2 border-blue-400"
-                            src="https://github.com/viniscrv.png"
+                            src="https://github.com/vini9457128.png"
                         />
                     </div>
                 </header>

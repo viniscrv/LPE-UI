@@ -17,6 +17,7 @@ interface ProfileFormProps {
         biography: string;
     };
     editMode: boolean;
+    onSubmitForm: () => void;
 }
 
 const profileFormSchema = z.object({
@@ -29,19 +30,27 @@ const profileFormSchema = z.object({
 
 type ProfileFormData = z.infer<typeof profileFormSchema>;
 
-export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
+export function ProfileForm({ profileData, editMode, onSubmitForm }: ProfileFormProps) {
     const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormData>({
-        resolver: zodResolver(profileFormSchema)
+        resolver: zodResolver(profileFormSchema),
+        defaultValues: {
+            firstName: profileData.first_name,
+            lastName: profileData.last_name,
+            username: profileData.username,
+            email: profileData.email,
+            biography: profileData.biography,
+        }
     });
 
     const { shootToast } = useContext(ToastContext);
 
     async function submitProfile(data: ProfileFormData) {
         try {
+            console.log("username", data.username)
             await api.patch("/profile/edit/", {
-                // first_name: data.firstName,
-                // last_name: data.lastName,
-                // email: data.email,
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
                 username: data.username,
                 biography: data.biography
             });
@@ -51,6 +60,8 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                 title: `Você editou seu perfil`,
                 description: "",
             });
+
+            onSubmitForm();
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -76,7 +87,6 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     disabled={!editMode}
                     type="text"
                     {...register("firstName")}
-                    defaultValue={profileData.first_name}
                 />
 
                 {errors.firstName && (
@@ -92,7 +102,6 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     disabled={!editMode}
                     type="text"
                     {...register("lastName")}
-                    defaultValue={profileData.last_name}
                 />
 
                 {errors.lastName && (
@@ -106,9 +115,9 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                 <input
                     className="mt-1 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
+                    // disabled={true}
                     type="text"
                     {...register("username")}
-                    defaultValue={profileData.username}
                 />
 
                 {errors.username && (
@@ -124,7 +133,6 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     disabled={!editMode}
                     type="text"
                     {...register("email")}
-                    defaultValue={profileData.email}
                 />
 
                 {errors.email && (
@@ -139,7 +147,6 @@ export function ProfileForm({ profileData, editMode }: ProfileFormProps) {
                     className=" mt-1 h-24 rounded-md bg-transparent p-1 disabled:cursor-not-allowed disabled:text-neutral-400"
                     disabled={!editMode}
                     {...register("biography")}
-                    defaultValue={profileData.biography}
                 />
 
                 {errors.biography && (
