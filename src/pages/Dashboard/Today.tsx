@@ -13,6 +13,7 @@ import { GenericTable } from "../../components/GenericTable";
 import { Activity } from "../../@types/interfaces";
 import { PlusCircle } from "@phosphor-icons/react";
 import { ToastContext } from "../../contexts/ToastContext";
+import { translate } from "../../utils/translator";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -22,11 +23,11 @@ type completeActivityFormData = z.infer<typeof completeActivityFormSchema>;
 
 export function Today() {
     const header_table = [
-        "activity name",
-        "effort perception",
-        "activity group",
-        "until",
-        "undo"
+        "Atividade",
+        "Percepção de esforço",
+        "Grupo de atividade",
+        "Até",
+        "Desfazer"
     ];
 
     interface PerformedActivity {
@@ -184,7 +185,7 @@ export function Today() {
                                             {activity.name}
                                         </h3>
                                         <p className="mt-2 text-sm text-neutral-400">
-                                            Recorrência: {activity.recurrence}
+                                            Recorrência: {translate(activity.recurrence)}
                                         </p>
                                         <p className="mt-2 text-sm text-neutral-400">
                                             Grupo de atividade: {activity?.activity_group.name ? activity.activity_group.name : "Nenhum"}

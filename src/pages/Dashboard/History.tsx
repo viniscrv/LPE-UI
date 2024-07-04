@@ -22,13 +22,13 @@ type editReportEffortPerceptionFormData = z.infer<
 
 export function History() {
     const header_table_reports = [
-        "activity name",
-        "activity group",
-        "recurrence",
-        "until",
-        "effort_perception",
-        "completed_at",
-        "actions"
+        "Atividade",
+        "Grupo de atividade",
+        "Recorrência",
+        "Até",
+        "Percepção de esforço",
+        "Completado",
+        "Ações"
     ];
 
     interface History {

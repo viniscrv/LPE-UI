@@ -1,4 +1,5 @@
 import { ArrowUDownLeft, PencilSimple, Trash } from "@phosphor-icons/react";
+import { translate } from "../utils/translator";
 
 interface GenericTableProps {
     header: string[];
@@ -56,7 +57,7 @@ export function GenericTable({
                                     className="py-2 pl-4 text-start text-neutral-400"
                                 >
                                     {getNestedValue(item, field)
-                                        ? getNestedValue(item, field).toString()
+                                        ? translate(getNestedValue(item, field).toString())
                                         : "Nenhum"}
                                 </td>
                             ))}
