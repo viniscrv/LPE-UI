@@ -8,7 +8,8 @@ import { ActivityGroup } from "../../../@types/interfaces";
 import { ToastContext } from "../../../contexts/ToastContext";
 
 const createActivityGroupFormSchema = z.object({
-    activityGroupName: z.string()
+    activityGroupName: z.string(),
+    activityDescription: z.string()
 });
 
 type createActivityGroupFormData = z.infer<
@@ -57,7 +58,7 @@ export function ActivityGroupForm({
             if (activityGroupId) {
                 await api.patch(`/activities/groups/${activityGroupId}/`, {
                     name: data.activityGroupName,
-                    description: ""
+                    description: data.activityDescription
                 });
 
                 shootToast({
@@ -69,6 +70,7 @@ export function ActivityGroupForm({
             } else {
                 await api.post("/activities/groups/", {
                     name: data.activityGroupName,
+                    description: data.activityDescription
                 });
                     
                 shootToast({
@@ -107,6 +109,18 @@ export function ActivityGroupForm({
                     id="activityGroupName"
                     defaultValue={activityGroup?.name}
                     {...register("activityGroupName")}
+                />
+            </div>
+
+            <div className="flex w-full flex-col mt-4">
+                <label className="text-sm" htmlFor="activityGroupName">
+                    Descrição curta
+                </label>
+                <textarea
+                    className="mt-1 rounded-md bg-transparent p-1"
+                    id="activityDescription"
+                    defaultValue={activityGroup?.description}
+                    {...register("activityDescription")}
                 />
             </div>
 
