@@ -14,6 +14,7 @@ import { Activity } from "../../@types/interfaces";
 import { PlusCircle } from "@phosphor-icons/react";
 import { ToastContext } from "../../contexts/ToastContext";
 import { translate } from "../../utils/translator";
+import { DashboardContext } from "../../contexts/DashboardContext";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -55,10 +56,12 @@ export function Today() {
     });
 
     const { shootToast } = useContext(ToastContext);
+    const { setDashboardPageTitle } = useContext(DashboardContext);
 
     useEffect(() => {
         getTodaysPendingActivities();
         getTodaysHistory();
+        setDashboardPageTitle("Programação diária");
     }, []);
 
     useEffect(() => {
@@ -154,15 +157,15 @@ export function Today() {
 
         const data = [
             {
-                id: "Concluído",
-                label: "Concluído",
-                value: (historyToday.length / totalActivities) * 100
-            },
-            {
                 id: "Pendente",
                 label: "Pendente",
                 value: (pendingActivities.length / totalActivities) * 100
-            }
+            },
+            {
+                id: "Concluído",
+                label: "Concluído",
+                value: (historyToday.length / totalActivities) * 100,
+            },
         ];
 
         setPieChartData(data);

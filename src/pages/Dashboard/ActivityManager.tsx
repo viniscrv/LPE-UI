@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { GenericTable } from "../../components/GenericTable";
 import { Activity, ActivityGroup } from "../../@types/interfaces";
 import { ToastContext } from "../../contexts/ToastContext";
+import { DashboardContext } from "../../contexts/DashboardContext";
 
 export function ActivityManager() {
     const header_table_activities = [
@@ -40,6 +41,12 @@ export function ActivityManager() {
     const [openEditActivityGroup, setOpenEditActivityGroup] = useState(false);
     const [openDeleteActivityGroup, setOpenDeleteActivityGroup] =
         useState(false);
+
+    const { setDashboardPageTitle } = useContext(DashboardContext);
+    
+    useEffect(() => {
+        setDashboardPageTitle("Gerenciador de atividades")
+    }, [])
 
     useEffect(() => {
         getActivities();

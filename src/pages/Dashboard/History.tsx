@@ -11,6 +11,7 @@ import { GenericTable } from "../../components/GenericTable";
 import { Activity } from "../../@types/interfaces";
 import { ToastContext } from "../../contexts/ToastContext";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { DashboardContext } from "../../contexts/DashboardContext";
 
 const editReportEffortPerceptionFormSchema = z.object({
     effortPerception: z.string()
@@ -67,9 +68,12 @@ export function History() {
             resolver: zodResolver(editReportEffortPerceptionFormSchema)
         });
 
+    const { setDashboardPageTitle } = useContext(DashboardContext);
+
     useEffect(() => {
         getHistory();
         getRecentActivities();
+        setDashboardPageTitle("Histórico de relatórios")
     }, []);
 
     const { shootToast } = useContext(ToastContext);

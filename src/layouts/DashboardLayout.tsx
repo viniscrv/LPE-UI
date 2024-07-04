@@ -8,9 +8,10 @@ import {
 } from "@phosphor-icons/react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { GenericToast } from "../components/GenericToast";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { api } from "../lib/axios";
+import { DashboardContext } from "../contexts/DashboardContext";
 
 interface ProfileData {
     id: number;
@@ -54,6 +55,7 @@ export function DashboardLayout() {
     ];
 
     const navigate = useNavigate();
+    const { dashboardPageTitle } = useContext(DashboardContext);
 
     useEffect(() => {
         getProfileInfo();
@@ -71,7 +73,6 @@ export function DashboardLayout() {
         }
     }
 
-
     function handleLogout() {
         localStorage.removeItem("token");
         navigate("/");
@@ -80,7 +81,8 @@ export function DashboardLayout() {
     return (
         <>
             <div className="relative min-h-screen w-full">
-                <header className="flex h-20 w-full items-center justify-end bg-neutral-900 px-8">
+                <header className="flex h-20 w-full items-center justify-between bg-neutral-900 px-8">
+                    <h1 className="ml-40 text-2xl font-bold">{dashboardPageTitle}</h1>
                     <div className="flex items-center gap-3">
                         <span className="w-full py-8 text-center text-xl font-bold">
                             {profileData?.username}
@@ -93,7 +95,7 @@ export function DashboardLayout() {
                 </header>
                 <nav className="absolute left-0 top-0 min-h-screen w-44 border-r border-neutral-950 bg-neutral-900">
                     <h2 className="w-full py-8 text-center text-xl font-bold">
-                        Nome bom
+                        LPE
                     </h2>
 
                     <ul className="flex flex-col items-start gap-2">

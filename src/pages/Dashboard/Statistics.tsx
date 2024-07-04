@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import {
     ArrowsInLineHorizontal,
@@ -11,6 +11,7 @@ import { Activity } from "../../@types/interfaces";
 import { ResponsiveCalendar } from "@nivo/calendar";
 // import calendarDataMock from "../mock/calendar_data.json";
 import { Link } from "react-router-dom";
+import { DashboardContext } from "../../contexts/DashboardContext";
 
 export function Statistics() {
     interface MorePerformedActivity {
@@ -94,6 +95,8 @@ export function Statistics() {
         Achievements[] | []
     >([]);
 
+    const { setDashboardPageTitle } = useContext(DashboardContext);
+
     useEffect(() => {
         getMorePerformedActivity();
         getBestStreakActivity();
@@ -102,6 +105,8 @@ export function Statistics() {
         getHabitFormationProgress();
         getRecentAchievements();
         getHeatMap();
+
+        setDashboardPageTitle("Estatistícas da conta");
     }, []);
 
     async function getMorePerformedActivity() {
@@ -378,7 +383,7 @@ export function Statistics() {
                                 );
                             })
                         ) : (
-                            <h1>
+                            <h1 className="text-neutral-400">
                                 Quando você tiver hábitos formados, eles
                                 aparecerão aqui.
                             </h1>
@@ -407,7 +412,7 @@ export function Statistics() {
                                                 </span>
                                             </div>
                                             <div className="h-2 rounded-md border w-full border-neutral-700">
-                                                <div className={`h-full w-[calc(${item.percentage_progress.toFixed(0)}%)] rounded-md bg-blue-400`}></div>
+                                                <div style={{ width: `${item.percentage_progress.toFixed(0)}%` }} className={`h-full rounded-md bg-blue-400`}></div>
                                             </div>
                                         </div>
                                     );

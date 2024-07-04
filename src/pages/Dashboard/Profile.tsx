@@ -1,9 +1,10 @@
 import { Lock, Pen, User } from "@phosphor-icons/react";
 import { ProfileForm } from "./components/ProfileForm";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SecurityForm } from "./components/SecurityForm";
 import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
+import { DashboardContext } from "../../contexts/DashboardContext";
 
 export function Profile() {
     interface ProfileData {
@@ -20,8 +21,11 @@ export function Profile() {
     const [profileData, setProfileData] = useState<ProfileData | null>();
     const [editMode, setEditMode] = useState<boolean>(false);
 
+    const { setDashboardPageTitle } = useContext(DashboardContext);
+
     useEffect(() => {
         getProfileInfo();
+        setDashboardPageTitle("Configurações do perfil")
     }, []);
 
     async function getProfileInfo() {

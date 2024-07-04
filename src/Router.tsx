@@ -7,6 +7,7 @@ import { ActivityManager } from "./pages/Dashboard/ActivityManager";
 import { Statistics } from "./pages/Dashboard/Statistics";
 import { Profile } from "./pages/Dashboard/Profile";
 import { History } from "./pages/Dashboard/History";
+import { DashboardProvider } from "./contexts/DashboardContext";
 
 export function Router() {
     return (
@@ -14,7 +15,11 @@ export function Router() {
             <Route path="/" element={<Login />}/>
             <Route path="/register" element={<Register />}/>
 
-            <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route path="/dashboard" element={
+                <DashboardProvider>
+                    <DashboardLayout />
+                </DashboardProvider>
+            }>
                 <Route path="/dashboard/me" element={<Profile />}/>
                 <Route path="/dashboard/today" element={<Today />}/>
                 <Route path="/dashboard/history" element={<History />}/>
