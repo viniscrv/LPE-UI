@@ -172,12 +172,12 @@ export function Today() {
             <div className="grid grid-cols-4 gap-6">
                 <div className="col-span-3 flex flex-col h-64 w-full gap-3 rounded-md bg-neutral-900 p-3">
                     <h2 className="text-lg font-bold">Atividades programadas para hoje</h2>
-                    <div className="flex-1 flex gap-3">
+                    <div className="flex-1 flex gap-3 overflow-x-auto">
                         {pendingActivities.map((activity: Activity, index) => {
                             return (
                                 <div
                                     key={index}
-                                    className="flex h-full w-44 flex-col rounded-md bg-neutral-800 p-2"
+                                    className="flex h-full min-w-44 w-44 flex-col rounded-md bg-neutral-800 p-2"
                                 >
                                     <div className="w-full flex-1">
                                         <h3 className="text-lg font-bold">
@@ -289,7 +289,7 @@ export function Today() {
                             to={"/dashboard/activity-manager"}
                             className="h-full w-44 flex flex-col justify-center items-center rounded-md p-2 border-2 border-dotted border-neutral-800 group cursor-pointer"
                         >
-                            <div className="flex flex-col gap-2 justify-center items-center text-lg font-bold text-center text-neutral-200">
+                            <div className="flex flex-col gap-2 justify-center items-center text-lg font-bold text-center text-neutral-200 min-w-44">
                                 Adicionar mais atividades
                                 <PlusCircle size={32} className="group-hover:fill-blue-400 group-hover:animate-pulse"/>
                             </div>

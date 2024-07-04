@@ -49,6 +49,7 @@ export function History() {
         id: number;
         activity: Activity;
         profile: number;
+        type: string;
         created_at: Date;
     }
 
@@ -115,7 +116,6 @@ export function History() {
     async function getRecentActivities() {
         try {
             const { data } = await api.get("/recent_activity/");
-
             setRecentActivities(data);
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -143,6 +143,7 @@ export function History() {
             });
 
             getHistory();
+            getRecentActivities();
             setSelectedReport(null);
             setOpenEdit(false);
 
@@ -169,6 +170,7 @@ export function History() {
             await api.delete(`activities/report/delete/${selectedReport}/`);
 
             getHistory();
+            getRecentActivities();
             setOpenDelete(false);
 
             shootToast({
@@ -326,9 +328,25 @@ export function History() {
 
                         {recentActivities.map((recentActivity) => {
                             return (
-                                <div key={recentActivity.id} className="border border-transparent border-b-neutral-700 py-4 px-2">
-                                    <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
-                                    Você completou <span className="font-bold">{recentActivity.activity.name}</span>
+                                <div key={recentActivity.id} className="border border-transparent border-b-neutral-700 pt-2 pb-3 px-2">
+                                    {recentActivity.type == "complete_report" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
+                                            <p>Você completou um registro de <span className="font-bold">{recentActivity.activity.name}</span></p>
+                                        </>
+                                    )}
+                                    {recentActivity.type == "edit_report" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
+                                            <p>Você editou um registro de <span className="font-bold">{recentActivity.activity.name}</span></p>
+                                        </>
+                                    )}
+                                    {recentActivity.type == "delete_report" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
+                                            <p>Você removeu um registro de <span className="font-bold">{recentActivity.activity.name}</span></p>
+                                        </>
+                                    )}
                                 </div>
                             )
                         })}
