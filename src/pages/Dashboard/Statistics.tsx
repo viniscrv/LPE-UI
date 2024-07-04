@@ -65,6 +65,7 @@ export function Statistics() {
         id: number;
         activity: Activity;
         profile: number;
+        type: string;
         created_at: Date;
     }
 
@@ -475,9 +476,37 @@ export function Statistics() {
                     <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
                         {recentAchievements.map((achievement) => {
                             return (
-                                <div key={achievement.id} className="border border-transparent border-b-neutral-700 py-4 px-2">
-                                    <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
-                                    A atividade <span className="font-bold">{achievement.activity.name}</span> agora é um hábito
+                                <div key={achievement.id} className="border border-transparent border-b-neutral-700 pt-2 pb-3 px-2">
+                                    {achievement.type == "new_easier_activity" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
+                                            <p><span className="font-bold">{achievement.activity.name}</span> é a nova atividade mais fácil de executar</p>
+                                        </>
+                                    )}
+                                    {achievement.type == "new_harder_activity" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
+                                            <p><span className="font-bold">{achievement.activity.name}</span> é a nova atividade mais difícil de executar</p>
+                                        </>
+                                    )}
+                                    {achievement.type == "new_best_streak" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
+                                            <p><span className="font-bold">{achievement.activity.name}</span> é a nova atividade com maior sequência</p>
+                                        </>
+                                    )}
+                                    {achievement.type == "new_more_performed" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
+                                            <p><span className="font-bold">{achievement.activity.name}</span> é a nova atividade mais executada</p>
+                                        </>
+                                    )}
+                                    {achievement.type == "new_habit" && (
+                                        <>
+                                            <p className="text-sm mb-1 text-neutral-400">{achievement.created_at.toString()}</p>
+                                            <p><span className="font-bold">{achievement.activity.name}</span> se tornou um novo hábito</p>
+                                        </>
+                                    )}
                                 </div>
                             )
                         })}
