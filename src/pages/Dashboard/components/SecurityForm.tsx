@@ -77,7 +77,7 @@ export function SecurityForm({ editMode, onSubmitForm }: SecurityFormProps) {
     return (
         <form
             onSubmit={handleSubmit(submitUpdatePassword)}
-            className="mt-8 grid grid-cols-2 gap-x-4 gap-y-3"
+            className="mt-8 flex flex-col md:grid md:grid-cols-2 gap-x-4 gap-y-3"
         >
             <div className="flex flex-col">
                 <label>Senha</label>

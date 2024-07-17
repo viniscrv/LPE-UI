@@ -111,9 +111,8 @@ export function Today() {
             shootToast({
                 color: "blue",
                 title: `Você completou uma atividade`,
-                description: "Atividade completa",
+                description: "Atividade completa"
             });
-
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
                 return console.log(err.response.data.message);
@@ -122,7 +121,7 @@ export function Today() {
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao completar atividade",
+                description: "Falha ao completar atividade"
             });
         }
     }
@@ -137,7 +136,7 @@ export function Today() {
             shootToast({
                 color: "blue",
                 title: `Você desfez uma atividade`,
-                description: "Atividade está pendente novamente",
+                description: "Atividade está pendente novamente"
             });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -147,7 +146,7 @@ export function Today() {
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao desfazer atividade",
+                description: "Falha ao desfazer atividade"
             });
         }
     }
@@ -164,8 +163,8 @@ export function Today() {
             {
                 id: "Concluído",
                 label: "Concluído",
-                value: (historyToday.length / totalActivities) * 100,
-            },
+                value: (historyToday.length / totalActivities) * 100
+            }
         ];
 
         setPieChartData(data);
@@ -173,25 +172,31 @@ export function Today() {
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-4 gap-6">
-                <div className="col-span-3 flex flex-col h-64 w-full gap-3 rounded-md bg-neutral-900 p-3">
-                    <h2 className="text-lg font-bold">Atividades programadas para hoje</h2>
-                    <div className="flex-1 flex gap-3 overflow-x-auto">
+            <div className="flex flex-col gap-6 md:grid md:grid-cols-4">
+                <div className="flex h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3 md:col-span-3">
+                    <h2 className="text-lg font-bold">
+                        Atividades programadas para hoje
+                    </h2>
+                    <div className="flex flex-1 gap-3 overflow-x-auto">
                         {pendingActivities.map((activity: Activity, index) => {
                             return (
                                 <div
                                     key={index}
-                                    className="flex h-full min-w-44 w-44 flex-col rounded-md bg-neutral-800 p-2"
+                                    className="flex h-full w-44 min-w-44 flex-col rounded-md bg-neutral-800 p-2"
                                 >
-                                    <div className="w-full flex-1">
+                                    <div className="max-h-32 w-full flex-1 overflow-y-auto">
                                         <h3 className="text-lg font-bold">
                                             {activity.name}
                                         </h3>
                                         <p className="mt-2 text-sm text-neutral-400">
-                                            Recorrência: {translate(activity.recurrence)}
+                                            Recorrência:{" "}
+                                            {translate(activity.recurrence)}
                                         </p>
                                         <p className="mt-2 text-sm text-neutral-400">
-                                            Grupo de atividade: {activity?.activity_group.name ? activity.activity_group.name : "Nenhum"}
+                                            Grupo de atividade:{" "}
+                                            {activity?.activity_group.name
+                                                ? activity.activity_group.name
+                                                : "Nenhum"}
                                         </p>
                                     </div>
 
@@ -291,16 +296,19 @@ export function Today() {
                         })}
                         <Link
                             to={"/dashboard/activity-manager"}
-                            className="h-full w-44 flex flex-col justify-center items-center rounded-md p-2 border-2 border-dotted border-neutral-800 group cursor-pointer"
+                            className="group flex h-full w-44 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dotted border-neutral-800 p-2"
                         >
-                            <div className="flex flex-col gap-2 justify-center items-center text-lg font-bold text-center text-neutral-200 min-w-44">
+                            <div className="flex min-w-44 flex-col items-center justify-center gap-2 text-center text-lg font-bold text-neutral-200">
                                 Adicionar mais atividades
-                                <PlusCircle size={32} className="group-hover:fill-blue-400 group-hover:animate-pulse"/>
+                                <PlusCircle
+                                    size={32}
+                                    className="group-hover:animate-pulse group-hover:fill-blue-400"
+                                />
                             </div>
                         </Link>
                     </div>
                 </div>
-                <div className="flex gap-3 rounded-md bg-neutral-900 p-3">
+                <div className="flex h-64 gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="relative flex h-full w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2">
                         <ResponsivePie
                             data={pieChartData}
@@ -330,8 +338,8 @@ export function Today() {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-6">
-                <div className="col-span-3 flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="flex flex-row gap-6 md:grid md:grid-cols-4">
+                <div className="flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3 md:col-span-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">Histórico de hoje</h2>
                         <NavLink

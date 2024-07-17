@@ -25,7 +25,7 @@ export function Profile() {
 
     useEffect(() => {
         getProfileInfo();
-        setDashboardPageTitle("Configurações do perfil")
+        setDashboardPageTitle("Configurações do perfil");
     }, []);
 
     async function getProfileInfo() {
@@ -49,10 +49,10 @@ export function Profile() {
     }
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-4 gap-6">
-                <div className="col-span-3 grid w-full grid-cols-3 gap-3 rounded-md bg-neutral-900 pb-3 pl-3 pt-3">
-                    <div className="col-span-2 flex flex-col p-4">
+        <div className="flex flex-row gap-6 md:flex-col">
+            <div className="flex flex-col gap-6 md:grid md:grid-cols-4">
+                <div className="w-full grid-cols-3 gap-3 rounded-md bg-neutral-900 pb-3 pt-3 md:col-span-3 md:grid md:pl-3">
+                    <div className="flex flex-col p-4 md:col-span-2">
                         <div className="flex justify-between">
                             <div className="flex items-center">
                                 <img
@@ -76,12 +76,21 @@ export function Profile() {
                         </div>
 
                         {formPage == "profile" && profileData && (
-                            <ProfileForm profileData={profileData} editMode={editMode} onSubmitForm={handleFormSumited}/>
+                            <ProfileForm
+                                profileData={profileData}
+                                editMode={editMode}
+                                onSubmitForm={handleFormSumited}
+                            />
                         )}
-                        {formPage == "security" && <SecurityForm editMode={editMode} onSubmitForm={handleFormSumited} />}
+                        {formPage == "security" && (
+                            <SecurityForm
+                                editMode={editMode}
+                                onSubmitForm={handleFormSumited}
+                            />
+                        )}
                     </div>
 
-                    <nav className="flex flex-col  gap-2 border border-transparent border-l-neutral-700 p-2">
+                    <nav className="flex flex-col gap-2 border border-transparent border-t-neutral-700 p-2 md:border-l-neutral-700 md:border-t-transparent">
                         <button
                             onClick={() => setFormPage("profile")}
                             className="delay-50 flex h-8 w-full items-center justify-center gap-2 rounded-md bg-neutral-800 py-2 transition hover:bg-neutral-700"

@@ -199,7 +199,7 @@ export function History() {
 
     return (
         <div className="flex h-full flex-col gap-6">
-            <div className="flex-1 grid grid-cols-4 gap-3 mb-4">
+            <div className="flex-1 flex flex-col md:grid md:grid-cols-4 gap-3 mb-4">
                 <div className="col-span-3 flex flex-col h-full gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex justify-between">
                         <h2 className="text-lg font-bold">
@@ -330,9 +330,9 @@ export function History() {
 
                     <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
 
-                        {recentActivities.map((recentActivity) => {
+                        {recentActivities.map((recentActivity, idx) => {
                             return (
-                                <div key={recentActivity.id} className="border border-transparent border-b-neutral-700 pt-2 pb-3 px-2">
+                                <div key={idx} className="border border-transparent border-b-neutral-700 pt-2 pb-3 px-2">
                                     {recentActivity.type == "complete_report" && (
                                         <>
                                             <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
@@ -354,35 +354,6 @@ export function History() {
                                 </div>
                             )
                         })}
-                        
-                        {/* <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você completou <span className="font-bold">"Activity name"</span>
-                        </div>
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você excluiu um registro de <span className="font-bold">"Activity name"</span>
-                        </div>
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você editou <span className="font-bold">"Activity name"</span>
-                        </div>
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você editou <span className="font-bold">"Activity name"</span>
-                        </div>
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você editou <span className="font-bold">"Activity name"</span>
-                        </div>
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você editou <span className="font-bold">"Activity name"</span>
-                        </div>
-                        <div className="border border-transparent border-b-neutral-700 py-4 px-2">
-                            <p className="text-sm mb-1 text-neutral-400">Hoje</p>
-                            Você editou <span className="font-bold">"Activity name"</span>
-                        </div> */}
                     </div>
                 </div>
             </div>

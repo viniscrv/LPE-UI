@@ -77,10 +77,10 @@ export function Register() {
 
     return (
         <>
-            <div className="flex min-h-screen w-full flex-col items-center justify-center bg-register-login">
+            <div className="bg-register-login flex min-h-screen w-full flex-col items-center justify-center">
                 <form
                     onSubmit={handleSubmit(submitRegister)}
-                    className="flex min-w-96 flex-col items-center rounded-md bg-neutral-900 px-6 py-8"
+                    className="flex min-w-80 flex-col items-center rounded-md bg-neutral-900 px-6 py-8 md:min-w-96"
                 >
                     <div className="flex w-full flex-col">
                         <label htmlFor="username" className="text-sm">
@@ -100,11 +100,11 @@ export function Register() {
                         )}
                     </div>
                     <div className="mt-2 flex w-full flex-col">
-                        <label htmlFor="password" className="text-sm">
+                        <label htmlFor="biography" className="text-sm">
                             Biografia
                         </label>
                         <textarea
-                            id="password"
+                            id="biography"
                             {...register("biography")}
                             className="mt-1 rounded-md bg-transparent p-1"
                         />
@@ -167,7 +167,13 @@ export function Register() {
                     </NavLink>
                 </p>
 
-                <a className="absolute right-2 bottom-2 text-sm" target="_blank" href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">Free SVG Backgrounds and Patterns by SVGBackgrounds.com</a>
+                <a
+                    className="absolute bottom-2 text-sm md:right-2"
+                    target="_blank"
+                    href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/"
+                >
+                    Free SVG Backgrounds and Patterns by SVGBackgrounds.com
+                </a>
             </div>
         </>
     );

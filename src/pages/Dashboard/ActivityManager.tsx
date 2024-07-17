@@ -43,10 +43,10 @@ export function ActivityManager() {
         useState(false);
 
     const { setDashboardPageTitle } = useContext(DashboardContext);
-    
+
     useEffect(() => {
-        setDashboardPageTitle("Gerenciador de atividades")
-    }, [])
+        setDashboardPageTitle("Gerenciador de atividades");
+    }, []);
 
     useEffect(() => {
         getActivities();
@@ -116,7 +116,7 @@ export function ActivityManager() {
             shootToast({
                 color: "blue",
                 title: `Você deletou uma atividade`,
-                description: "",
+                description: ""
             });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -126,7 +126,7 @@ export function ActivityManager() {
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao deletar atividade",
+                description: "Falha ao deletar atividade"
             });
         }
     }
@@ -143,7 +143,7 @@ export function ActivityManager() {
             shootToast({
                 color: "blue",
                 title: `Você deletou um grupo de atividade`,
-                description: "",
+                description: ""
             });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -153,17 +153,17 @@ export function ActivityManager() {
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao deletar grupo de atividade",
+                description: "Falha ao deletar grupo de atividade"
             });
         }
     }
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-4">
-                <div className="col-span-3 flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="flex flex-col md:grid md:grid-cols-4">
+                <div className="flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3 md:col-span-3">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold">
+                        <h2 className="max-w-28 text-wrap text-lg font-bold md:max-w-full">
                             Atividades cadastradas
                         </h2>
 
@@ -241,7 +241,7 @@ export function ActivityManager() {
                 <div className="flex bg-neutral-950 p-3"></div>
             </div>
 
-            <div className="grid grid-cols-4">
+            <div className="flex flex-col md:grid md:grid-cols-4">
                 <div className="col-span-2 flex max-h-64 flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">

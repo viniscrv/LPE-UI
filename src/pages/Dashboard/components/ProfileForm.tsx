@@ -30,15 +30,23 @@ const profileFormSchema = z.object({
 
 type ProfileFormData = z.infer<typeof profileFormSchema>;
 
-export function ProfileForm({ profileData, editMode, onSubmitForm }: ProfileFormProps) {
-    const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormData>({
+export function ProfileForm({
+    profileData,
+    editMode,
+    onSubmitForm
+}: ProfileFormProps) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<ProfileFormData>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
             firstName: profileData.first_name,
             lastName: profileData.last_name,
             username: profileData.username,
             email: profileData.email,
-            biography: profileData.biography,
+            biography: profileData.biography
         }
     });
 
@@ -46,7 +54,7 @@ export function ProfileForm({ profileData, editMode, onSubmitForm }: ProfileForm
 
     async function submitProfile(data: ProfileFormData) {
         try {
-            console.log("username", data.username)
+            console.log("username", data.username);
             await api.patch("/profile/edit/", {
                 first_name: data.firstName,
                 last_name: data.lastName,
@@ -58,7 +66,7 @@ export function ProfileForm({ profileData, editMode, onSubmitForm }: ProfileForm
             shootToast({
                 color: "blue",
                 title: `Você editou seu perfil`,
-                description: "",
+                description: ""
             });
 
             onSubmitForm();
@@ -70,14 +78,14 @@ export function ProfileForm({ profileData, editMode, onSubmitForm }: ProfileForm
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao atualizar as informações",
+                description: "Falha ao atualizar as informações"
             });
         }
     }
 
     return (
         <form
-            className="mt-8 grid grid-cols-2 gap-x-4 gap-y-3"
+            className="mt-8 flex flex-col gap-x-4 gap-y-3 md:grid md:grid-cols-2"
             onSubmit={handleSubmit(submitProfile)}
         >
             <div className="flex flex-col">
@@ -156,8 +164,11 @@ export function ProfileForm({ profileData, editMode, onSubmitForm }: ProfileForm
                 )}
             </div>
 
-            <button disabled={!editMode} className="col-span-2 mt-4 h-10 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400 
-                disabled:cursor-not-allowed disabled:bg-neutral-700">
+            <button
+                disabled={!editMode}
+                className="col-span-2 mt-4 h-10 w-full justify-self-end rounded-md bg-blue-500 text-neutral-50 hover:bg-blue-400 
+                disabled:cursor-not-allowed disabled:bg-neutral-700"
+            >
                 Salvar
             </button>
         </form>
