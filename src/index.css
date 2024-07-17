@@ -10,6 +10,13 @@ body {
     @apply bg-neutral-950 text-neutral-200;
 }
 
+.bg-register-login {
+    background-color: #171717;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 1000'%3E%3Cg fill-opacity='0.98'%3E%3Ccircle fill='%23171717' cx='50' cy='0' r='50'/%3E%3Cg fill='%23161616' %3E%3Ccircle cx='0' cy='50' r='50'/%3E%3Ccircle cx='100' cy='50' r='50'/%3E%3C/g%3E%3Ccircle fill='%23151515' cx='50' cy='100' r='50'/%3E%3Cg fill='%23151515' %3E%3Ccircle cx='0' cy='150' r='50'/%3E%3Ccircle cx='100' cy='150' r='50'/%3E%3C/g%3E%3Ccircle fill='%23141414' cx='50' cy='200' r='50'/%3E%3Cg fill='%23131313' %3E%3Ccircle cx='0' cy='250' r='50'/%3E%3Ccircle cx='100' cy='250' r='50'/%3E%3C/g%3E%3Ccircle fill='%23121212' cx='50' cy='300' r='50'/%3E%3Cg fill='%23111111' %3E%3Ccircle cx='0' cy='350' r='50'/%3E%3Ccircle cx='100' cy='350' r='50'/%3E%3C/g%3E%3Ccircle fill='%23101010' cx='50' cy='400' r='50'/%3E%3Cg fill='%230f0f0f' %3E%3Ccircle cx='0' cy='450' r='50'/%3E%3Ccircle cx='100' cy='450' r='50'/%3E%3C/g%3E%3Ccircle fill='%230e0e0e' cx='50' cy='500' r='50'/%3E%3Cg fill='%230d0d0d' %3E%3Ccircle cx='0' cy='550' r='50'/%3E%3Ccircle cx='100' cy='550' r='50'/%3E%3C/g%3E%3Ccircle fill='%230b0b0b' cx='50' cy='600' r='50'/%3E%3Cg fill='%230a0a0a' %3E%3Ccircle cx='0' cy='650' r='50'/%3E%3Ccircle cx='100' cy='650' r='50'/%3E%3C/g%3E%3Ccircle fill='%23080808' cx='50' cy='700' r='50'/%3E%3Cg fill='%23070707' %3E%3Ccircle cx='0' cy='750' r='50'/%3E%3Ccircle cx='100' cy='750' r='50'/%3E%3C/g%3E%3Ccircle fill='%23060606' cx='50' cy='800' r='50'/%3E%3Cg fill='%23040404' %3E%3Ccircle cx='0' cy='850' r='50'/%3E%3Ccircle cx='100' cy='850' r='50'/%3E%3C/g%3E%3Ccircle fill='%23030303' cx='50' cy='900' r='50'/%3E%3Cg fill='%23010101' %3E%3Ccircle cx='0' cy='950' r='50'/%3E%3Ccircle cx='100' cy='950' r='50'/%3E%3C/g%3E%3Ccircle fill='%23000000' cx='50' cy='1000' r='50'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: contain;
+}
+
 textarea,
 input {
     @apply border border-neutral-500;

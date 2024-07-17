@@ -213,7 +213,7 @@ export function Today() {
                                             </button>
                                         </Dialog.Trigger>
                                         <GenericModal
-                                            titleModal={`Completar "${activity.name}"`}
+                                            titleModal={`Completar atividade`}
                                             descriptionModal="Em uma escala de 0 a 10, quanto de esforço você precisou para executar a atividade?"
                                         >
                                             <form
@@ -358,7 +358,7 @@ export function Today() {
                         />
                     </div>
                 </div>
-                <div className="flex h-56 w-60 bg-neutral-950 p-3"></div>
+                <div className="flex h-56 w-60 bg-transparent p-3"></div>
             </div>
         </div>
     );

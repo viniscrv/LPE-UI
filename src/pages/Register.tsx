@@ -77,10 +77,10 @@ export function Register() {
 
     return (
         <>
-            <div className="flex min-h-screen w-full flex-col items-center justify-center">
+            <div className="flex min-h-screen w-full flex-col items-center justify-center bg-register-login">
                 <form
                     onSubmit={handleSubmit(submitRegister)}
-                    className="flex min-w-96 flex-col items-center rounded-md border border-blue-400 bg-neutral-900 px-6 py-8"
+                    className="flex min-w-96 flex-col items-center rounded-md bg-neutral-900 px-6 py-8"
                 >
                     <div className="flex w-full flex-col">
                         <label htmlFor="username" className="text-sm">
@@ -162,10 +162,12 @@ export function Register() {
                 </form>
 
                 <p className="pt-2">
-                    <NavLink to={"/"} className="text-neutral-50">
-                        Voltar para o Log In
+                    <NavLink to={"/"} className="text-neutral-50 underline">
+                        Voltar para o Login
                     </NavLink>
                 </p>
+
+                <a className="absolute right-2 bottom-2 text-sm" target="_blank" href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">Free SVG Backgrounds and Patterns by SVGBackgrounds.com</a>
             </div>
         </>
     );
