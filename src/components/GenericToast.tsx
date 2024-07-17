@@ -7,7 +7,7 @@ export function GenericToast() {
     const [open, setOpen] = useState(false);
 
     const { stateToast, toastContent } = useContext(ToastContext);
-    const { title, description, color } = toastContent;
+    const { title, description } = toastContent;
 
     const timerRef = useRef(0);
 
