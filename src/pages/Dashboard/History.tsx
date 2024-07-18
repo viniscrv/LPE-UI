@@ -12,6 +12,7 @@ import { Activity } from "../../@types/interfaces";
 import { ToastContext } from "../../contexts/ToastContext";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { DashboardContext } from "../../contexts/DashboardContext";
+import emptyData from "/undraw/undraw_empty_re_opql.svg";
 
 const editReportEffortPerceptionFormSchema = z.object({
     effortPerception: z.string()
@@ -73,7 +74,7 @@ export function History() {
     useEffect(() => {
         getHistory();
         getRecentActivities();
-        setDashboardPageTitle("Histórico de relatórios")
+        setDashboardPageTitle("Histórico de relatórios");
     }, []);
 
     const { shootToast } = useContext(ToastContext);
@@ -103,9 +104,11 @@ export function History() {
 
         if (!url) return;
 
-        const page = url.searchParams.get("page")
-        const requestPath = page ? `/activities/report/history/?page=${page}` : "/activities/report/history/"
-    
+        const page = url.searchParams.get("page");
+        const requestPath = page
+            ? `/activities/report/history/?page=${page}`
+            : "/activities/report/history/";
+
         try {
             const { data } = await api.get(requestPath);
 
@@ -154,7 +157,7 @@ export function History() {
             shootToast({
                 color: "blue",
                 title: `Você editou um registro`,
-                description: "",
+                description: ""
             });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -164,7 +167,7 @@ export function History() {
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao editar registro",
+                description: "Falha ao editar registro"
             });
         }
     }
@@ -180,7 +183,7 @@ export function History() {
             shootToast({
                 color: "blue",
                 title: `Você removeu um registro`,
-                description: "",
+                description: ""
             });
         } catch (err) {
             if (err instanceof AxiosError && err?.response?.data?.detail) {
@@ -190,7 +193,7 @@ export function History() {
             shootToast({
                 color: "red",
                 title: `Tente novamente`,
-                description: "Falha ao remover um registro",
+                description: "Falha ao remover um registro"
             });
         }
     }
@@ -199,8 +202,8 @@ export function History() {
 
     return (
         <div className="flex h-full flex-col gap-6">
-            <div className="flex-1 flex flex-col md:grid md:grid-cols-4 gap-3 mb-4">
-                <div className="col-span-3 flex flex-col h-full gap-3 rounded-md bg-neutral-900 p-3">
+            <div className="mb-4 flex flex-1 flex-col gap-3 md:grid md:grid-cols-4">
+                <div className="col-span-3 flex h-full flex-col gap-3 rounded-md bg-neutral-900 p-3">
                     <div className="flex justify-between">
                         <h2 className="text-lg font-bold">
                             Histórico completo
@@ -209,26 +212,28 @@ export function History() {
                             <button
                                 className="
                                     flex h-10 w-10 items-center justify-center rounded-md bg-blue-500
-                                    text-neutral-50 hover:bg-blue-400 disabled:bg-blue-400/10 disabled:cursor-not-allowed"
+                                    text-neutral-50 hover:bg-blue-400 disabled:cursor-not-allowed disabled:bg-blue-400/10"
                                 disabled={history?.previous ? false : true}
                                 onClick={() => navigateInHistory("previous")}
-                                >
-                                    <CaretLeft size={18} />
+                            >
+                                <CaretLeft size={18} />
                             </button>
                             <button
                                 className="
                                     flex h-10 w-10 items-center justify-center rounded-md bg-blue-500
-                                    text-neutral-50 hover:bg-blue-400 disabled:bg-blue-400/10 disabled:cursor-not-allowed"
+                                    text-neutral-50 hover:bg-blue-400 disabled:cursor-not-allowed disabled:bg-blue-400/10"
                                 disabled={history?.next ? false : true}
                                 onClick={() => navigateInHistory("next")}
-                                >
-                                    <CaretRight size={18} />
+                            >
+                                <CaretRight size={18} />
                             </button>
                         </div>
                     </div>
-                        
-                    <div className="overflow-y-scroll">
-                        {history?.results && (
+
+                    <div
+                        className={`overflow-y-scroll ${history && history.results?.length == 0 && "flex h-full justify-center"}`}
+                    >
+                        {history && history.results?.length > 0 ? (
                             <GenericTable
                                 header={header_table_reports}
                                 fields={[
@@ -245,6 +250,13 @@ export function History() {
                                 editItem={openEditModal}
                                 deleteItem={openDeleteModal}
                             />
+                        ) : (
+                            <div className="mx-auto mt-4 flex flex-col items-center justify-center md:w-96">
+                                <img src={emptyData} />
+                                <h2 className="mt-4 text-xl font-bold">
+                                    Nenhum registro encontrado
+                                </h2>
+                            </div>
                         )}
 
                         <Dialog.Root open={openEdit} onOpenChange={setOpenEdit}>
@@ -323,36 +335,67 @@ export function History() {
                         </Dialog.Root>
                     </div>
                 </div>
-                <div className="flex flex-col h-full rounded-md bg-neutral-900 p-3">
-                    <h2 className="text-lg font-bold">
-                        Atividade recente
-                    </h2>
+                <div className="flex h-full flex-col rounded-md bg-neutral-900 p-3">
+                    <h2 className="text-lg font-bold">Atividade recente</h2>
 
-                    <div className="w-full mt-3 rounded-md bg-neutral-800 py-4">
-
+                    <div className="mt-3 w-full rounded-md bg-neutral-800 py-4">
                         {recentActivities.map((recentActivity, idx) => {
                             return (
-                                <div key={idx} className="border border-transparent border-b-neutral-700 pt-2 pb-3 px-2">
-                                    {recentActivity.type == "complete_report" && (
+                                <div
+                                    key={idx}
+                                    className="border border-transparent border-b-neutral-700 px-2 pb-3 pt-2"
+                                >
+                                    {recentActivity.type ==
+                                        "complete_report" && (
                                         <>
-                                            <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
-                                            <p>Você completou um registro de <span className="font-bold">{recentActivity.activity.name}</span></p>
+                                            <p className="mb-1 text-sm text-neutral-400">
+                                                {recentActivity.created_at.toString()}
+                                            </p>
+                                            <p>
+                                                Você completou um registro de{" "}
+                                                <span className="font-bold">
+                                                    {
+                                                        recentActivity.activity
+                                                            .name
+                                                    }
+                                                </span>
+                                            </p>
                                         </>
                                     )}
                                     {recentActivity.type == "edit_report" && (
                                         <>
-                                            <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
-                                            <p>Você editou um registro de <span className="font-bold">{recentActivity.activity.name}</span></p>
+                                            <p className="mb-1 text-sm text-neutral-400">
+                                                {recentActivity.created_at.toString()}
+                                            </p>
+                                            <p>
+                                                Você editou um registro de{" "}
+                                                <span className="font-bold">
+                                                    {
+                                                        recentActivity.activity
+                                                            .name
+                                                    }
+                                                </span>
+                                            </p>
                                         </>
                                     )}
                                     {recentActivity.type == "delete_report" && (
                                         <>
-                                            <p className="text-sm mb-1 text-neutral-400">{recentActivity.created_at.toString()}</p>
-                                            <p>Você removeu um registro de <span className="font-bold">{recentActivity.activity.name}</span></p>
+                                            <p className="mb-1 text-sm text-neutral-400">
+                                                {recentActivity.created_at.toString()}
+                                            </p>
+                                            <p>
+                                                Você removeu um registro de{" "}
+                                                <span className="font-bold">
+                                                    {
+                                                        recentActivity.activity
+                                                            .name
+                                                    }
+                                                </span>
+                                            </p>
                                         </>
                                     )}
                                 </div>
-                            )
+                            );
                         })}
                     </div>
                 </div>

@@ -15,6 +15,7 @@ import { PlusCircle } from "@phosphor-icons/react";
 import { ToastContext } from "../../contexts/ToastContext";
 import { translate } from "../../utils/translator";
 import { DashboardContext } from "../../contexts/DashboardContext";
+import noData from "/undraw/undraw_no_data_re_kwbl.svg";
 
 const completeActivityFormSchema = z.object({
     effortPerception: z.string()
@@ -48,7 +49,9 @@ export function Today() {
         null
     );
 
+    const [completedTodayPercentage, setCompletedTodayPercentage] = useState(0);
     const [pieChartData, setPieChartData] = useState<{}[]>([]);
+
     const [open, setOpen] = useState(false);
 
     const { handleSubmit, control } = useForm<completeActivityFormData>({
@@ -67,6 +70,10 @@ export function Today() {
     useEffect(() => {
         updatePieChartData();
     }, [pendingActivities]);
+
+    useEffect(() => {
+        getCompletedTodayPercentage();
+    }, [historyToday.length, pendingActivities.length]);
 
     async function getTodaysHistory() {
         try {
@@ -154,20 +161,45 @@ export function Today() {
     function updatePieChartData() {
         const totalActivities = pendingActivities.length + historyToday.length;
 
-        const data = [
-            {
-                id: "Pendente",
-                label: "Pendente",
-                value: (pendingActivities.length / totalActivities) * 100
-            },
-            {
-                id: "Concluído",
-                label: "Concluído",
-                value: (historyToday.length / totalActivities) * 100
-            }
-        ];
+        if (totalActivities == 0)
+            setPieChartData([
+                {
+                    id: "Pendente",
+                    label: "Pendente",
+                    value: 0
+                },
+                {
+                    id: "Concluído",
+                    label: "Concluído",
+                    value: 1
+                }
+            ]);
+        else {
+            const data = [
+                {
+                    id: "Pendente",
+                    label: "Pendente",
+                    value: (pendingActivities.length / totalActivities) * 100
+                },
+                {
+                    id: "Concluído",
+                    label: "Concluído",
+                    value: (historyToday.length / totalActivities) * 100
+                }
+            ];
 
-        setPieChartData(data);
+            setPieChartData(data);
+        }
+    }
+
+    function getCompletedTodayPercentage() {
+        const totalActivities = pendingActivities.length + historyToday.length;
+
+        const data = Number(
+            ((historyToday.length / totalActivities) * 100).toFixed(0)
+        );
+
+        if (!isNaN(data)) setCompletedTodayPercentage(data);
     }
 
     return (
@@ -327,19 +359,13 @@ export function Today() {
                             arcLinkLabelsTextColor={"#fff"}
                         />
                         <h3 className="absolute text-2xl font-bold">
-                            {(
-                                (historyToday.length /
-                                    (historyToday.length +
-                                        pendingActivities.length)) *
-                                100
-                            ).toFixed(0)}
-                            %
+                            {completedTodayPercentage.toString()}%
                         </h3>
                     </div>
                 </div>
             </div>
             <div className="flex flex-row gap-6 md:grid md:grid-cols-4">
-                <div className="flex max-h-64 w-full flex-col gap-3 rounded-md bg-neutral-900 p-3 md:col-span-3">
+                <div className="flex w-full flex-col gap-3 rounded-md bg-neutral-900 p-3 md:col-span-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">Histórico de hoje</h2>
                         <NavLink
@@ -349,24 +375,34 @@ export function Today() {
                             Ver histórico completo
                         </NavLink>
                     </div>
-                    <div className="overflow-y-scroll">
-                        <GenericTable
-                            header={header_table}
-                            fields={[
-                                "activity.name",
-                                "effort_perception",
-                                "activity.activity_group.name",
-                                "activity.until"
-                            ]}
-                            data={historyToday}
-                            editAction={true}
-                            deleteAction={true}
-                            undoAction={true}
-                            undoItem={undoActivity}
-                        />
+                    <div
+                        className={`${historyToday.length > 0 && "overflow-y-scroll"}`}
+                    >
+                        {historyToday.length > 0 ? (
+                            <GenericTable
+                                header={header_table}
+                                fields={[
+                                    "activity.name",
+                                    "effort_perception",
+                                    "activity.activity_group.name",
+                                    "activity.until"
+                                ]}
+                                data={historyToday}
+                                editAction={true}
+                                deleteAction={true}
+                                undoAction={true}
+                                undoItem={undoActivity}
+                            />
+                        ) : (
+                            <div className="mx-auto mt-4 flex flex-col items-center justify-center md:w-96">
+                                <img src={noData} className="h-24 w-24" />
+                                <h2 className="mt-4 text-lg font-bold">
+                                    Nenhum registro encontrado
+                                </h2>
+                            </div>
+                        )}
                     </div>
                 </div>
-                <div className="flex h-56 w-60 bg-transparent p-3"></div>
             </div>
         </div>
     );

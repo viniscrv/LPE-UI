@@ -256,7 +256,7 @@ export function Statistics() {
                     </div>
 
                     {/* best streak acitivty */}
-                    <div className="gap-3 rounded-md bg-neutral-900 p-3 ">
+                    <div className="gap-3 rounded-md bg-neutral-900 p-3">
                         <h2 className="text-lg font-bold">
                             Atividade com a melhor sequência
                         </h2>
@@ -282,7 +282,7 @@ export function Statistics() {
                                 </p>
                             </div>
                         ) : (
-                            <div className="relative flex h-full w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2 text-center">
+                            <div className="relative flex h-52 w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2 text-center">
                                 <div className="text-neutral-300">
                                     Nenhuma sequência até o momento. Começe a
                                     completar suas atividades todos os dias e a
@@ -297,7 +297,7 @@ export function Statistics() {
                     </div>
 
                     {/* more easy x more difficult */}
-                    <div className="gap-3 rounded-md bg-neutral-900 p-3 ">
+                    <div className="gap-3 rounded-md bg-neutral-900 p-3">
                         <h2 className="text-lg font-bold">Fácil | Difícil</h2>
 
                         {edgeDifficultyActivities ? (
@@ -341,7 +341,7 @@ export function Statistics() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="relative flex h-full w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2 text-center">
+                            <div className="relative flex h-52 w-full flex-col items-center justify-center rounded-md bg-neutral-800 p-2 text-center">
                                 <div className="text-neutral-300">
                                     Complete atividades para exibir as
                                     atividades mais facéis e mais dificeis para
